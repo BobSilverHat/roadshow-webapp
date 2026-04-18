@@ -1,0 +1,257 @@
+/* ==========================================================================
+   SALT SECURITY LANDING PAGE — GLOBAL STYLES
+   Design: Cyber-Noir / Dark Ops Terminal
+   Color: Purple (#7C3AED / #8B5CF6) on near-black (#0a0a0f)
+   Typography: Barlow Condensed (display) + Inter (body)
+   ========================================================================== */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Salt Security brand purple tokens */
+  --color-salt-purple: oklch(0.52 0.28 290);
+  --color-salt-purple-light: oklch(0.65 0.22 290);
+  --color-salt-purple-dim: oklch(0.38 0.18 290);
+  --color-salt-purple-glow: oklch(0.35 0.20 290 / 0.4);
+}
+
+:root {
+  --radius: 0.25rem;
+
+  /* Salt Security Dark Theme */
+  --background: oklch(0.07 0.008 285);
+  --foreground: oklch(0.92 0.005 285);
+  --card: oklch(0.10 0.008 285);
+  --card-foreground: oklch(0.92 0.005 285);
+  --popover: oklch(0.10 0.008 285);
+  --popover-foreground: oklch(0.92 0.005 285);
+  --primary: oklch(0.52 0.28 290);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.14 0.008 285);
+  --secondary-foreground: oklch(0.75 0.005 285);
+  --muted: oklch(0.14 0.008 285);
+  --muted-foreground: oklch(0.55 0.01 285);
+  --accent: oklch(0.52 0.28 290);
+  --accent-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(1 0 0 / 0.08);
+  --input: oklch(1 0 0 / 0.10);
+  --ring: oklch(0.52 0.28 290);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background-color: #0a0a0f;
+    color: #e8e8f0;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1280px;
+    }
+  }
+
+  /* Salt Security accent color utilities */
+  .text-salt-purple {
+    color: oklch(0.65 0.25 290);
+  }
+
+  .text-salt-purple-bright {
+    color: oklch(0.72 0.28 290);
+  }
+
+  .bg-salt-purple {
+    background-color: oklch(0.52 0.28 290);
+  }
+
+  .border-salt-purple {
+    border-color: oklch(0.52 0.28 290 / 0.5);
+  }
+
+  /* Diamond bullet marker */
+  .diamond-bullet::before {
+    content: '◆';
+    color: oklch(0.65 0.25 290);
+    font-size: 0.5rem;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+  }
+
+  /* Section label style */
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: oklch(0.65 0.25 290);
+  }
+
+  /* Accent link style */
+  .accent-link {
+    color: oklch(0.65 0.25 290);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: oklch(0.65 0.25 290 / 0.5);
+    transition: color 0.2s, text-decoration-color 0.2s;
+  }
+
+  .accent-link:hover {
+    color: oklch(0.75 0.28 290);
+    text-decoration-color: oklch(0.75 0.28 290 / 0.8);
+  }
+
+  /* Purple glow button */
+  .btn-salt-primary {
+    background: linear-gradient(135deg, oklch(0.52 0.28 290) 0%, oklch(0.42 0.25 295) 100%);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 1rem 2rem;
+    border: none;
+    width: 100%;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-salt-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, oklch(0.62 0.28 290) 0%, oklch(0.52 0.25 295) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .btn-salt-primary:hover::after {
+    opacity: 1;
+  }
+
+  /* Sidebar nav item */
+  .sidebar-nav-item {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: oklch(0.65 0.01 285);
+    padding: 0.35rem 0;
+    cursor: pointer;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .sidebar-nav-item:hover {
+    color: oklch(0.92 0.005 285);
+  }
+
+  .sidebar-nav-item.active {
+    color: oklch(0.92 0.005 285);
+  }
+
+  .sidebar-nav-item .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: oklch(0.55 0.01 285);
+    flex-shrink: 0;
+    transition: background-color 0.2s;
+  }
+
+  .sidebar-nav-item.active .dot,
+  .sidebar-nav-item:hover .dot {
+    background-color: oklch(0.65 0.25 290);
+  }
+
+  /* Horizontal divider */
+  .section-divider {
+    border: none;
+    border-top: 1px solid oklch(1 0 0 / 0.08);
+    margin: 3rem 0;
+  }
+
+  /* Background noise texture overlay */
+  .noise-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 128px 128px;
+  }
+}
