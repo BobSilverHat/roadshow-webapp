@@ -1,13 +1,11 @@
 /**
  * Challenge 2 — Protect
  * Route: /challenge/2
- *
- * Phase 2 shell: same pattern as Challenge1.
  */
 
 import WorkshopLayout from "@/components/WorkshopLayout";
 import RegistrationGate from "@/components/RegistrationGate";
-import ChallengeShellPlaceholder from "@/components/ChallengeShellPlaceholder";
+import ChallengePage from "@/components/ChallengePage";
 
 export default function Challenge2() {
   return (
@@ -15,10 +13,12 @@ export default function Challenge2() {
       <div style={{ maxWidth: "700px", margin: "0 auto", padding: "0 2rem 6rem" }}>
         <RegistrationGate>
           {(attendee) => (
-            <ChallengeShellPlaceholder
+            <ChallengePage
+              challengeId={2}
               challengeNumber="02"
-              title="Protect"
-              attendeeName={attendee.name}
+              attendee={attendee}
+              nextPath="/completed"
+              nextLabel="Finish"
             />
           )}
         </RegistrationGate>
