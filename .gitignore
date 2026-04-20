@@ -119,3 +119,9 @@ client/public/__manus__/version.json
 
 # Scratch directories used for one-off font extraction + image processing
 .tmp-*/
+
+# MCP server config — may contain API tokens (Supabase, etc.)
+.mcp.json
+
+# Raw screenshot drop directory (source images are renamed into client/public/steps/*)
+screenshots/
