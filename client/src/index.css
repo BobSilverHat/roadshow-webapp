@@ -8,6 +8,36 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Display / hero headline typeface — self-hosted from client/public/fonts.
+   Used on page H1s and the "Console Access" H2. Falls back to Barlow
+   Condensed → generic serif if the files fail to load.
+   Only a single Thin weight ships with this free distribution, so the
+   face is registered across the full 100–900 range. That way any
+   `font-weight: 800` declared on a heading still resolves to this file
+   (rendered at its native Thin weight) instead of triggering an ugly
+   synthetic-bold rasterization. */
+@font-face {
+  font-family: "Casta";
+  src: url("/fonts/Casta-Thin.otf") format("opentype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Casta";
+  src: url("/fonts/Casta-ThinSlanted.otf") format("opentype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Nostalgic Whispers";
+  src: url("/fonts/NostalgicWhispers-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -161,15 +191,13 @@
   /* Accent link style */
   .accent-link {
     color: oklch(0.65 0.25 290);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    text-decoration-color: oklch(0.65 0.25 290 / 0.5);
-    transition: color 0.2s, text-decoration-color 0.2s;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
   }
 
   .accent-link:hover {
     color: oklch(0.75 0.28 290);
-    text-decoration-color: oklch(0.75 0.28 290 / 0.8);
   }
 
   /* Purple glow button */

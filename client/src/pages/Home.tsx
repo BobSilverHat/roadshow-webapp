@@ -55,7 +55,7 @@ export default function Home() {
           >
             <h1
               style={{
-                fontFamily: "'Barlow Condensed', sans-serif",
+                fontFamily: "'Nostalgic Whispers', 'Barlow Condensed', serif",
                 fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
                 fontWeight: "800",
                 lineHeight: "1.05",
@@ -65,13 +65,14 @@ export default function Home() {
                 margin: 0,
               }}
             >
-              Secure Your Agentic AI Stack
+              Agentic AI Security Where it Matters
             </h1>
             <h1
               style={{
-                fontFamily: "'Barlow Condensed', sans-serif",
+                fontFamily: "'Nostalgic Whispers', 'Barlow Condensed', serif",
                 fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
                 fontWeight: "800",
+                fontStyle: "italic",
                 lineHeight: "1.05",
                 letterSpacing: "0.02em",
                 textTransform: "uppercase",
@@ -80,7 +81,7 @@ export default function Home() {
                 textShadow: "0 0 40px oklch(0.52 0.28 290 / 0.5)",
               }}
             >
-              Salt Agentic Security Platform
+              In the Action.
             </h1>
           </motion.div>
 
@@ -104,10 +105,10 @@ export default function Home() {
           >
             <p
               style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: "0.975rem",
+                fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
+                fontSize: "0.875rem",
                 fontWeight: "300",
-                lineHeight: "1.75",
+                lineHeight: "1.65",
                 color: "rgba(200,200,220,0.85)",
                 textAlign: "center",
                 marginBottom: "1.75rem",
@@ -121,16 +122,16 @@ export default function Home() {
 
             <p
               style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: "0.975rem",
+                fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
+                fontSize: "0.875rem",
                 fontWeight: "300",
-                lineHeight: "1.75",
+                lineHeight: "1.65",
                 color: "rgba(200,200,220,0.85)",
                 textAlign: "center",
                 marginBottom: "1.75rem",
               }}
             >
-              Visibility isn't enough, you need context. While most AI security stops at the model — attackers don't. Not every agent carries the same risk. Salt's Agentic Security platform contextualizes risk across your entire environment,{" "}
+              Visibility isn't enough, you need context. While most AI security stops at the model, attackers don't. Not every agent carries the same risk. Salt's Agentic Security platform contextualizes risk across your entire environment,{" "}
               <a href="#" className="accent-link">
                 separating the agents that can cause real damage from those that cannot.
               </a>
@@ -138,10 +139,10 @@ export default function Home() {
 
             <p
               style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: "0.975rem",
+                fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
+                fontSize: "0.875rem",
                 fontWeight: "300",
-                lineHeight: "1.75",
+                lineHeight: "1.65",
                 color: "rgba(200,200,220,0.85)",
                 textAlign: "center",
                 marginBottom: "2rem",
@@ -183,7 +184,7 @@ export default function Home() {
                     display: "flex",
                     gap: "0.5rem",
                     marginBottom: "1rem",
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
                     fontSize: "0.95rem",
                     fontWeight: "300",
                     lineHeight: "1.65",
@@ -192,7 +193,7 @@ export default function Home() {
                 >
                   <span style={{ color: "oklch(0.65 0.25 290)", marginTop: "2px", flexShrink: 0 }}>•</span>
                   <span>
-                    <a href="#" className="accent-link" style={{ fontWeight: "500" }}>
+                    <a href="#" className="accent-link">
                       {item.label}
                     </a>{" "}
                     {item.body}
@@ -206,7 +207,7 @@ export default function Home() {
         <hr className="section-divider" />
 
         {/* ====================================================
-            CONSOLE ACCESS CTA
+            SALT ACCESS CTA
             ==================================================== */}
         <section style={{ paddingTop: "1rem", textAlign: "center" }}>
           <motion.div
@@ -217,7 +218,7 @@ export default function Home() {
           >
             <h2
               style={{
-                fontFamily: "'Barlow Condensed', sans-serif",
+                fontFamily: "'Nostalgic Whispers', 'Barlow Condensed', serif",
                 fontSize: "clamp(2rem, 4.5vw, 3rem)",
                 fontWeight: "800",
                 letterSpacing: "0.04em",
@@ -225,7 +226,7 @@ export default function Home() {
                 margin: "0 0 2rem",
               }}
             >
-              <span style={{ color: "rgba(232,232,240,0.97)" }}>Console </span>
+              <span style={{ color: "rgba(232,232,240,0.97)" }}>Salt </span>
               <span
                 style={{
                   color: "oklch(0.72 0.28 290)",
@@ -239,9 +240,11 @@ export default function Home() {
             <button
               className="btn-salt-primary"
               style={{ borderRadius: "2px" }}
-              onClick={() => alert("Console access coming soon")}
+              onClick={() =>
+                window.open("https://salt-labs.secured-api.com", "_blank", "noopener,noreferrer")
+              }
             >
-              <span style={{ position: "relative", zIndex: 1 }}>Launch Console</span>
+              <span style={{ position: "relative", zIndex: 1 }}>Launch Salt Platform</span>
             </button>
           </motion.div>
         </section>

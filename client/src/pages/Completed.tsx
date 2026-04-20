@@ -38,7 +38,7 @@ export default function Completed() {
           <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={1} style={{ marginBottom: "2rem" }}>
             <h1
               style={{
-                fontFamily: "'Barlow Condensed', sans-serif",
+                fontFamily: "'Nostalgic Whispers', 'Barlow Condensed', serif",
                 fontSize: "clamp(2rem, 4.5vw, 3rem)",
                 fontWeight: "800",
                 lineHeight: "1.05",
@@ -92,10 +92,10 @@ export default function Completed() {
 
             <p
               style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: "0.975rem",
+                fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
+                fontSize: "0.875rem",
                 fontWeight: "300",
-                lineHeight: "1.75",
+                lineHeight: "1.65",
                 color: "rgba(200,200,220,0.85)",
                 marginBottom: "1.5rem",
               }}
@@ -107,10 +107,10 @@ export default function Completed() {
 
             <p
               style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: "0.975rem",
+                fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
+                fontSize: "0.875rem",
                 fontWeight: "300",
-                lineHeight: "1.75",
+                lineHeight: "1.65",
                 color: "rgba(200,200,220,0.85)",
                 marginBottom: "2.5rem",
               }}
@@ -174,7 +174,7 @@ export default function Completed() {
                   </div>
                   <div
                     style={{
-                      fontFamily: "'Inter', sans-serif",
+                      fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
                       fontSize: "0.8rem",
                       fontWeight: "300",
                       lineHeight: "1.5",

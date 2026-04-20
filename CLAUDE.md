@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> For the ongoing workshop build — design system, component-level details,
+> user preferences, and open items — read **`HANDOFF.md`** in the repo
+> root after this file.
+
 ## Commands
 
 Package manager: **pnpm** (see `packageManager` field in `package.json`; a wouter patch in `patches/` is applied on install).
@@ -30,9 +34,15 @@ When adding imports, prefer these aliases over relative paths.
 ### Client architecture
 
 - **Routing:** `wouter` (not React Router). Routes live in `client/src/App.tsx` — Home (`/`), three scenarios (`/scenario/1..3`), `/completed`, and a NotFound catch-all. When adding a new page, register it in `App.tsx` **and** add it to `NAV_ITEMS` in `client/src/components/WorkshopLayout.tsx` so the sidebar dot navigation picks it up.
-- **Shared shell:** Every workshop page wraps its content in `<WorkshopLayout activeId="...">`. The layout owns the fixed top navbar, fixed left sidebar, background, and scroll behavior. Pages should only render the inner content column (max-width ~700px, centered).
-- **UI kit:** shadcn/ui "new-york" style (see `components.json`), Tailwind CSS v4 via `@tailwindcss/vite`, Radix primitives, Framer Motion for entrance animations, `sonner` for toasts. Components live under `client/src/components/ui/`.
-- **Theme:** A dark-only Cyber-Noir aesthetic is baked into `client/src/index.css` and the layout. Design tokens (`--color-salt-purple*`, `--background`, etc.) are defined as OKLCH CSS variables; utilities like `.section-label`, `.diamond-bullet`, `.btn-salt-primary`, and `.accent-link` are the canonical way to get on-brand styling. Typography pair is **Barlow Condensed** (display, uppercase) + **Inter** (body), loaded from Google Fonts in `client/index.html`. Many layout styles are inline on the page components rather than Tailwind classes — match that style when editing existing pages.
+- **Shared shell:** Every workshop page wraps its content in `<WorkshopLayout activeId="...">`. The layout owns the fixed top navbar, fixed left sidebar (hierarchical nav with scroll-spy), background shader video, and scroll behavior. Pages render the inner content column (max-width ~700px, centered).
+- **Scenario page structure:** Each scenario is `Overview → StepSection × 5 → Summary → Next button`, all on one scrollable page. Each section carries `id` + `data-step-id` attributes so the WorkshopLayout sidebar can scroll-spy to highlight the step in view. Use the shared `<StepSection stepNumber="0X" title="..." id="step-0X">` component.
+- **Reusable components added for the workshop:**
+  - `StepSection` — one step (divider + `STEP / 0X` label + heading + body).
+  - `EvervaultCard` — hover-reveal card for "Key Objectives" (cursor-tracked mask, purple tint, hex glyphs, CAD corner brackets).
+  - `ZoomableImage` — click-to-zoom wrapper for step screenshots. Uses `--sidebar-width` / `--navbar-height` CSS vars (set by WorkshopLayout) so the overlay confines to the main-content area.
+  - `MagicRingsButton` / `MagicRings` — WebGL ring animation around the bottom "Next" button, with a soft radial mask to feather the square canvas edges.
+- **UI kit:** shadcn/ui "new-york" style (see `components.json`), Tailwind CSS v4 via `@tailwindcss/vite`, Radix primitives, Framer Motion for entrance animations + cursor-tracked reveal effects, `sonner` for toasts, `three` for the ring shader. Components live under `client/src/components/ui/`.
+- **Theme:** A dark-only Cyber-Noir aesthetic is baked into `client/src/index.css` and the layout. Design tokens (`--color-salt-purple*`, `--background`, etc.) are defined as OKLCH CSS variables; utilities like `.section-label`, `.diamond-bullet`, `.btn-salt-primary`, and `.accent-link` are the canonical way to get on-brand styling. Typography pair is **Nostalgic Whispers** (display headlines, self-hosted from `/fonts/`) + **IBM Plex Mono** (body, Google Fonts) + **Casta** (navbar/sidebar, self-hosted) + **Barlow Condensed** (labels, Google Fonts). See `HANDOFF.md` for the full font stack and per-weight quirks. Many layout styles are inline on the page components rather than Tailwind classes — match that style when editing existing pages.
 - **Auth scaffolding exists but is not wired up:** `client/src/const.ts` builds an OAuth URL from `VITE_OAUTH_PORTAL_URL` and `VITE_APP_ID`, and `shared/const.ts` defines a session cookie name. No code currently calls `getLoginUrl()` or sets the cookie.
 
 ### Vite config quirks

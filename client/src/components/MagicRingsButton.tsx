@@ -44,25 +44,49 @@ export default function MagicRingsButton({ label = 'Next', onClick }: MagicRings
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        {/* Magic Rings canvas — fills the container, centered behind button */}
+        {/* Ambient purple glow behind the rings — replaces the luminance lost
+            to the shader mask, so the element reads as a genuine light source
+            rather than a faded circle. Intensifies on hover. */}
         <div
           style={{
             position: 'absolute',
             inset: 0,
             pointerEvents: 'none',
+            background: hovered
+              ? 'radial-gradient(circle closest-side at center, rgba(139,92,246,0.55) 0%, rgba(124,58,237,0.3) 35%, rgba(76,29,149,0.12) 60%, transparent 90%)'
+              : 'radial-gradient(circle closest-side at center, rgba(139,92,246,0.4) 0%, rgba(124,58,237,0.22) 35%, rgba(76,29,149,0.08) 60%, transparent 90%)',
+            filter: 'blur(4px)',
+            transition: 'background 0.3s ease',
+          }}
+        />
+
+        {/* Magic Rings canvas — fills the container, centered behind button.
+            Uses `closest-side` so the radial mask's 100% stop lands at the
+            midpoint of each square edge, not the corners. This guarantees the
+            mask reaches full transparency before hitting any side of the
+            canvas — no visible rectangular cutoff in any direction. */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            pointerEvents: 'none',
+            maskImage:
+              'radial-gradient(circle closest-side at center, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 100%)',
+            WebkitMaskImage:
+              'radial-gradient(circle closest-side at center, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 100%)',
           }}
         >
           <MagicRings
-            color="#7C3AED"
-            colorTwo="#A78BFA"
+            color="#8B5CF6"
+            colorTwo="#C4B5FD"
             ringCount={5}
             speed={0.85}
-            attenuation={12}
-            lineThickness={2.5}
+            attenuation={10}
+            lineThickness={3}
             baseRadius={0.3}
             radiusStep={0.09}
             scaleRate={0.12}
-            opacity={hovered ? 1 : 0.75}
+            opacity={hovered ? 1.15 : 1}
             noiseAmount={0.05}
             ringGap={1.6}
             fadeIn={0.6}

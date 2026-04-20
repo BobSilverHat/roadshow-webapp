@@ -110,3 +110,12 @@ temp/
 
 # Manus version file (auto-generated, not part of source)
 client/public/__manus__/version.json
+
+# Claude Code local settings
+.claude/
+
+# Manus debug collector logs (browserConsole.log, networkRequests.log, etc.)
+.manus-logs/
+
+# Scratch directories used for one-off font extraction + image processing
+.tmp-*/
