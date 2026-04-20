@@ -39,6 +39,9 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'scenario-1', label: 'Scenario 1', path: '/scenario/1', subItems: SCENARIO_SUB_ITEMS },
   { id: 'scenario-2', label: 'Scenario 2', path: '/scenario/2', subItems: SCENARIO_SUB_ITEMS },
   { id: 'scenario-3', label: 'Scenario 3', path: '/scenario/3', subItems: SCENARIO_SUB_ITEMS },
+  { id: 'challenge-1', label: 'Challenge 1', path: '/challenge/1' },
+  { id: 'challenge-2', label: 'Challenge 2', path: '/challenge/2' },
+  { id: 'leaderboard', label: 'Leaderboard', path: '/leaderboard' },
   { id: 'completed', label: 'Completed!', path: '/completed' },
 ];
 
