@@ -433,7 +433,7 @@ export default function Scenario3() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <MagicRingsButton label="Finish" onClick={() => navigate("/completed")} />
+            <MagicRingsButton label="Next" onClick={() => navigate("/challenge/1")} />
           </motion.div>
         </section>
       </div>
