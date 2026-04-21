@@ -12,6 +12,15 @@ import ChallengeIntro from "@/components/ChallengeIntro";
 import QuestionCard from "@/components/QuestionCard";
 import MagicRingsButton from "@/components/MagicRingsButton";
 import { useChallenge } from "@/hooks/useChallenge";
+import { supabase } from "@/lib/supabase";
+
+interface LeaderboardSnapshot {
+  attendee_id: string;
+  name: string;
+  questions_complete: number;
+  total_ms: number | null;
+  wrong_count: number;
+}
 
 interface Attendee {
   id: string;
@@ -57,11 +66,27 @@ export default function ChallengePage({
     submit,
   } = useChallenge({ challengeId, attendeeId: attendee.id });
   const [revealed, setRevealed] = useState(false);
+  const [snapshot, setSnapshot] = useState<LeaderboardSnapshot[] | null>(null);
+  const [myRank, setMyRank] = useState<number | null>(null);
 
-  // When the hook transitions to "complete", raise the reveal overlay.
+  // When the hook transitions to "complete", raise the reveal overlay
+  // and take a one-shot snapshot of the leaderboard for the top-3 peek.
   useEffect(() => {
-    if (status === "complete") setRevealed(true);
-  }, [status]);
+    if (status !== "complete") return;
+    setRevealed(true);
+    let mounted = true;
+    (async () => {
+      const { data } = await supabase.rpc("get_leaderboard");
+      if (!mounted || !data) return;
+      const rows = data as LeaderboardSnapshot[];
+      setSnapshot(rows.slice(0, 3));
+      const idx = rows.findIndex((r) => r.attendee_id === attendee.id);
+      setMyRank(idx >= 0 ? idx + 1 : null);
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, [status, attendee.id]);
 
   if (status === "loading") {
     return (
@@ -209,13 +234,105 @@ export default function ChallengePage({
                 fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
                 fontSize: "0.85rem",
                 color: "rgba(200,200,220,0.8)",
-                margin: "0 0 2rem",
+                margin: "0 0 1.5rem",
               }}
             >
               {wrongCount > 0
                 ? `${wrongCount} wrong guess${wrongCount === 1 ? "" : "es"} (+${wrongCount * 15}s penalty baked in).`
                 : "Clean run — no wrong guesses."}
+              {myRank !== null && <> · Current rank <strong style={{ color: "oklch(0.72 0.28 290)" }}>#{myRank}</strong></>}
             </p>
+
+            {snapshot && snapshot.length > 0 && (
+              <div
+                style={{
+                  margin: "0 auto 1.75rem",
+                  maxWidth: "420px",
+                  padding: "0.9rem 1rem",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: "6px",
+                  background: "rgba(10,10,15,0.45)",
+                  textAlign: "left",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontSize: "0.62rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.22em",
+                    textTransform: "uppercase",
+                    color: "rgba(200,200,220,0.55)",
+                    marginBottom: "0.6rem",
+                  }}
+                >
+                  Podium right now
+                </div>
+                {snapshot.map((row, i) => {
+                  const isMe = row.attendee_id === attendee.id;
+                  const rank = i + 1;
+                  const rankColor =
+                    rank === 1
+                      ? "oklch(0.82 0.18 85)"
+                      : rank === 2
+                        ? "oklch(0.78 0.04 260)"
+                        : "oklch(0.6 0.12 45)";
+                  return (
+                    <div
+                      key={row.attendee_id}
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "28px 1fr auto",
+                        alignItems: "baseline",
+                        gap: "0.6rem",
+                        padding: "0.3rem 0",
+                        fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
+                        fontSize: "0.82rem",
+                        color: isMe ? "rgba(232,232,240,0.97)" : "rgba(200,200,220,0.8)",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontFamily: "'Barlow Condensed', sans-serif",
+                          fontWeight: 700,
+                          letterSpacing: "0.18em",
+                          color: rankColor,
+                        }}
+                      >
+                        {rank.toString().padStart(2, "0")}
+                      </span>
+                      <span
+                        style={{
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {row.name}
+                        {isMe && (
+                          <span
+                            style={{
+                              marginLeft: "0.5rem",
+                              fontFamily: "'Barlow Condensed', sans-serif",
+                              fontSize: "0.6rem",
+                              letterSpacing: "0.2em",
+                              color: "oklch(0.72 0.28 290)",
+                            }}
+                          >
+                            YOU
+                          </span>
+                        )}
+                      </span>
+                      <span style={{ fontVariantNumeric: "tabular-nums" }}>
+                        {row.questions_complete}/10
+                        {row.total_ms !== null && ` · ${formatMs(row.total_ms)}`}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
             <div style={{ display: "flex", justifyContent: "center" }}>
               <MagicRingsButton label={nextLabel} onClick={() => navigate(nextPath)} />
             </div>
