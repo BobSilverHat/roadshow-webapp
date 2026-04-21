@@ -74,13 +74,27 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
           fontWeight: 300,
           lineHeight: 1.65,
           color: "rgba(200,200,220,0.85)",
-          marginBottom: "1.5rem",
+          marginBottom: "1rem",
         }}
       >
         Every answer lives inside the Salt platform. Open it in another tab, hunt through
         the UI, submit each flag here. Your timer starts the moment you click Begin —
         wrong guesses add <span className="accent-link">+15 seconds</span> each, so take
         the time to get it right.
+      </p>
+      <p
+        style={{
+          fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
+          fontSize: "0.8rem",
+          fontWeight: 300,
+          lineHeight: 1.6,
+          color: "rgba(200,200,220,0.6)",
+          marginBottom: "1.5rem",
+        }}
+      >
+        <span className="accent-link">Answers with multiple values:</span> separate each
+        with a comma + space. Order doesn't matter — `A, B` and `B, A` both land.
+        Answers are case-insensitive and whitespace-tolerant.
       </p>
 
       <p

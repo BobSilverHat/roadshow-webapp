@@ -126,7 +126,7 @@ export default function QuestionCard({
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="Enter flag"
+          placeholder="Enter flag (comma + space for multiple)"
           disabled={status === "submitting"}
           spellCheck={false}
           autoComplete="off"
