@@ -369,14 +369,14 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
                     width: '100%',
                     fontFamily: "'Casta', 'Barlow Condensed', serif",
                     fontSize: '0.875rem',
-                    color: isActive ? 'rgba(232,232,240,0.95)' : 'rgba(150,150,170,0.65)',
+                    color: isActive ? 'rgba(232,232,240,0.95)' : 'rgba(232,232,240,0.55)',
                     transition: 'color 0.2s',
                   }}
                   onMouseEnter={(e) => {
                     if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(232,232,240,0.85)';
                   }}
                   onMouseLeave={(e) => {
-                    if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(150,150,170,0.65)';
+                    if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(232,232,240,0.55)';
                   }}
                 >
                   <span
@@ -384,7 +384,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
                       width: '5px',
                       height: '5px',
                       borderRadius: '50%',
-                      backgroundColor: isActive ? 'oklch(0.65 0.25 290)' : 'rgba(150,150,170,0.4)',
+                      backgroundColor: isActive ? 'oklch(0.65 0.25 290)' : 'rgba(232,232,240,0.4)',
                       flexShrink: 0,
                       transition: 'background-color 0.2s',
                       boxShadow: isActive ? '0 0 6px oklch(0.65 0.25 290 / 0.6)' : 'none',
@@ -422,14 +422,14 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
                             fontFamily: "'Casta', 'Barlow Condensed', serif",
                             fontSize: '0.78rem',
                             letterSpacing: '0.01em',
-                            color: isSubActive ? 'rgba(232,232,240,0.95)' : 'rgba(130,130,150,0.45)',
+                            color: isSubActive ? 'rgba(232,232,240,0.95)' : 'rgba(232,232,240,0.5)',
                             transition: 'color 0.2s',
                           }}
                           onMouseEnter={(e) => {
-                            if (!isSubActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(200,200,220,0.75)';
+                            if (!isSubActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(232,232,240,0.8)';
                           }}
                           onMouseLeave={(e) => {
-                            if (!isSubActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(130,130,150,0.45)';
+                            if (!isSubActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(232,232,240,0.5)';
                           }}
                         >
                           {sub.label}
