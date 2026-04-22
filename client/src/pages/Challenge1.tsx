@@ -10,7 +10,7 @@ import ChallengePage from "@/components/ChallengePage";
 export default function Challenge1() {
   return (
     <WorkshopLayout activeId="challenge-1">
-      <div style={{ maxWidth: "700px", margin: "0 auto", padding: "0 2rem 6rem" }}>
+      <div style={{ maxWidth: "880px", margin: "0 auto", padding: "0 2rem 6rem" }}>
         <RegistrationGate>
           {(attendee) => (
             <ChallengePage
