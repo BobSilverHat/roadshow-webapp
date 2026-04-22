@@ -165,25 +165,88 @@ export default function ChallengePage({
         totalQuestions={totalQuestions}
       />
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr",
-          gap: "1.25rem",
-          marginBottom: "3rem",
-        }}
-      >
-        {questions.map((q) => (
+      {questions.length === 5 ? (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "1.25rem",
+            marginBottom: "3rem",
+          }}
+        >
           <QuestionCard
-            key={q.id}
-            orderIdx={q.order_idx}
-            questionId={q.id}
-            prompt={q.prompt}
-            isSolved={progress.has(q.id)}
+            key={questions[0].id}
+            orderIdx={questions[0].order_idx}
+            questionId={questions[0].id}
+            prompt={questions[0].prompt}
+            isSolved={progress.has(questions[0].id)}
             onSubmit={submit}
           />
-        ))}
-      </div>
+          <QuestionCard
+            key={questions[1].id}
+            orderIdx={questions[1].order_idx}
+            questionId={questions[1].id}
+            prompt={questions[1].prompt}
+            isSolved={progress.has(questions[1].id)}
+            onSubmit={submit}
+          />
+          <QuestionCard
+            key={questions[2].id}
+            orderIdx={questions[2].order_idx}
+            questionId={questions[2].id}
+            prompt={questions[2].prompt}
+            isSolved={progress.has(questions[2].id)}
+            onSubmit={submit}
+          />
+          <QuestionCard
+            key={questions[3].id}
+            orderIdx={questions[3].order_idx}
+            questionId={questions[3].id}
+            prompt={questions[3].prompt}
+            isSolved={progress.has(questions[3].id)}
+            onSubmit={submit}
+          />
+          {/* Q5 — centered below the two pairs at single-column width */}
+          <div
+            style={{
+              gridColumn: "span 2",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <div style={{ width: "calc(50% - 0.625rem)" }}>
+              <QuestionCard
+                key={questions[4].id}
+                orderIdx={questions[4].order_idx}
+                questionId={questions[4].id}
+                prompt={questions[4].prompt}
+                isSolved={progress.has(questions[4].id)}
+                onSubmit={submit}
+              />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr",
+            gap: "1.25rem",
+            marginBottom: "3rem",
+          }}
+        >
+          {questions.map((q) => (
+            <QuestionCard
+              key={q.id}
+              orderIdx={q.order_idx}
+              questionId={q.id}
+              prompt={q.prompt}
+              isSolved={progress.has(q.id)}
+              onSubmit={submit}
+            />
+          ))}
+        </div>
+      )}
 
       <AnimatePresence>
         {revealed && completedAt && (
