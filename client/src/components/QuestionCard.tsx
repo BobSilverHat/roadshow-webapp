@@ -74,6 +74,9 @@ export default function QuestionCard({
           border: "1px solid oklch(0.55 0.22 145 / 0.5)",
           borderRadius: "6px",
           background: "oklch(0.35 0.1 145 / 0.2)",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <div style={cardHeaderStyle}>
@@ -114,6 +117,9 @@ export default function QuestionCard({
         borderRadius: "6px",
         background: bgColor,
         transition: "border-color 0.3s, background 0.3s",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <div style={cardHeaderStyle}>
@@ -121,7 +127,7 @@ export default function QuestionCard({
       </div>
       <p style={promptStyle}>{prompt}</p>
 
-      <div style={{ display: "flex", gap: "0.6rem", alignItems: "stretch" }}>
+      <div style={{ display: "flex", gap: "0.6rem", alignItems: "stretch", marginTop: "auto" }}>
         <input
           type="text"
           value={value}
