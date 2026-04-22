@@ -32,7 +32,7 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      style={{ paddingTop: "3rem", maxWidth: "700px", margin: "0 auto" }}
+      style={{ paddingTop: "3rem" }}
     >
       <span className="section-label" style={{ display: "block", marginBottom: "0.75rem" }}>
         Challenge {number}

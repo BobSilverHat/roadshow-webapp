@@ -191,25 +191,6 @@ export default function ChallengePage({
             isSolved={progress.has(questions[1].id)}
             onSubmit={submit}
           />
-          {/* Q5 — centered between the two rows, half-width */}
-          <div
-            style={{
-              gridColumn: "span 2",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <div style={{ width: "calc(50% - 0.625rem)" }}>
-              <QuestionCard
-                key={questions[4].id}
-                orderIdx={questions[4].order_idx}
-                questionId={questions[4].id}
-                prompt={questions[4].prompt}
-                isSolved={progress.has(questions[4].id)}
-                onSubmit={submit}
-              />
-            </div>
-          </div>
           {/* Row 2 — Q3, Q4 */}
           <QuestionCard
             key={questions[2].id}
@@ -227,6 +208,17 @@ export default function ChallengePage({
             isSolved={progress.has(questions[3].id)}
             onSubmit={submit}
           />
+          {/* Row 3 — Q5 spans both columns, full width below */}
+          <div style={{ gridColumn: "span 2" }}>
+            <QuestionCard
+              key={questions[4].id}
+              orderIdx={questions[4].order_idx}
+              questionId={questions[4].id}
+              prompt={questions[4].prompt}
+              isSolved={progress.has(questions[4].id)}
+              onSubmit={submit}
+            />
+          </div>
         </div>
       ) : (
         <div
