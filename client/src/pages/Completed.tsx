@@ -231,7 +231,7 @@ export default function Completed() {
                 textAlign: "center",
               }}
             >
-              You walked the full agentic security stack — discovery, posture, runtime —
+              You walked the full agentic security stack including discovery, posture, and runtime,
               then hunted real flags inside the Salt platform.
             </p>
 

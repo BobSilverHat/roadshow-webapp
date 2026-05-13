@@ -78,8 +78,8 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
         }}
       >
         Every answer lives inside the Salt platform. Open it in another tab, hunt through
-        the UI, submit each flag here. Your timer starts the moment you click Begin —
-        wrong guesses add <span className="accent-link">+15 seconds</span> each, so take
+        the UI, submit each flag here. Your timer starts the moment you click Begin.
+        Wrong guesses add <span className="accent-link">+15 seconds</span> each, so take
         the time to get it right.
       </p>
       <p

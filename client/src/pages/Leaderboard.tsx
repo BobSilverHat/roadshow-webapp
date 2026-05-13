@@ -49,7 +49,7 @@ export default function Leaderboard() {
                 margin: "0 0 1rem",
               }}
             >
-              Leader{" "}
+              Leader
               <span
                 style={{
                   color: "oklch(0.72 0.28 290)",

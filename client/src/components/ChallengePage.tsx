@@ -282,7 +282,7 @@ export default function ChallengePage({
                 margin: "0 0 0.5rem",
               }}
             >
-              Challenge {challengeNumber} —{" "}
+              Challenge {challengeNumber} -{" "}
               <span
                 style={{
                   color: "oklch(0.72 0.28 290)",

@@ -134,7 +134,7 @@ export default function RegistrationGate({ children }: RegistrationGateProps) {
           marginBottom: "1.75rem",
         }}
       >
-        Your name and email lock you to this session. One registration per email — no
+        Your name and email lock you to this session. One registration per email, no
         second chances, no do-overs.
       </p>
 

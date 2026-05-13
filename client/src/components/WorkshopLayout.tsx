@@ -1,7 +1,7 @@
 /**
  * WorkshopLayout — shared shell for all workshop chapter pages
  * Design: Cyber-Noir / Dark Ops Terminal
- * - Fixed navbar with Salt × Guidepoint co-brand
+ * - Fixed navbar with Salt logo
  * - Fixed left sidebar with nav dots
  * - Scrollable main content area
  */
@@ -9,7 +9,6 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useLocation } from 'wouter';
 
 const SALT_LOGO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663485309764/9Qvd9Kw2BJuzG4W4rxnhxw/salt-logo_4799bb3b.png";
-const GUIDEPOINT_LOGO_URL = "/guidepoint-logo.png";
 const HERO_BG_VIDEO_URL = "/shader-bg.webm";
 
 interface SubItem {
@@ -54,11 +53,11 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
   const [, navigate] = useLocation();
   const [scrolled, setScrolled] = useState(false);
 
-  // The sidebar's right edge snaps to the horizontal center of the "×"
-  // between the Salt and Guidepoint logos, so the sidebar column lines up
-  // vertically with the X-mark in the navbar. Measured from the live DOM
-  // because both logos have `width: auto` and load asynchronously.
-  const xRef = useRef<HTMLSpanElement>(null);
+  // The sidebar's right edge aligns just past the Salt logo's right edge,
+  // so the sidebar column lines up vertically with the navbar branding.
+  // Measured from the live DOM because the logo has `width: auto` and
+  // loads asynchronously.
+  const saltLogoRef = useRef<HTMLImageElement>(null);
   const [sidebarWidth, setSidebarWidth] = useState<number>(200);
 
   // Scroll-spy — tracks which step section (overview / step-0X / summary) is
@@ -117,19 +116,17 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
 
   useLayoutEffect(() => {
     const measure = () => {
-      const el = xRef.current;
+      const el = saltLogoRef.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
-      setSidebarWidth(Math.round(rect.left + rect.width / 2));
+      setSidebarWidth(Math.round(rect.right + 24));
     };
     measure();
     window.addEventListener('resize', measure);
-    // Re-measure once the logo images have loaded — their `width: auto` means
-    // the ×'s x-position shifts between initial render and image load.
-    const imgs = Array.from(document.querySelectorAll<HTMLImageElement>('header img'));
-    imgs.forEach((img) => {
-      if (!img.complete) img.addEventListener('load', measure, { once: true });
-    });
+    // Re-measure once the logo image has loaded — its `width: auto` means
+    // its right edge shifts between initial render and image load.
+    const img = saltLogoRef.current;
+    if (img && !img.complete) img.addEventListener('load', measure, { once: true });
     return () => window.removeEventListener('resize', measure);
   }, []);
 
@@ -219,44 +216,20 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
           transition: 'background-color 0.3s ease, border-color 0.3s ease',
         }}
       >
-        {/* Left: Co-brand — Salt × Guidepoint */}
+        {/* Left: Salt brand */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <img
+            ref={saltLogoRef}
             src={SALT_LOGO_URL}
             alt="Salt Security"
             style={{
               height: '36px',
               width: 'auto',
               objectFit: 'contain',
-              filter: 'invert(1) hue-rotate(180deg) brightness(1.1)',
+              filter: 'brightness(0) invert(1)',
               cursor: 'pointer',
             }}
             onClick={() => navigate('/')}
-          />
-          <span
-            ref={xRef}
-            aria-hidden="true"
-            style={{
-              fontFamily: "'Casta', 'Barlow Condensed', serif",
-              fontSize: '1.25rem',
-              fontWeight: '300',
-              color: 'rgba(200,180,255,0.55)',
-              letterSpacing: '0',
-              lineHeight: 1,
-              userSelect: 'none',
-            }}
-          >
-            ×
-          </span>
-          <img
-            src={GUIDEPOINT_LOGO_URL}
-            alt="Guidepoint Security"
-            style={{
-              height: '36px',
-              width: 'auto',
-              objectFit: 'contain',
-              filter: 'invert(1) hue-rotate(180deg) brightness(1.1)',
-            }}
           />
         </div>
 
