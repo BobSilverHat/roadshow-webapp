@@ -10,6 +10,7 @@ import Scenario2 from "./pages/Scenario2";
 import Scenario3 from "./pages/Scenario3";
 import Challenge1 from "./pages/Challenge1";
 import Challenge2 from "./pages/Challenge2";
+import SaltNexus from "./pages/SaltNexus";
 import Leaderboard from "./pages/Leaderboard";
 import Completed from "./pages/Completed";
 
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/scenario/3" component={Scenario3} />
       <Route path="/challenge/1" component={Challenge1} />
       <Route path="/challenge/2" component={Challenge2} />
+      <Route path="/salt-nexus" component={SaltNexus} />
       <Route path="/leaderboard" component={Leaderboard} />
       <Route path="/completed" component={Completed} />
       <Route path="/404" component={NotFound} />

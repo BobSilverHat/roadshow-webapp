@@ -25,6 +25,8 @@ export interface WorkshopClock {
   expiresAt: string | null;
   status: WorkshopClockStatus;
   remainingMs: number;
+  /** Separate admin gate for the post-challenge Salt Nexus phase. */
+  nexusOpen: boolean;
 }
 
 const POLL_INTERVAL_MS = 3000;
@@ -32,17 +34,19 @@ const POLL_INTERVAL_MS = 3000;
 export function useWorkshopClock(): WorkshopClock {
   const [openedAt, setOpenedAt] = useState<string | null>(null);
   const [challengeOpen, setChallengeOpen] = useState<boolean>(false);
+  const [nexusOpen, setNexusOpen] = useState<boolean>(false);
   const [now, setNow] = useState<number>(() => Date.now());
 
   const fetchConfig = useCallback(async () => {
     const { data, error } = await supabase
       .from("workshop_config")
-      .select("challenge_open, opened_at")
+      .select("challenge_open, opened_at, nexus_open")
       .eq("id", 1)
       .maybeSingle();
     if (error) return;
     setOpenedAt(data?.opened_at ?? null);
     setChallengeOpen(!!data?.challenge_open);
+    setNexusOpen(!!data?.nexus_open);
   }, []);
 
   // Initial fetch + poll
@@ -80,5 +84,5 @@ export function useWorkshopClock(): WorkshopClock {
     return () => window.clearInterval(id);
   }, [status]);
 
-  return { openedAt, expiresAt, status, remainingMs };
+  return { openedAt, expiresAt, status, remainingMs, nexusOpen };
 }

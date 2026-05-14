@@ -326,12 +326,18 @@ production static server.
 
 ## Admin controls — running a workshop session
 
-The challenge timer is gated by a single boolean in `public.workshop_config`
-(migration `018_workshop_config_admin_gate.sql`). Until the admin opens the
-gate, anyone landing on `/challenge/1` sees the pale-green **"Workshop
-Begins Soon"** waiting overlay; `begin_workshop()` rejects with
-`challenge_locked` server-side regardless of UI. Clients poll the flag
-every 3s, so changes propagate within ~3s.
+`public.workshop_config` holds two independent admin gates:
+
+- **`challenge_open`** (migration 018) — controls the 35-minute challenge
+  phase. While closed, `/challenge/1` shows the pale-green **"Workshop
+  Begins Soon"** overlay and `begin_workshop()` rejects with
+  `challenge_locked`. The global timer starts at `opened_at`.
+- **`nexus_open`** (migration 021) — controls the post-challenge **Salt
+  Nexus** page (live attack simulation link). While closed, `/salt-nexus`
+  shows a similar overlay reading **"Salt Nexus Opens Soon"** with copy
+  telling users it unlocks once the challenge phase wraps up.
+
+Clients poll the row every 3s; flag changes propagate within ~3s.
 
 ### Order of operations for a workshop session
 
@@ -342,32 +348,51 @@ every 3s, so changes propagate within ~3s.
    Cascades through `attendees` → `challenge_attempts` → `answer_attempts` →
    `question_progress`. Preserves `challenges`, `questions`, `workshop_config`.
 
-2. **Confirm the gate is closed** (defaults to closed; double-check after a
-   reset):
+2. **Confirm both gates are closed** (defaults to closed; double-check after
+   a reset):
    ```sql
    update public.workshop_config
-     set challenge_open = false, opened_at = null where id = 1;
+     set challenge_open = false, opened_at = null, nexus_open = false
+     where id = 1;
    ```
 
-3. **Let attendees register early.** They'll see the waiting overlay on
-   `/challenge/1` — perfect for "register now, we'll start shortly."
+3. **Let attendees register early.** They'll see the workshop waiting
+   overlay on `/challenge/1` — perfect for "register now, we'll start
+   shortly." `/salt-nexus` is also locked, with its own overlay copy.
 
-4. **When ready to start, open the gate:**
+4. **When ready to start the challenge phase, open the challenge gate:**
    ```sql
    update public.workshop_config
      set challenge_open = true, opened_at = now() where id = 1;
    ```
-   Waiting overlays fade out within ~3s. The Begin Workshop button is now
-   live; each user's 35-min timer starts when they click it (self-paced —
-   stragglers still get full time, just shifted).
+   Workshop waiting overlay fades out within ~3s. The Begin Workshop button
+   goes live; the **global** 35-minute timer starts ticking from `opened_at`
+   (every user races the same wall clock — late joiners get a shortened
+   window, not a fresh 35 minutes).
 
-5. **At session end**, close the gate to prevent any late stragglers from
-   starting fresh. Wipe data before the next cohort.
+5. **When the 35-minute timer expires** (or sooner if everyone has finished
+   and you want to move on), **open the Nexus gate:**
+   ```sql
+   update public.workshop_config
+     set nexus_open = true where id = 1;
+   ```
+   The "Salt Nexus Opens Soon" overlay on `/salt-nexus` fades out within
+   ~3s, revealing the live attack simulation explainer + the
+   **Launch Salt Nexus →** button (external to `https://salt-nexus.com`).
+
+6. **At session end**, close both gates to prevent stragglers and reset
+   `opened_at` so the next cohort gets a clean clock:
+   ```sql
+   update public.workshop_config
+     set challenge_open = false, opened_at = null, nexus_open = false
+     where id = 1;
+   ```
+   Then wipe data per step 1.
 
 ### Verifying current state
 
 ```sql
-select id, challenge_open, opened_at from public.workshop_config;
+select id, challenge_open, opened_at, nexus_open from public.workshop_config;
 select count(*) as attendee_count from public.attendees;
 ```
 

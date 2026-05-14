@@ -9,6 +9,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useLocation } from "wouter";
 import ChallengeHeader from "@/components/ChallengeHeader";
 import ChallengeIntro from "@/components/ChallengeIntro";
+import DotMatrixLogo from "@/components/DotMatrixLogo";
 import QuestionCard from "@/components/QuestionCard";
 import MagicRingsButton from "@/components/MagicRingsButton";
 import WaitingOverlay from "@/components/WaitingOverlay";
@@ -39,7 +40,18 @@ interface Props {
 }
 
 const PENALTY_PER_WRONG_MS = 15_000;
-const TIME_UP_AUTONAV_DELAY_MS = 2500;
+const TIME_UP_AUTONAV_DELAY_MS = 5000;
+
+// Staggered fade-up matching the scenario pages' entry animation, so the
+// question cards don't pop in instantly.
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, delay: i * 0.08 },
+  }),
+};
 
 function formatMs(ms: number): string {
   const total = Math.max(0, Math.floor(ms / 1000));
@@ -223,42 +235,24 @@ export default function ChallengePage({
             marginBottom: "3rem",
           }}
         >
-          <QuestionCard
-            key={questions[0].id}
-            orderIdx={questions[0].order_idx}
-            questionId={questions[0].id}
-            prompt={questions[0].prompt}
-            isSolved={progress.has(questions[0].id)}
-            locked={isLocked}
-            onSubmit={submit}
-          />
-          <QuestionCard
-            key={questions[1].id}
-            orderIdx={questions[1].order_idx}
-            questionId={questions[1].id}
-            prompt={questions[1].prompt}
-            isSolved={progress.has(questions[1].id)}
-            locked={isLocked}
-            onSubmit={submit}
-          />
-          <QuestionCard
-            key={questions[2].id}
-            orderIdx={questions[2].order_idx}
-            questionId={questions[2].id}
-            prompt={questions[2].prompt}
-            isSolved={progress.has(questions[2].id)}
-            locked={isLocked}
-            onSubmit={submit}
-          />
-          <QuestionCard
-            key={questions[3].id}
-            orderIdx={questions[3].order_idx}
-            questionId={questions[3].id}
-            prompt={questions[3].prompt}
-            isSolved={progress.has(questions[3].id)}
-            locked={isLocked}
-            onSubmit={submit}
-          />
+          {[0, 1, 2, 3].map((i) => (
+            <motion.div
+              key={questions[i].id}
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              custom={i}
+            >
+              <QuestionCard
+                orderIdx={questions[i].order_idx}
+                questionId={questions[i].id}
+                prompt={questions[i].prompt}
+                isSolved={progress.has(questions[i].id)}
+                locked={isLocked}
+                onSubmit={submit}
+              />
+            </motion.div>
+          ))}
           {/* Q5 — centered below the two pairs at single-column width */}
           <div
             style={{
@@ -268,15 +262,22 @@ export default function ChallengePage({
             }}
           >
             <div style={{ width: "calc(50% - 0.625rem)" }}>
-              <QuestionCard
-                key={questions[4].id}
-                orderIdx={questions[4].order_idx}
-                questionId={questions[4].id}
-                prompt={questions[4].prompt}
-                isSolved={progress.has(questions[4].id)}
-                locked={isLocked}
-                onSubmit={submit}
-              />
+              <motion.div
+                variants={fadeUp}
+                initial="hidden"
+                animate="visible"
+                custom={4}
+              >
+                <QuestionCard
+                  key={questions[4].id}
+                  orderIdx={questions[4].order_idx}
+                  questionId={questions[4].id}
+                  prompt={questions[4].prompt}
+                  isSolved={progress.has(questions[4].id)}
+                  locked={isLocked}
+                  onSubmit={submit}
+                />
+              </motion.div>
             </div>
           </div>
         </div>
@@ -289,16 +290,23 @@ export default function ChallengePage({
             marginBottom: "3rem",
           }}
         >
-          {questions.map((q) => (
-            <QuestionCard
+          {questions.map((q, i) => (
+            <motion.div
               key={q.id}
-              orderIdx={q.order_idx}
-              questionId={q.id}
-              prompt={q.prompt}
-              isSolved={progress.has(q.id)}
-              locked={isLocked}
-              onSubmit={submit}
-            />
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              custom={i}
+            >
+              <QuestionCard
+                orderIdx={q.order_idx}
+                questionId={q.id}
+                prompt={q.prompt}
+                isSolved={progress.has(q.id)}
+                locked={isLocked}
+                onSubmit={submit}
+              />
+            </motion.div>
           ))}
         </div>
       )}
@@ -524,6 +532,11 @@ export default function ChallengePage({
               >
                 Locking submissions · routing to your results…
               </p>
+              <DotMatrixLogo
+                color="oklch(0.7 0.2 25)"
+                label="Time's up pulse"
+                style={{ margin: "2.25rem auto 0" }}
+              />
             </div>
           </motion.div>
         )}

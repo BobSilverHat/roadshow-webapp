@@ -21,105 +21,157 @@ function formatRemaining(ms: number): string {
 }
 
 /**
- * Live countdown pill rendered in the right-side cluster of the navbar.
- * Visible from the moment the admin opens the gate until expiry, on every
- * page — so finished users still see the global remaining time.
+ * Live countdown row anchored at the bottom of the sidebar. Single line:
+ *   ● IN PROGRESS · 34:12
  *
- * - "CHALLENGE [IN PROGRESS]": Casta font matching the workshop title;
- *   "IN PROGRESS" is pale neon green with a 2.4s pulse matching the
- *   gate-overlay animation.
- * - MM:SS: glowing white, same 2.4s rhythm via textShadow oscillation.
+ * - Green pulsing dot + "IN PROGRESS" in pale neon green (matches the
+ *   WaitingOverlay accent), same 2.4s pulse cadence.
+ * - "MM:SS" glowing white, same 2.4s rhythm via textShadow oscillation.
+ * - Hidden when the gate is closed or the workshop has expired.
  */
 function WorkshopClockPill() {
   const clock = useWorkshopClock();
-  if (clock.status !== 'in_progress') return null;
-  return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-end',
-        gap: '2px',
-        paddingRight: '1.25rem',
-        marginRight: '1.25rem',
-        borderRight: '1px solid rgba(255,255,255,0.08)',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          marginBottom: '2px',
-        }}
-      >
-        <motion.div
-          animate={{
-            opacity: [0.55, 1, 0.55],
-            boxShadow: [
-              '0 0 4px oklch(0.6 0.25 145 / 0.4)',
-              '0 0 10px oklch(0.65 0.28 145 / 0.85)',
-              '0 0 4px oklch(0.6 0.25 145 / 0.4)',
-            ],
-          }}
-          transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+  if (clock.status === 'closed') return null;
+
+  const isExpired = clock.status === 'expired';
+
+  // Shared row chrome (border, layout). Content differs by state.
+  const rowStyle = {
+    marginTop: 'auto',
+    paddingTop: '1.25rem',
+    borderTop: '1px solid rgba(255,255,255,0.06)',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    whiteSpace: 'nowrap',
+  } as const;
+
+  if (isExpired) {
+    // Final state: static red. No pulse — the workshop is over.
+    return (
+      <div style={rowStyle}>
+        <div
           style={{
+            flex: '0 0 auto',
             width: '6px',
             height: '6px',
             borderRadius: '50%',
-            backgroundColor: 'oklch(0.78 0.18 145)',
+            backgroundColor: 'oklch(0.7 0.2 25)',
+            boxShadow: '0 0 8px oklch(0.5 0.2 25 / 0.55)',
           }}
         />
         <span
           style={{
             fontFamily: "'Casta', 'Barlow Condensed', serif",
-            fontSize: '0.65rem',
-            fontWeight: 600,
+            fontSize: '0.62rem',
+            fontWeight: 700,
             letterSpacing: '0.15em',
             textTransform: 'uppercase',
-            color: 'rgba(200,220,210,0.75)',
+            color: 'oklch(0.78 0.22 25)',
+            textShadow: '0 0 10px oklch(0.5 0.2 25 / 0.5)',
           }}
         >
-          Challenge{' '}
-          <motion.span
-            animate={{
-              opacity: [0.7, 1, 0.7],
-              textShadow: [
-                '0 0 6px oklch(0.6 0.25 145 / 0.35)',
-                '0 0 16px oklch(0.65 0.28 145 / 0.7)',
-                '0 0 6px oklch(0.6 0.25 145 / 0.35)',
-              ],
-            }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-            style={{
-              display: 'inline-block',
-              color: 'oklch(0.88 0.2 145)',
-            }}
-          >
-            In Progress
-          </motion.span>
+          Complete
+        </span>
+        <span
+          style={{
+            color: 'rgba(200,200,220,0.35)',
+            fontSize: '0.62rem',
+          }}
+          aria-hidden="true"
+        >
+          ·
+        </span>
+        <span
+          style={{
+            fontFamily: "'Casta', 'Barlow Condensed', serif",
+            fontSize: '0.85rem',
+            fontWeight: 600,
+            letterSpacing: '0.04em',
+            color: 'rgba(245,245,250,0.97)',
+            textShadow: '0 0 8px rgba(255,255,255,0.35)',
+            fontVariantNumeric: 'tabular-nums',
+            marginLeft: 'auto',
+          }}
+        >
+          00:00
         </span>
       </div>
+    );
+  }
+
+  // In-progress state: pulsing green + glowing white timer.
+  return (
+    <div style={rowStyle}>
       <motion.div
         animate={{
+          opacity: [0.55, 1, 0.55],
+          boxShadow: [
+            '0 0 4px oklch(0.6 0.25 145 / 0.4)',
+            '0 0 10px oklch(0.65 0.28 145 / 0.85)',
+            '0 0 4px oklch(0.6 0.25 145 / 0.4)',
+          ],
+        }}
+        transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          flex: '0 0 auto',
+          width: '6px',
+          height: '6px',
+          borderRadius: '50%',
+          backgroundColor: 'oklch(0.78 0.18 145)',
+        }}
+      />
+      <motion.span
+        animate={{
+          opacity: [0.7, 1, 0.7],
           textShadow: [
-            '0 0 6px rgba(255,255,255,0.25)',
-            '0 0 18px rgba(255,255,255,0.6)',
-            '0 0 6px rgba(255,255,255,0.25)',
+            '0 0 6px oklch(0.6 0.25 145 / 0.35)',
+            '0 0 16px oklch(0.65 0.28 145 / 0.7)',
+            '0 0 6px oklch(0.6 0.25 145 / 0.35)',
           ],
         }}
         transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
         style={{
           fontFamily: "'Casta', 'Barlow Condensed', serif",
-          fontSize: '1.05rem',
+          fontSize: '0.62rem',
+          fontWeight: 700,
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+          color: 'oklch(0.88 0.2 145)',
+        }}
+      >
+        In Progress
+      </motion.span>
+      <span
+        style={{
+          color: 'rgba(200,200,220,0.35)',
+          fontSize: '0.62rem',
+        }}
+        aria-hidden="true"
+      >
+        ·
+      </span>
+      <motion.span
+        animate={{
+          textShadow: [
+            '0 0 5px rgba(255,255,255,0.25)',
+            '0 0 14px rgba(255,255,255,0.6)',
+            '0 0 5px rgba(255,255,255,0.25)',
+          ],
+        }}
+        transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          fontFamily: "'Casta', 'Barlow Condensed', serif",
+          fontSize: '0.85rem',
           fontWeight: 600,
-          letterSpacing: '0.06em',
+          letterSpacing: '0.04em',
           color: 'rgba(245,245,250,0.97)',
           fontVariantNumeric: 'tabular-nums',
+          marginLeft: 'auto',
         }}
       >
         {formatRemaining(clock.remainingMs)}
-      </motion.div>
+      </motion.span>
     </div>
   );
 }
@@ -153,6 +205,7 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'scenario-3', label: 'Scenario 3', path: '/scenario/3', subItems: SCENARIO_SUB_ITEMS },
   { id: 'challenge-1', label: 'Challenge 1', path: '/challenge/1' },
   { id: 'challenge-2', label: 'Challenge 2', path: '/challenge/2' },
+  { id: 'salt-nexus', label: 'Salt Nexus', path: '/salt-nexus' },
   { id: 'leaderboard', label: 'Leaderboard', path: '/leaderboard' },
   { id: 'completed', label: 'Completed!', path: '/completed' },
 ];
@@ -346,52 +399,49 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
           />
         </div>
 
-        {/* Right cluster: workshop clock pill (when gate is open) + title */}
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <WorkshopClockPill />
-          <div style={{ textAlign: 'right' }}>
+        {/* Right: Workshop title */}
+        <div style={{ textAlign: 'right' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              justifyContent: 'flex-end',
+              marginBottom: '2px',
+            }}
+          >
             <div
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                justifyContent: 'flex-end',
-                marginBottom: '2px',
+                width: '6px',
+                height: '6px',
+                borderRadius: '50%',
+                backgroundColor: 'oklch(0.65 0.25 290)',
+                boxShadow: '0 0 6px oklch(0.65 0.25 290)',
               }}
-            >
-              <div
-                style={{
-                  width: '6px',
-                  height: '6px',
-                  borderRadius: '50%',
-                  backgroundColor: 'oklch(0.65 0.25 290)',
-                  boxShadow: '0 0 6px oklch(0.65 0.25 290)',
-                }}
-              />
-              <span
-                style={{
-                  fontFamily: "'Casta', 'Barlow Condensed', serif",
-                  fontSize: '0.65rem',
-                  fontWeight: '600',
-                  letterSpacing: '0.15em',
-                  textTransform: 'uppercase',
-                  color: 'oklch(0.65 0.25 290)',
-                }}
-              >
-                Workshop
-              </span>
-            </div>
-            <div
+            />
+            <span
               style={{
                 fontFamily: "'Casta', 'Barlow Condensed', serif",
-                fontSize: '1.05rem',
+                fontSize: '0.65rem',
                 fontWeight: '600',
-                letterSpacing: '0.04em',
-                color: 'rgba(232,232,240,0.95)',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: 'oklch(0.65 0.25 290)',
               }}
             >
-              Agentic AI Security
-            </div>
+              Workshop
+            </span>
+          </div>
+          <div
+            style={{
+              fontFamily: "'Casta', 'Barlow Condensed', serif",
+              fontSize: '1.05rem',
+              fontWeight: '600',
+              letterSpacing: '0.04em',
+              color: 'rgba(232,232,240,0.95)',
+            }}
+          >
+            Agentic AI Security
           </div>
         </div>
       </header>
@@ -531,6 +581,9 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
             );
           })}
         </nav>
+
+        {/* Live workshop countdown — anchored to the bottom of the sidebar. */}
+        <WorkshopClockPill />
       </aside>
 
       {/* ============================================================
