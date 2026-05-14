@@ -4,7 +4,7 @@
  * and post-challenge navigation.
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocation } from "wouter";
 import ChallengeHeader from "@/components/ChallengeHeader";
@@ -12,6 +12,7 @@ import ChallengeIntro from "@/components/ChallengeIntro";
 import QuestionCard from "@/components/QuestionCard";
 import MagicRingsButton from "@/components/MagicRingsButton";
 import { useChallenge } from "@/hooks/useChallenge";
+import { useWorkshop } from "@/hooks/useWorkshop";
 import { supabase } from "@/lib/supabase";
 
 interface LeaderboardSnapshot {
@@ -37,6 +38,7 @@ interface Props {
 }
 
 const PENALTY_PER_WRONG_MS = 15_000;
+const TIME_UP_AUTONAV_DELAY_MS = 2500;
 
 function formatMs(ms: number): string {
   const total = Math.max(0, Math.floor(ms / 1000));
@@ -53,6 +55,7 @@ export default function ChallengePage({
   nextLabel,
 }: Props) {
   const [, navigate] = useLocation();
+  const workshop = useWorkshop({ attendeeId: attendee.id });
   const {
     meta,
     questions,
@@ -62,12 +65,45 @@ export default function ChallengePage({
     error,
     solvedCount,
     totalQuestions,
-    begin,
     submit,
   } = useChallenge({ challengeId, attendeeId: attendee.id });
   const [revealed, setRevealed] = useState(false);
   const [snapshot, setSnapshot] = useState<LeaderboardSnapshot[] | null>(null);
   const [myRank, setMyRank] = useState<number | null>(null);
+  const [showTimeUp, setShowTimeUp] = useState(false);
+  const timeUpHandledRef = useRef(false);
+
+  // Direct nav to /challenge/2 before the workshop is begun → bounce to C1.
+  useEffect(() => {
+    if (challengeId !== 2) return;
+    if (workshop.status !== "ready") return;
+    navigate("/challenge/1", { replace: true });
+  }, [challengeId, workshop.status, navigate]);
+
+  // When THIS challenge transitions to completed_at, refresh workshop
+  // so it sees the new completion flag. useWorkshop doesn't refetch
+  // attempts on its own (only its 1s display ticker runs) — explicit
+  // refresh here is the only signal that the completion flag changed.
+  const completedAtSig = state?.completed_at ?? null;
+  const workshopRefresh = workshop.refresh;
+  useEffect(() => {
+    if (!completedAtSig) return;
+    workshopRefresh().catch((e) =>
+      console.error("workshop refresh failed", e),
+    );
+  }, [completedAtSig, workshopRefresh]);
+
+  // Time's-up handler: one-shot. Fades in the overlay, then auto-navs.
+  useEffect(() => {
+    if (workshop.status !== "expired") return;
+    if (timeUpHandledRef.current) return;
+    timeUpHandledRef.current = true;
+    setShowTimeUp(true);
+    const t = window.setTimeout(() => {
+      navigate("/completed", { replace: true });
+    }, TIME_UP_AUTONAV_DELAY_MS);
+    return () => window.clearTimeout(t);
+  }, [workshop.status, navigate]);
 
   // When the hook transitions to "complete", raise the reveal overlay
   // and take a one-shot snapshot of the leaderboard for the top-3 peek.
@@ -88,7 +124,7 @@ export default function ChallengePage({
     };
   }, [status, attendee.id]);
 
-  if (status === "loading") {
+  if (status === "loading" || workshop.status === "loading") {
     return (
       <div
         style={{
@@ -133,15 +169,18 @@ export default function ChallengePage({
   const title = meta
     ? `Challenge ${challengeNumber} — ${titleWithoutPrefix(meta.title)}`
     : `Challenge ${challengeNumber}`;
+  const isLocked = workshop.status === "expired";
 
-  // Pre-Begin: just the intro block.
-  if (status === "ready") {
+  // Pre-Begin: only Challenge 1 shows the intro/Begin gate. /challenge/2
+  // in the ready state hits the redirect effect above and renders nothing.
+  if (workshop.status === "ready") {
+    if (challengeId !== 1) return null; // redirecting
     return (
       <ChallengeIntro
         number={challengeNumber}
         title={titleWithoutPrefix(meta?.title ?? `Challenge ${challengeNumber}`)}
         subtitle={meta?.subtitle ?? null}
-        onBegin={begin}
+        onBegin={workshop.beginWorkshop}
       />
     );
   }
@@ -157,8 +196,9 @@ export default function ChallengePage({
     <>
       <ChallengeHeader
         title={title}
-        startedAt={beganAt}
-        completedAt={completedAt}
+        remainingMs={workshop.remainingMs}
+        isComplete={workshop.status === "complete"}
+        isExpired={workshop.status === "expired"}
         wrongCount={wrongCount}
         attendeeName={attendee.name}
         solvedCount={solvedCount}
@@ -180,6 +220,7 @@ export default function ChallengePage({
             questionId={questions[0].id}
             prompt={questions[0].prompt}
             isSolved={progress.has(questions[0].id)}
+            locked={isLocked}
             onSubmit={submit}
           />
           <QuestionCard
@@ -188,6 +229,7 @@ export default function ChallengePage({
             questionId={questions[1].id}
             prompt={questions[1].prompt}
             isSolved={progress.has(questions[1].id)}
+            locked={isLocked}
             onSubmit={submit}
           />
           <QuestionCard
@@ -196,6 +238,7 @@ export default function ChallengePage({
             questionId={questions[2].id}
             prompt={questions[2].prompt}
             isSolved={progress.has(questions[2].id)}
+            locked={isLocked}
             onSubmit={submit}
           />
           <QuestionCard
@@ -204,6 +247,7 @@ export default function ChallengePage({
             questionId={questions[3].id}
             prompt={questions[3].prompt}
             isSolved={progress.has(questions[3].id)}
+            locked={isLocked}
             onSubmit={submit}
           />
           {/* Q5 — centered below the two pairs at single-column width */}
@@ -221,6 +265,7 @@ export default function ChallengePage({
                 questionId={questions[4].id}
                 prompt={questions[4].prompt}
                 isSolved={progress.has(questions[4].id)}
+                locked={isLocked}
                 onSubmit={submit}
               />
             </div>
@@ -242,6 +287,7 @@ export default function ChallengePage({
               questionId={q.id}
               prompt={q.prompt}
               isSolved={progress.has(q.id)}
+              locked={isLocked}
               onSubmit={submit}
             />
           ))}
@@ -398,6 +444,68 @@ export default function ChallengePage({
 
             <div style={{ display: "flex", justifyContent: "center" }}>
               <MagicRingsButton label={nextLabel} onClick={() => navigate(nextPath)} />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showTimeUp && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35 }}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 100,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "rgba(10,10,15,0.85)",
+              backdropFilter: "blur(8px)",
+              WebkitBackdropFilter: "blur(8px)",
+            }}
+          >
+            <div style={{ textAlign: "center", padding: "2rem" }}>
+              <span
+                className="section-label"
+                style={{ display: "block", marginBottom: "0.75rem" }}
+              >
+                Workshop Closed
+              </span>
+              <h2
+                style={{
+                  fontFamily: "'Nostalgic Whispers', 'Barlow Condensed', serif",
+                  fontSize: "clamp(2.25rem, 5vw, 3.25rem)",
+                  fontWeight: 800,
+                  letterSpacing: "0.04em",
+                  textTransform: "uppercase",
+                  color: "rgba(232,232,240,0.97)",
+                  margin: "0 0 0.5rem",
+                }}
+              >
+                Time's{" "}
+                <span
+                  style={{
+                    color: "oklch(0.7 0.2 25)",
+                    textShadow: "0 0 24px oklch(0.5 0.2 25 / 0.5)",
+                  }}
+                >
+                  Up
+                </span>
+              </h2>
+              <p
+                style={{
+                  fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
+                  fontSize: "0.875rem",
+                  color: "rgba(200,200,220,0.7)",
+                  margin: 0,
+                }}
+              >
+                Locking submissions · routing to your results…
+              </p>
             </div>
           </motion.div>
         )}
