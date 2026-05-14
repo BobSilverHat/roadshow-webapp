@@ -62,7 +62,9 @@ export default function ChallengeHeader({
       style={{
         position: "sticky",
         top: "70px", // sits under the fixed navbar
-        zIndex: 20,
+        zIndex: 55, // above the Time's Up overlay (45) so the countdown
+                    // stays readable while the lock animates in
+
         margin: "-2rem -2rem 2.5rem",
         padding: "0.9rem 2rem",
         background: "rgba(10,10,15,0.85)",
