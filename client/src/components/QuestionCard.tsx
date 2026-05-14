@@ -12,6 +12,7 @@ interface Props {
   questionId: string;
   prompt: string;
   isSolved: boolean;
+  locked?: boolean;
   onSubmit: (
     questionId: string,
     submission: string,
@@ -27,6 +28,7 @@ export default function QuestionCard({
   questionId,
   prompt,
   isSolved,
+  locked = false,
   onSubmit,
 }: Props) {
   const [value, setValue] = useState("");
@@ -95,6 +97,41 @@ export default function QuestionCard({
         </div>
         <p style={{ ...promptStyle, opacity: 0.6, marginBottom: 0 }}>{prompt}</p>
       </motion.div>
+    );
+  }
+
+  // Solved takes precedence (above). Otherwise, time-up locks the card.
+  if (locked) {
+    return (
+      <div
+        style={{
+          position: "relative",
+          padding: "1.25rem 1.35rem",
+          border: "1px solid rgba(255,255,255,0.08)",
+          borderRadius: "6px",
+          background: "rgba(255,255,255,0.015)",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          opacity: 0.55,
+        }}
+      >
+        <div style={cardHeaderStyle}>
+          <span className="section-label">Question {pad(orderIdx)}</span>
+          <span
+            style={{
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontSize: "0.7rem",
+              fontWeight: 700,
+              letterSpacing: "0.25em",
+              color: "rgba(200,200,220,0.5)",
+            }}
+          >
+            LOCKED
+          </span>
+        </div>
+        <p style={{ ...promptStyle, opacity: 0.7, marginBottom: 0 }}>{prompt}</p>
+      </div>
     );
   }
 
