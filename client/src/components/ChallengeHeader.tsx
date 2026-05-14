@@ -1,16 +1,16 @@
 /**
  * Sticky top strip for the challenge pages. Shows the challenge title,
- * the running wall-clock timer (`mm:ss`), the penalty tally (+15s × N),
- * and the attendee's name. Timer is purely derived from started_at +
- * wall clock — no server polling needed for display.
+ * the shared 35-minute countdown (mm:ss remaining), the penalty tally
+ * (+15s × N), and the attendee's name. Countdown is derived from the
+ * useWorkshop hook upstream — this component is a presentational view
+ * over the props passed in.
  */
-
-import { useEffect, useState } from "react";
 
 interface Props {
   title: string;
-  startedAt: string | null;
-  completedAt: string | null;
+  remainingMs: number;
+  isComplete: boolean;
+  isExpired: boolean;
   wrongCount: number;
   attendeeName: string;
   solvedCount: number;
@@ -28,26 +28,31 @@ function formatMs(ms: number): string {
 
 export default function ChallengeHeader({
   title,
-  startedAt,
-  completedAt,
+  remainingMs,
+  isComplete,
+  isExpired,
   wrongCount,
   attendeeName,
   solvedCount,
   totalQuestions,
 }: Props) {
-  const [now, setNow] = useState(() => Date.now());
+  const remainingLabel = formatMs(remainingMs);
 
-  useEffect(() => {
-    if (!startedAt || completedAt) return;
-    const id = window.setInterval(() => setNow(Date.now()), 1000);
-    return () => window.clearInterval(id);
-  }, [startedAt, completedAt]);
-
-  let elapsedLabel = "--:--";
-  if (startedAt) {
-    const start = new Date(startedAt).getTime();
-    const end = completedAt ? new Date(completedAt).getTime() : now;
-    elapsedLabel = formatMs(end - start + wrongCount * PENALTY_PER_WRONG_MS);
+  // Color tier — drives the timer color
+  let timerColor = "rgba(232,232,240,0.97)";
+  let timerShadow = "none";
+  if (isComplete) {
+    timerColor = "oklch(0.72 0.28 290)";
+    timerShadow = "0 0 16px oklch(0.52 0.28 290 / 0.5)";
+  } else if (isExpired) {
+    timerColor = "oklch(0.7 0.2 25)";
+    timerShadow = "0 0 16px oklch(0.5 0.2 25 / 0.4)";
+  } else if (remainingMs < 60_000) {
+    timerColor = "oklch(0.7 0.2 25)";
+    timerShadow = "0 0 12px oklch(0.5 0.2 25 / 0.35)";
+  } else if (remainingMs < 5 * 60_000) {
+    timerColor = "oklch(0.78 0.18 75)";
+    timerShadow = "0 0 12px oklch(0.55 0.18 75 / 0.35)";
   }
 
   const penaltyLabel = wrongCount > 0
@@ -101,16 +106,13 @@ export default function ChallengeHeader({
             fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
             fontSize: "1.3rem",
             fontWeight: 500,
-            color: completedAt
-              ? "oklch(0.72 0.28 290)"
-              : "rgba(232,232,240,0.97)",
+            color: timerColor,
             letterSpacing: "0.05em",
-            textShadow: completedAt
-              ? "0 0 16px oklch(0.52 0.28 290 / 0.5)"
-              : "none",
+            textShadow: timerShadow,
+            fontVariantNumeric: "tabular-nums",
           }}
         >
-          {elapsedLabel}
+          {remainingLabel}
         </span>
         {penaltyLabel && (
           <span
