@@ -4,8 +4,13 @@
  * status enum, a live-ticked remainingMs, per-challenge completion
  * flags, and a beginWorkshop() action that stamps both attempts.
  *
+ * Also owns the admin-gate state: polls workshop_config.challenge_open
+ * every 3s while pre-begin so the WaitingOverlay fades within ~3s of
+ * the admin opening the gate. Polling stops once the workshop is begun.
+ *
  * Server (begin_workshop, submit_answer, leaderboard view) is the
- * authoritative source of expiry. Client countdown is UX-only.
+ * authoritative source of expiry AND the admin gate. Client values are
+ * UX-only.
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -14,7 +19,8 @@ import { WORKSHOP_DURATION_MS } from "@shared/const";
 
 export type WorkshopStatus =
   | "loading"
-  | "ready"        // attendee registered but workshop not begun
+  | "locked"       // admin gate closed; cannot begin yet
+  | "ready"        // attendee registered, gate open, not yet begun
   | "in_progress"
   | "expired"
   | "complete";
@@ -41,10 +47,13 @@ interface Options {
   attendeeId: string | null;
 }
 
+const GATE_POLL_INTERVAL_MS = 3000;
+
 export function useWorkshop({ attendeeId }: Options): WorkshopState {
   const [startedAt, setStartedAt] = useState<string | null>(null);
   const [c1Completed, setC1Completed] = useState(false);
   const [c2Completed, setC2Completed] = useState(false);
+  const [challengeOpen, setChallengeOpen] = useState<boolean>(false);
   const [now, setNow] = useState<number>(() => Date.now());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -54,25 +63,42 @@ export function useWorkshop({ attendeeId }: Options): WorkshopState {
     attendeeIdRef.current = attendeeId;
   }, [attendeeId]);
 
+  const fetchGate = useCallback(async () => {
+    const { data, error: gateError } = await supabase
+      .from("workshop_config")
+      .select("challenge_open")
+      .eq("id", 1)
+      .maybeSingle();
+    if (gateError) {
+      // Surface but don't block — a missing gate row means default-closed.
+      setError(gateError.message);
+      return;
+    }
+    setChallengeOpen(!!data?.challenge_open);
+  }, []);
+
   const refresh = useCallback(async () => {
     const id = attendeeIdRef.current;
     if (!id) return;
-    const { data, error: fetchError } = await supabase
-      .from("challenge_attempts")
-      .select("challenge_id, started_at, completed_at")
-      .eq("attendee_id", id)
-      .in("challenge_id", [1, 2]);
+    const [{ data: attempts, error: fetchError }] = await Promise.all([
+      supabase
+        .from("challenge_attempts")
+        .select("challenge_id, started_at, completed_at")
+        .eq("attendee_id", id)
+        .in("challenge_id", [1, 2]),
+      fetchGate(),
+    ]);
     if (fetchError) {
       setError(fetchError.message);
       return;
     }
-    const rows = (data as AttemptRow[]) ?? [];
+    const rows = (attempts as AttemptRow[]) ?? [];
     const c1 = rows.find((r) => r.challenge_id === 1);
     const c2 = rows.find((r) => r.challenge_id === 2);
     setStartedAt(c1?.started_at ?? c2?.started_at ?? null);
     setC1Completed(!!c1?.completed_at);
     setC2Completed(!!c2?.completed_at);
-  }, []);
+  }, [fetchGate]);
 
   // Initial fetch
   useEffect(() => {
@@ -96,11 +122,15 @@ export function useWorkshop({ attendeeId }: Options): WorkshopState {
   const isExpired = expiresAt ? now > expiresAtMs : false;
   const isComplete = c1Completed && c2Completed;
 
+  // Status precedence: loading > complete > expired > locked > ready > in_progress.
+  // Once started_at is set the user is past the gate, so "locked" is only
+  // ever evaluated while pre-begin (which is the only time it matters).
   let status: WorkshopStatus;
   if (loading) status = "loading";
-  else if (!startedAt) status = "ready";
   else if (isComplete) status = "complete";
   else if (isExpired) status = "expired";
+  else if (!startedAt && !challengeOpen) status = "locked";
+  else if (!startedAt) status = "ready";
   else status = "in_progress";
 
   const remainingMs = expiresAt ? Math.max(0, expiresAtMs - now) : 0;
@@ -112,6 +142,16 @@ export function useWorkshop({ attendeeId }: Options): WorkshopState {
     return () => window.clearInterval(id);
   }, [status]);
 
+  // Gate poll — runs only while pre-begin (locked or ready). Once the
+  // user starts the workshop, the gate flag no longer affects anything.
+  useEffect(() => {
+    if (status !== "locked" && status !== "ready") return;
+    const id = window.setInterval(() => {
+      fetchGate();
+    }, GATE_POLL_INTERVAL_MS);
+    return () => window.clearInterval(id);
+  }, [status, fetchGate]);
+
   const beginWorkshop = useCallback(async (): Promise<boolean> => {
     setError(null);
     const { data, error: rpcError } = await supabase.rpc("begin_workshop");
@@ -120,6 +160,15 @@ export function useWorkshop({ attendeeId }: Options): WorkshopState {
       return false;
     }
     if (!data?.ok) {
+      // challenge_locked is an expected state — the user raced the poll
+      // (clicked Begin in the 3s window after admin closed the gate). Flip
+      // the gate flag so status transitions to "locked" and the WaitingOverlay
+      // re-appears. Do NOT surface as workshop.error (that would trip the
+      // fatal-error branch in ChallengePage).
+      if (data?.error === "challenge_locked") {
+        setChallengeOpen(false);
+        return false;
+      }
       setError(data?.error ?? "begin_failed");
       return false;
     }

@@ -11,6 +11,7 @@ import ChallengeHeader from "@/components/ChallengeHeader";
 import ChallengeIntro from "@/components/ChallengeIntro";
 import QuestionCard from "@/components/QuestionCard";
 import MagicRingsButton from "@/components/MagicRingsButton";
+import WaitingOverlay from "@/components/WaitingOverlay";
 import { useChallenge } from "@/hooks/useChallenge";
 import { useWorkshop } from "@/hooks/useWorkshop";
 import { supabase } from "@/lib/supabase";
@@ -74,9 +75,12 @@ export default function ChallengePage({
   const timeUpHandledRef = useRef(false);
 
   // Direct nav to /challenge/2 before the workshop is begun → bounce to C1.
+  // Funnels both the locked (admin-gated) and ready states to the same
+  // pre-begin page so the WaitingOverlay / Begin button only appears in
+  // one place.
   useEffect(() => {
     if (challengeId !== 2) return;
-    if (workshop.status !== "ready") return;
+    if (workshop.status !== "ready" && workshop.status !== "locked") return;
     navigate("/challenge/1", { replace: true });
   }, [challengeId, workshop.status, navigate]);
 
@@ -172,16 +176,24 @@ export default function ChallengePage({
   const isLocked = workshop.status === "expired";
 
   // Pre-Begin: only Challenge 1 shows the intro/Begin gate. /challenge/2
-  // in the ready state hits the redirect effect above and renders nothing.
-  if (workshop.status === "ready") {
+  // in the ready/locked state hits the redirect effect above and renders nothing.
+  // When the admin gate is closed (status === "locked"), we render the intro
+  // underneath the WaitingOverlay so users can read the workshop rules through
+  // the blur while they wait.
+  if (workshop.status === "ready" || workshop.status === "locked") {
     if (challengeId !== 1) return null; // redirecting
     return (
-      <ChallengeIntro
-        number={challengeNumber}
-        title={titleWithoutPrefix(meta?.title ?? `Challenge ${challengeNumber}`)}
-        subtitle={meta?.subtitle ?? null}
-        onBegin={workshop.beginWorkshop}
-      />
+      <>
+        <ChallengeIntro
+          number={challengeNumber}
+          title={titleWithoutPrefix(meta?.title ?? `Challenge ${challengeNumber}`)}
+          subtitle={meta?.subtitle ?? null}
+          onBegin={workshop.beginWorkshop}
+        />
+        <AnimatePresence>
+          {workshop.status === "locked" && <WaitingOverlay />}
+        </AnimatePresence>
+      </>
     );
   }
 
@@ -455,17 +467,26 @@ export default function ChallengePage({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.35 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             style={{
+              // Overlay covers everything below the navbar (including the
+              // sidebar), but sits BELOW the sticky ChallengeHeader so the
+              // countdown stays readable while the lock animates in.
+              // Inner content is offset by --sidebar-width so the text
+              // centers within the main-content column, not the viewport.
               position: "fixed",
-              inset: 0,
-              zIndex: 100,
+              top: "var(--navbar-height, 70px)",
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 45,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              background: "rgba(10,10,15,0.85)",
-              backdropFilter: "blur(8px)",
-              WebkitBackdropFilter: "blur(8px)",
+              paddingLeft: "var(--sidebar-width, 200px)",
+              background: "rgba(10,10,15,0.65)",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
             }}
           >
             <div style={{ textAlign: "center", padding: "2rem" }}>

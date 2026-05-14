@@ -321,3 +321,59 @@ There is **no lint** command. Prettier is available via `pnpm format`.
 The Vite dev server at `pnpm dev` serves on port 3000 (falls back to next
 if busy). Don't rely on `pnpm start` during development — that's the
 production static server.
+
+---
+
+## Admin controls — running a workshop session
+
+The challenge timer is gated by a single boolean in `public.workshop_config`
+(migration `018_workshop_config_admin_gate.sql`). Until the admin opens the
+gate, anyone landing on `/challenge/1` sees the pale-green **"Workshop
+Begins Soon"** waiting overlay; `begin_workshop()` rejects with
+`challenge_locked` server-side regardless of UI. Clients poll the flag
+every 3s, so changes propagate within ~3s.
+
+### Order of operations for a workshop session
+
+1. **Wipe prior attendee data** (between sessions, or once before day 1):
+   ```sql
+   delete from auth.users;
+   ```
+   Cascades through `attendees` → `challenge_attempts` → `answer_attempts` →
+   `question_progress`. Preserves `challenges`, `questions`, `workshop_config`.
+
+2. **Confirm the gate is closed** (defaults to closed; double-check after a
+   reset):
+   ```sql
+   update public.workshop_config
+     set challenge_open = false, opened_at = null where id = 1;
+   ```
+
+3. **Let attendees register early.** They'll see the waiting overlay on
+   `/challenge/1` — perfect for "register now, we'll start shortly."
+
+4. **When ready to start, open the gate:**
+   ```sql
+   update public.workshop_config
+     set challenge_open = true, opened_at = now() where id = 1;
+   ```
+   Waiting overlays fade out within ~3s. The Begin Workshop button is now
+   live; each user's 35-min timer starts when they click it (self-paced —
+   stragglers still get full time, just shifted).
+
+5. **At session end**, close the gate to prevent any late stragglers from
+   starting fresh. Wipe data before the next cohort.
+
+### Verifying current state
+
+```sql
+select id, challenge_open, opened_at from public.workshop_config;
+select count(*) as attendee_count from public.attendees;
+```
+
+### Gotcha
+
+Don't run `delete from auth.users;` while a workshop is in progress — it
+nukes the active attendees' rows and they'll get `not_registered` on every
+submit. The client-side stale-session recovery (migration 017) only fires
+during registration, not mid-challenge.
