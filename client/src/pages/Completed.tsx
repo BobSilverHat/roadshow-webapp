@@ -48,6 +48,15 @@ function rankLabel(rank: number): string {
   return `${rank}${suffix} Place`;
 }
 
+type FinishTier = "champion" | "runner-up" | "third" | "completed" | "timed-out";
+
+function tierFor(rank: number, finishedNaturally: boolean): FinishTier {
+  if (rank === 1) return "champion";
+  if (rank === 2) return "runner-up";
+  if (rank === 3) return "third";
+  return finishedNaturally ? "completed" : "timed-out";
+}
+
 export default function Completed() {
   const [, navigate] = useLocation();
   const { attendee } = useAttendee();
@@ -63,7 +72,13 @@ export default function Completed() {
     return idx >= 0 ? idx + 1 : null;
   }, [rows, attendee]);
 
+  // A row is "settled" once total_ms is non-null (both done, or expired).
+  // "Finished naturally" = both challenges have a completed_at milestone.
   const finished = myRow !== null && myRow.total_ms !== null;
+  const finishedNaturally =
+    myRow !== null && myRow.c1_elapsed_ms !== null && myRow.c2_elapsed_ms !== null;
+  const tier: FinishTier | null =
+    finished && myRank !== null ? tierFor(myRank, finishedNaturally) : null;
 
   return (
     <WorkshopLayout activeId="completed">
@@ -105,19 +120,72 @@ export default function Completed() {
                 margin: 0,
               }}
             >
-              {finished ? (
+              {tier === "champion" && (
                 <>
-                  {rankLabel(myRank ?? 0).split(" ")[0]}{" "}
+                  Workshop{" "}
                   <span
                     style={{
-                      color: rankAccent(myRank ?? 0),
-                      textShadow: `0 0 30px ${rankAccent(myRank ?? 0)}`,
+                      color: rankAccent(1),
+                      textShadow: `0 0 36px ${rankAccent(1)}`,
                     }}
                   >
-                    {(rankLabel(myRank ?? 0).split(" ").slice(1).join(" ") || "Finisher")}
+                    Champion
                   </span>
                 </>
-              ) : (
+              )}
+              {tier === "runner-up" && (
+                <>
+                  Runner-
+                  <span
+                    style={{
+                      color: rankAccent(2),
+                      textShadow: `0 0 30px ${rankAccent(2)}`,
+                    }}
+                  >
+                    up
+                  </span>
+                </>
+              )}
+              {tier === "third" && (
+                <>
+                  <span
+                    style={{
+                      color: rankAccent(3),
+                      textShadow: `0 0 30px ${rankAccent(3)}`,
+                    }}
+                  >
+                    Third
+                  </span>{" "}
+                  Place
+                </>
+              )}
+              {tier === "completed" && (
+                <>
+                  Round{" "}
+                  <span
+                    style={{
+                      color: "oklch(0.72 0.28 290)",
+                      textShadow: "0 0 30px oklch(0.52 0.28 290 / 0.4)",
+                    }}
+                  >
+                    Complete
+                  </span>
+                </>
+              )}
+              {tier === "timed-out" && (
+                <>
+                  Time's{" "}
+                  <span
+                    style={{
+                      color: "oklch(0.7 0.2 25)",
+                      textShadow: "0 0 30px oklch(0.5 0.2 25 / 0.4)",
+                    }}
+                  >
+                    Up
+                  </span>
+                </>
+              )}
+              {tier === null && (
                 <>
                   Workshop{" "}
                   <span
@@ -133,8 +201,8 @@ export default function Completed() {
             </h1>
           </motion.div>
 
-          {/* Performance card for finished attendees */}
-          {finished && myRow && myRank !== null && (
+          {/* Performance card for settled attendees */}
+          {tier && myRow && myRank !== null && (
             <motion.div
               variants={fadeUp}
               initial="hidden"
@@ -145,10 +213,13 @@ export default function Completed() {
                 style={{
                   padding: "2rem",
                   marginBottom: "2.5rem",
-                  border: `1px solid ${rankAccent(myRank)}`,
+                  border: `1px solid ${tier === "timed-out" ? "oklch(0.55 0.2 25 / 0.5)" : rankAccent(myRank)}`,
                   borderRadius: "8px",
                   background: "rgba(10,10,15,0.55)",
-                  boxShadow: `0 0 40px ${rankAccent(myRank)} 22`.replace(/ 22$/, "33"),
+                  boxShadow:
+                    tier === "timed-out"
+                      ? "0 0 28px oklch(0.5 0.2 25 / 0.22)"
+                      : `0 0 40px ${rankAccent(myRank)}33`,
                   textAlign: "left",
                 }}
               >
@@ -167,10 +238,13 @@ export default function Completed() {
                       fontWeight: 700,
                       letterSpacing: "0.22em",
                       textTransform: "uppercase",
-                      color: rankAccent(myRank),
+                      color:
+                        tier === "timed-out"
+                          ? "oklch(0.7 0.2 25)"
+                          : rankAccent(myRank),
                     }}
                   >
-                    Your Result
+                    {tier === "timed-out" ? "Did Not Finish" : "Your Result"}
                   </span>
                   <span
                     style={{
@@ -185,21 +259,50 @@ export default function Completed() {
                     Rank {myRank.toString().padStart(2, "0")} of {rows.length}
                   </span>
                 </div>
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(3, 1fr)",
-                    gap: "1rem",
-                  }}
-                >
-                  <Stat label="Challenge 1" value={formatMs(myRow.c1_elapsed_ms)} />
-                  <Stat label="Challenge 2" value={formatMs(myRow.c2_elapsed_ms)} />
-                  <Stat
-                    label="Total"
-                    value={formatMs(myRow.total_ms)}
-                    accent={rankAccent(myRank)}
-                  />
-                </div>
+
+                {tier === "timed-out" ? (
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "2fr 1fr",
+                      gap: "1rem",
+                      alignItems: "end",
+                    }}
+                  >
+                    <Stat
+                      label="Solved"
+                      value={`${myRow.questions_complete} / 10`}
+                      accent="oklch(0.7 0.2 25)"
+                    />
+                    <Stat
+                      label="Final Score"
+                      value={formatMs(myRow.total_ms)}
+                    />
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(3, 1fr)",
+                      gap: "1rem",
+                    }}
+                  >
+                    <Stat
+                      label="Challenge 1 done"
+                      value={formatMs(myRow.c1_elapsed_ms)}
+                    />
+                    <Stat
+                      label="Challenge 2 done"
+                      value={formatMs(myRow.c2_elapsed_ms)}
+                    />
+                    <Stat
+                      label="Total"
+                      value={formatMs(myRow.total_ms)}
+                      accent={rankAccent(myRank)}
+                    />
+                  </div>
+                )}
+
                 <div
                   style={{
                     marginTop: "1rem",
@@ -210,9 +313,11 @@ export default function Completed() {
                     color: "rgba(200,200,220,0.7)",
                   }}
                 >
-                  {myRow.wrong_count > 0
-                    ? `${myRow.wrong_count} wrong guess${myRow.wrong_count === 1 ? "" : "es"} · +${myRow.wrong_count * 15}s penalty baked into total`
-                    : "Clean run — no wrong guesses."}
+                  {tier === "timed-out"
+                    ? `Workshop timer expired. ${myRow.questions_complete} of 10 questions solved${myRow.wrong_count > 0 ? ` · ${myRow.wrong_count} wrong (+${myRow.wrong_count * 15}s)` : ""}.`
+                    : myRow.wrong_count > 0
+                      ? `${myRow.wrong_count} wrong guess${myRow.wrong_count === 1 ? "" : "es"} · +${myRow.wrong_count * 15}s penalty baked into total`
+                      : "Clean run — no wrong guesses."}
                 </div>
               </div>
             </motion.div>
