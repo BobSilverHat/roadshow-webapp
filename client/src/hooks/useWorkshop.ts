@@ -54,6 +54,7 @@ export function useWorkshop({ attendeeId }: Options): WorkshopState {
   const [c1Completed, setC1Completed] = useState(false);
   const [c2Completed, setC2Completed] = useState(false);
   const [challengeOpen, setChallengeOpen] = useState<boolean>(false);
+  const [openedAt, setOpenedAt] = useState<string | null>(null);
   const [now, setNow] = useState<number>(() => Date.now());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -66,7 +67,7 @@ export function useWorkshop({ attendeeId }: Options): WorkshopState {
   const fetchGate = useCallback(async () => {
     const { data, error: gateError } = await supabase
       .from("workshop_config")
-      .select("challenge_open")
+      .select("challenge_open, opened_at")
       .eq("id", 1)
       .maybeSingle();
     if (gateError) {
@@ -75,6 +76,7 @@ export function useWorkshop({ attendeeId }: Options): WorkshopState {
       return;
     }
     setChallengeOpen(!!data?.challenge_open);
+    setOpenedAt(data?.opened_at ?? null);
   }, []);
 
   const refresh = useCallback(async () => {
@@ -114,17 +116,19 @@ export function useWorkshop({ attendeeId }: Options): WorkshopState {
     };
   }, [attendeeId, refresh]);
 
-  // Derived values
-  const expiresAt = startedAt
-    ? new Date(new Date(startedAt).getTime() + WORKSHOP_DURATION_MS).toISOString()
+  // Derived values — GLOBAL expiry. The 35-minute window is anchored on
+  // workshop_config.opened_at (set when the admin opens the gate), not the
+  // user's individual started_at. Late joiners get a shortened window.
+  const expiresAt = openedAt
+    ? new Date(new Date(openedAt).getTime() + WORKSHOP_DURATION_MS).toISOString()
     : null;
   const expiresAtMs = expiresAt ? new Date(expiresAt).getTime() : 0;
   const isExpired = expiresAt ? now > expiresAtMs : false;
   const isComplete = c1Completed && c2Completed;
 
   // Status precedence: loading > complete > expired > locked > ready > in_progress.
-  // Once started_at is set the user is past the gate, so "locked" is only
-  // ever evaluated while pre-begin (which is the only time it matters).
+  // "expired" can fire whether or not this user clicked Begin — the global
+  // clock locks everyone out at the same wall-clock moment.
   let status: WorkshopStatus;
   if (loading) status = "loading";
   else if (isComplete) status = "complete";

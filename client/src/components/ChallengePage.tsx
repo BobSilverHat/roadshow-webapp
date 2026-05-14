@@ -208,9 +208,6 @@ export default function ChallengePage({
     <>
       <ChallengeHeader
         title={title}
-        remainingMs={workshop.remainingMs}
-        isComplete={workshop.status === "complete"}
-        isExpired={workshop.status === "expired"}
         wrongCount={wrongCount}
         attendeeName={attendee.name}
         solvedCount={solvedCount}
