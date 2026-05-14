@@ -1,6 +1,9 @@
 /**
- * Pre-Begin intro block for a challenge page. Shows challenge metadata
- * plus the Begin Challenge button that starts the wall-clock timer.
+ * Pre-Begin intro block for Challenge 1. Shows workshop metadata plus
+ * the Begin Workshop button that starts the shared 35-minute timer
+ * covering BOTH challenges. Only rendered on /challenge/1 when the
+ * workshop hasn't begun; /challenge/2 in the same state redirects to
+ * /challenge/1 (see ChallengePage).
  */
 
 import { useState } from "react";
@@ -77,10 +80,25 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
           marginBottom: "1rem",
         }}
       >
+        You have <span className="accent-link">35 minutes</span> total to complete both
+        challenges. Starting Challenge 1 unlocks Challenge 2 — work them in any order, and
+        switch between them at will. When the timer hits zero, submissions lock and you'll
+        be taken to your results.
+      </p>
+      <p
+        style={{
+          fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
+          fontSize: "0.875rem",
+          fontWeight: 300,
+          lineHeight: 1.65,
+          color: "rgba(200,200,220,0.85)",
+          marginBottom: "1rem",
+        }}
+      >
         Every answer lives inside the Salt platform. Open it in another tab, hunt through
-        the UI, submit each flag here. Your timer starts the moment you click Begin.
-        Wrong guesses add <span className="accent-link">+15 seconds</span> each, so take
-        the time to get it right.
+        the UI, submit each flag here. Wrong guesses add{" "}
+        <span className="accent-link">+15 seconds</span> each, so take the time to get it
+        right.
       </p>
       <p
         style={{
@@ -145,7 +163,7 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
         }}
       >
         <span style={{ position: "relative", zIndex: 1 }}>
-          {submitting ? "Starting…" : "Begin Challenge"}
+          {submitting ? "Starting…" : "Begin Workshop"}
         </span>
       </button>
     </motion.section>
