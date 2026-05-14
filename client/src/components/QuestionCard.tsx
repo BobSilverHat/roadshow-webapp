@@ -50,7 +50,7 @@ export default function QuestionCard({
     const result = await onSubmit(questionId, value);
     if (!result.ok) {
       setStatus("error");
-      setErrorMsg(result.error ?? "submit_failed");
+      setErrorMsg(friendlyError(result.error ?? "submit_failed"));
       return;
     }
     if (result.correct) {
@@ -227,6 +227,21 @@ export default function QuestionCard({
 
 function pad(n: number): string {
   return n.toString().padStart(2, "0");
+}
+
+function friendlyError(code: string): string {
+  switch (code) {
+    case "time_expired":
+      return "Time's up — answer not submitted.";
+    case "challenge_not_begun":
+      return "Couldn't submit. Refresh and try again.";
+    case "already_answered":
+      return "Already solved on another tab.";
+    case "not_registered":
+      return "Registration expired. Refresh to re-register.";
+    default:
+      return "Submission failed. Try again.";
+  }
 }
 
 const cardHeaderStyle = {

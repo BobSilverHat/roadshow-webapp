@@ -17,8 +17,6 @@ interface Props {
   totalQuestions: number;
 }
 
-const PENALTY_PER_WRONG_MS = 15_000;
-
 function formatMs(ms: number): string {
   const total = Math.max(0, Math.floor(ms / 1000));
   const m = Math.floor(total / 60);

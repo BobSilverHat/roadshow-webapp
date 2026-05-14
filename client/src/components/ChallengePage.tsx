@@ -144,7 +144,7 @@ export default function ChallengePage({
     );
   }
 
-  if (status === "error") {
+  if (status === "error" || workshop.error) {
     return (
       <div
         style={{
@@ -158,7 +158,7 @@ export default function ChallengePage({
           color: "oklch(0.7 0.2 25)",
         }}
       >
-        Couldn't load the challenge: {error}
+        Couldn't load the challenge: {error ?? workshop.error}
       </div>
     );
   }
