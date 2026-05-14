@@ -118,8 +118,9 @@ export default function Leaderboard() {
               }}
             >
               Sort order: questions solved (desc), total time (asc), wrong guesses
-              (asc). Wrong answers add 15 seconds to your total. Total time only
-              populates once both challenges are complete.
+              (asc). Wrong answers add 15 seconds to your total. Total time
+              populates once both challenges are complete, or once the 35-minute
+              workshop timer expires.
             </p>
           </motion.div>
         </section>

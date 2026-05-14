@@ -130,28 +130,6 @@ export function useChallenge({ challengeId, attendeeId }: UseChallengeOptions) {
     };
   }, [challengeId, attendeeId]);
 
-  const begin = useCallback(async (): Promise<boolean> => {
-    setError(null);
-    const { data, error: rpcError } = await supabase.rpc("begin_challenge", {
-      p_challenge_id: challengeId,
-    });
-    if (rpcError) {
-      setError(rpcError.message);
-      return false;
-    }
-    if (!data?.ok) {
-      setError(data?.error ?? "begin_failed");
-      return false;
-    }
-    setState((prev) => ({
-      started_at: data.started_at,
-      completed_at: prev?.completed_at ?? null,
-      wrong_count: prev?.wrong_count ?? 0,
-    }));
-    setStatus("in_progress");
-    return true;
-  }, [challengeId]);
-
   const submit = useCallback(
     async (questionId: string, submission: string): Promise<SubmitResult> => {
       const { data, error: rpcError } = await supabase.rpc("submit_answer", {
@@ -200,7 +178,6 @@ export function useChallenge({ challengeId, attendeeId }: UseChallengeOptions) {
     error,
     totalQuestions,
     solvedCount,
-    begin,
     submit,
   };
 }
