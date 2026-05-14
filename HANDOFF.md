@@ -324,6 +324,54 @@ production static server.
 
 ---
 
+## Deployment — workshop.salt-nexus.com
+
+The app is hosted on AWS as a static SPA: S3 origin + CloudFront edge +
+ACM TLS + Route 53 alias, all in the `salt-nexus.com` Route 53 hosted
+zone (account `050717059527`).
+
+| Resource | Identifier |
+|---|---|
+| S3 bucket | `workshop-salt-nexus-com` (us-east-1, private, OAC-only) |
+| CloudFront distribution | `E3BZK6LL6YD55I` → `d2w2mauyvq1rcn.cloudfront.net` |
+| ACM cert | `arn:aws:acm:us-east-1:050717059527:certificate/3216b71e-…` |
+| Route 53 zone | `Z03793762PHPI5UBV8ZUK` (`salt-nexus.com.`) |
+| Alias record | A + AAAA `workshop.salt-nexus.com` → CloudFront |
+| Origin Access Control | `E1HFV91D03503B` |
+
+### Redeploy
+
+```bash
+set -a; source .env.local; set +a
+./scripts/deploy.sh
+```
+
+The script builds, syncs to S3, and invalidates `/` + `/index.html` on
+CloudFront. Asset URLs are hash-versioned so they bust naturally; only
+the HTML needs invalidation. End-to-end takes ~1 minute.
+
+### Notes / known issues
+
+- The dev/staging `index.html` references `%VITE_ANALYTICS_ENDPOINT%`
+  and `%VITE_ANALYTICS_WEBSITE_ID%`. Those aren't set, so the deployed
+  page will 404 on the `<script src="%VITE_ANALYTICS_ENDPOINT%/umami">`
+  tag. Harmless but ugly — remove or wire to real analytics later.
+- `dist/public/__manus__/debug-collector.js` and `.gitkeep` got synced
+  too. Both harmless; clean up the `client/public/` tree later if you
+  care.
+- IAM user `nexus_host` has had `AmazonS3FullAccess` and
+  `CloudFrontFullAccess` attached on top of the original policies to
+  enable this deployment. Detach with:
+  ```bash
+  aws iam detach-user-policy --user-name nexus_host \
+    --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess
+  aws iam detach-user-policy --user-name nexus_host \
+    --policy-arn arn:aws:iam::aws:policy/CloudFrontFullAccess
+  ```
+  …if you want to tighten back down after the workshop.
+
+---
+
 ## Admin controls — running a workshop session
 
 `public.workshop_config` holds two independent admin gates:

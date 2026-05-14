@@ -45,8 +45,8 @@ const COPY: Record<NonNullable<Props["variant"]>, VariantCopy> = {
     headlineLead: "Salt",
     headlineAccent: "Nexus Opens Soon",
     body:
-      "Salt Nexus unlocks once the challenge phase wraps up. Your admin will release " +
-      "it when the 35-minute timer ends — stay in this tab and we'll route you to " +
+      "Nexus unlocks once the challenge phase wraps up. Your admin will release " +
+      "it when the 35-minute timer ends, stay in this tab and we'll route you to " +
       "the live attack simulation the moment it opens.",
     dotMatrixLabel: "Nexus standby pulse",
   },

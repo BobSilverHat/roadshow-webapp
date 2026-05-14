@@ -113,7 +113,7 @@ export default function SaltNexus() {
             style={{ ...bodyParagraph, marginBottom: "2.5rem" }}
           >
             You've discovered the API surface. You've governed it. You've protected it.
-            Now watch what happens when those defenses aren't in place — on a target that
+            Now watch what happens when those defenses aren't in place, on a target that
             lives on the public web.
           </motion.p>
 
@@ -140,7 +140,7 @@ export default function SaltNexus() {
                 margin: "0 0 1rem",
               }}
             >
-              McKinsey's AI Wasn't Hacked — Its APIs Were.
+              McKinsey's AI Wasn't Hacked. Its APIs Were.
             </h2>
             <p style={bodyParagraph}>
               In March 2026, security researchers disclosed a significant breach of{" "}
@@ -150,7 +150,7 @@ export default function SaltNexus() {
             </p>
             <p style={bodyParagraph}>
               The attack didn't target the model. It targeted the API surface beneath
-              it — inadequately secured endpoints and over-privileged access. The agent
+              it, inadequately secured endpoints and over-privileged access. The agent
               enumerated 22 unauthorized endpoints, leveraged a SQL injection to gain
               read/write on the production database, and walked away with the corpus
               the model was trained to query.
@@ -240,7 +240,7 @@ export default function SaltNexus() {
             </h2>
             <p style={bodyParagraph}>
               The model behaved exactly as designed. The walls behind it didn't. That's
-              the gap Salt sits in — <span className="accent-link">discovery</span>,{" "}
+              the gap Salt sits in, <span className="accent-link">discovery</span>,{" "}
               <span className="accent-link">posture</span>, and{" "}
               <span className="accent-link">runtime</span> for every interface an
               autonomous agent can reach, including the ones the platform team didn't
