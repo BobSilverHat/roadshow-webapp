@@ -15,6 +15,8 @@ const ERROR_COPY: Record<string, string> = {
     "Couldn't start a session. Anonymous auth may be disabled on the project.",
   attendee_fetch_failed: "Registered, but couldn't load your profile. Refresh.",
   session_lost: "Your session expired. Refresh and try again.",
+  stale_session:
+    "Your previous session is no longer valid. Refresh the page and try again.",
   registration_failed: "Registration failed. Try again.",
 };
 

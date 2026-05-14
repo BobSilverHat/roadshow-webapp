@@ -59,6 +59,18 @@ export function useAttendee() {
     };
   }, []);
 
+  async function ensureFreshSession() {
+    // Sign out any existing session, then mint a fresh anonymous user.
+    // Used both for first-time registration and for recovery from a
+    // stale JWT (e.g., workshop reset wiped auth.users).
+    await supabase.auth.signOut();
+    const { data: signIn, error: signInError } = await supabase.auth.signInAnonymously();
+    if (signInError || !signIn.session) {
+      return { ok: false as const, error: signInError?.message ?? "anonymous_signin_failed" };
+    }
+    return { ok: true as const, session: signIn.session };
+  }
+
   async function register(name: string, email: string): Promise<RegisterResult> {
     setError(null);
 
@@ -73,10 +85,27 @@ export function useAttendee() {
       session = signIn.session;
     }
 
-    const { data, error: rpcError } = await supabase.rpc("register_attendee", {
+    let { data, error: rpcError } = await supabase.rpc("register_attendee", {
       p_name: name,
       p_email: email,
     });
+
+    // Stale-session recovery: the existing JWT's auth.uid() no longer
+    // exists in auth.users (e.g., the workshop tree was reset). Drop the
+    // JWT, mint a fresh anonymous user, and retry once.
+    if (data?.ok === false && data?.error === "stale_session") {
+      const fresh = await ensureFreshSession();
+      if (!fresh.ok) {
+        setError(fresh.error);
+        return { ok: false, error: fresh.error };
+      }
+      session = fresh.session;
+      ({ data, error: rpcError } = await supabase.rpc("register_attendee", {
+        p_name: name,
+        p_email: email,
+      }));
+    }
+
     if (rpcError) {
       setError(rpcError.message);
       return { ok: false, error: rpcError.message };
