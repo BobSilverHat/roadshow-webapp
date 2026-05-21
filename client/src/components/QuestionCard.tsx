@@ -7,6 +7,9 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import BorderGlow from "@/components/BorderGlow";
+import HintBulbButton from "@/components/HintBulbButton";
+import HintModal from "@/components/HintModal";
+import type { HintError, HintReveal } from "@/hooks/useHints";
 
 interface Props {
   orderIdx: number;
@@ -18,6 +21,18 @@ interface Props {
    *  on page reload when the in-session `solvedValue` is empty. */
   solvedAnswer?: string;
   locked?: boolean;
+  /** Total hints configured for this question (0 disables the bulb). */
+  hintCount?: number;
+  /** Indices the user has already paid for. */
+  paidHintIdxs?: Set<number>;
+  /** Hints with text known to the client (after the modal opened). */
+  revealedHints?: HintReveal[];
+  /** Wraps useHints.requestHint, scoped to this question. */
+  onRequestHint?: (idx: number) => Promise<{
+    ok: boolean;
+    hint?: string;
+    error?: HintError;
+  }>;
   onSubmit: (
     questionId: string,
     submission: string,
@@ -35,6 +50,10 @@ export default function QuestionCard({
   isSolved,
   solvedAnswer,
   locked = false,
+  hintCount = 0,
+  paidHintIdxs,
+  revealedHints,
+  onRequestHint,
   onSubmit,
 }: Props) {
   const [value, setValue] = useState("");
@@ -44,6 +63,7 @@ export default function QuestionCard({
   // the just-solved card can display exactly what they typed (instead of
   // the alphabetized canonical form returned by the DB on reload).
   const [solvedValue, setSolvedValue] = useState<string | null>(null);
+  const [hintOpen, setHintOpen] = useState(false);
 
   // Clear flash after a beat
   useEffect(() => {
@@ -51,6 +71,19 @@ export default function QuestionCard({
     const id = window.setTimeout(() => setStatus("idle"), FLASH_DURATION_MS);
     return () => window.clearTimeout(id);
   }, [status]);
+
+  // When the modal opens with paid-but-unrevealed hints, replay
+  // request_hint for each so the text loads into state. Each call
+  // returns already_charged: true, so the penalty is NOT re-applied.
+  useEffect(() => {
+    if (!hintOpen || !onRequestHint) return;
+    if (!paidHintIdxs || paidHintIdxs.size === 0) return;
+    const haveTextFor = new Set((revealedHints ?? []).map((r) => r.idx));
+    const missing = Array.from(paidHintIdxs).filter((i) => !haveTextFor.has(i));
+    missing.forEach((idx) => {
+      onRequestHint(idx);
+    });
+  }, [hintOpen, paidHintIdxs, revealedHints, onRequestHint]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -196,6 +229,9 @@ export default function QuestionCard({
   // moment after a wrong answer, then fades back to transparent so the
   // mesh-gradient edge glow shows through normally.
   const flashBg = flashWrong ? "oklch(0.3 0.12 25 / 0.3)" : "transparent";
+  const allUsed = hintCount > 0 && (paidHintIdxs?.size ?? 0) >= hintCount;
+  const bulbVisible = hintCount > 0 && !allUsed && !!onRequestHint;
+  const partiallyUsed = (paidHintIdxs?.size ?? 0) > 0;
 
   return (
     <BorderGlow
@@ -214,6 +250,7 @@ export default function QuestionCard({
       animate={flashWrong ? { x: [0, -6, 6, -4, 4, 0] } : { x: 0 }}
       transition={{ duration: 0.4 }}
       style={{
+        position: "relative",
         padding: "1.25rem 1.35rem",
         background: flashBg,
         transition: "background 0.3s",
@@ -222,6 +259,12 @@ export default function QuestionCard({
         flexDirection: "column",
       }}
     >
+      {bulbVisible && (
+        <HintBulbButton
+          onClick={() => setHintOpen(true)}
+          partiallyUsed={partiallyUsed}
+        />
+      )}
       <div style={cardHeaderStyle}>
         <span className="section-label">Question {pad(orderIdx)}</span>
       </div>
@@ -285,6 +328,16 @@ export default function QuestionCard({
         </div>
       )}
     </motion.form>
+    {onRequestHint && (
+      <HintModal
+        open={hintOpen}
+        questionLabel={pad(orderIdx)}
+        hintCount={hintCount}
+        revealed={revealedHints ?? []}
+        onRequestReveal={onRequestHint}
+        onClose={() => setHintOpen(false)}
+      />
+    )}
     </BorderGlow>
   );
 }
