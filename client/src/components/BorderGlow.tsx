@@ -26,6 +26,10 @@ interface BorderGlowProps {
   loop?: boolean;
   /** Seconds per full revolution when `loop` is true. Defaults to 6. */
   loopPeriodSec?: number;
+  /** When true, the outer-halo box-shadow paints OUTWARD only — no inward
+   *  bleed into the card interior. Use this when the inside of the card
+   *  should stay visually clean. */
+  outerGlowOnly?: boolean;
   colors?: string[];
   fillOpacity?: number;
 }
@@ -36,16 +40,23 @@ function parseHSL(hslStr: string): { h: number; s: number; l: number } {
   return { h: parseFloat(match[1]), s: parseFloat(match[2]), l: parseFloat(match[3]) };
 }
 
-function buildBoxShadow(glowColor: string, intensity: number): string {
+function buildBoxShadow(
+  glowColor: string,
+  intensity: number,
+  outerOnly = false,
+): string {
   const { h, s, l } = parseHSL(glowColor);
   const base = `${h}deg ${s}% ${l}%`;
-  const layers: [number, number, number, number, number, boolean][] = [
+  const all: [number, number, number, number, number, boolean][] = [
     [0, 0, 0, 1, 100, true], [0, 0, 1, 0, 60, true], [0, 0, 3, 0, 50, true],
     [0, 0, 6, 0, 40, true], [0, 0, 15, 0, 30, true], [0, 0, 25, 2, 20, true],
     [0, 0, 50, 2, 10, true],
     [0, 0, 1, 0, 60, false], [0, 0, 3, 0, 50, false], [0, 0, 6, 0, 40, false],
     [0, 0, 15, 0, 30, false], [0, 0, 25, 2, 20, false], [0, 0, 50, 2, 10, false],
   ];
+  // outerOnly skips inset layers so the glow paints OUTWARD only — no
+  // inward bleed flooding the card interior.
+  const layers = outerOnly ? all.filter(([, , , , , inset]) => !inset) : all;
   return layers
     .map(([x, y, blur, spread, alpha, inset]) => {
       const a = Math.min(alpha * intensity, 100);
@@ -125,6 +136,7 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
   animated = false,
   loop = false,
   loopPeriodSec = 6,
+  outerGlowOnly = false,
   colors = ["#c084fc", "#f472b6", "#38bdf8"],
   fillOpacity = 0.5,
 }) => {
@@ -337,7 +349,7 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
           className="absolute rounded-[inherit]"
           style={{
             inset: `${glowRadius}px`,
-            boxShadow: buildBoxShadow(glowColor, glowIntensity),
+            boxShadow: buildBoxShadow(glowColor, glowIntensity, outerGlowOnly),
           }}
         />
       </span>

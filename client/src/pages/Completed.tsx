@@ -232,6 +232,7 @@ export default function Completed() {
               <BorderGlow
                 loop
                 fillOpacity={0}
+                outerGlowOnly
                 backgroundColor="rgba(10,10,15,0.55)"
                 borderRadius={8}
                 glowRadius={40}
