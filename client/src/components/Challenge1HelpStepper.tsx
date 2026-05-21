@@ -15,6 +15,7 @@
  * see HANDOFF.md for the expected filenames.
  */
 
+import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Stepper, { Step } from "@/components/Stepper";
 
@@ -63,11 +64,29 @@ export default function Challenge1HelpStepper({
   open,
   onClose,
 }: Challenge1HelpStepperProps) {
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+
+  // When the stepper opens, smooth-scroll it into the center of the
+  // viewport so it never lands below the fold. Delay matches the
+  // motion.div entrance + Stepper mount so the final layout is settled
+  // before we scroll.
+  useEffect(() => {
+    if (!open) return;
+    const t = window.setTimeout(() => {
+      wrapperRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }, 250);
+    return () => window.clearTimeout(t);
+  }, [open]);
+
   return (
     <AnimatePresence initial={false}>
       {open && (
         <motion.div
           key="challenge1-help-stepper"
+          ref={wrapperRef}
           // Enter: just fade + slide. Card mounts at full natural height
           // so the inner Stepper can measure its content correctly on
           // first paint — no racing height animations.
@@ -83,7 +102,7 @@ export default function Challenge1HelpStepper({
       backButtonText="Back"
       nextButtonText="Next"
       onFinalStepCompleted={onClose}
-      style={{ marginTop: "2rem", marginBottom: "3rem" }}
+      style={{ marginTop: "0.5rem", marginBottom: "3rem" }}
     >
       {/* ── Step 1 — Launch Salt ────────────────────────────────────── */}
       <Step>
