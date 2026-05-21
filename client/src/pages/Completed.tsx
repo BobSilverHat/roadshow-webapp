@@ -233,7 +233,7 @@ export default function Completed() {
                 loop
                 fillOpacity={0}
                 outerGlowOnly
-                backgroundColor="rgba(10,10,15,0.55)"
+                backgroundColor="#0e0e16"
                 borderRadius={8}
                 glowRadius={40}
                 glowIntensity={0.9}
