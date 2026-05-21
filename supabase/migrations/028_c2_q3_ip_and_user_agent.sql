@@ -12,7 +12,7 @@
 update public.questions
 set
   prompt =
-    'What''s the IP of this attacker, and what is one distinct user-agent they were seen using?',
+    'What''s the IP of this attacker ''HASHED:b5054931dd19c11e05ca180bd8bc3981'', and what is one distinct user-agent they were seen using?',
   answer_hash = encode(
     extensions.digest(
       public.normalize_answer('10.0.1.197, Sora-BillingAgent/1.0 MCPClient'),
