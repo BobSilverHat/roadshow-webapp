@@ -231,6 +231,7 @@ export default function Completed() {
               <div style={{ marginBottom: "2.5rem", textAlign: "left" }}>
               <BorderGlow
                 loop
+                fillOpacity={0}
                 backgroundColor="rgba(10,10,15,0.55)"
                 borderRadius={8}
                 glowRadius={40}
