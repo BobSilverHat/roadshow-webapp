@@ -477,32 +477,32 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
                     background: 'none',
                     border: 'none',
                     textAlign: 'left',
-                    padding: '0.35rem 0',
+                    padding: '0.42rem 0',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '0.5rem',
+                    gap: '0.6rem',
                     cursor: 'pointer',
                     width: '100%',
                     fontFamily: "'Casta', 'Barlow Condensed', serif",
-                    fontSize: '0.9rem',
+                    fontSize: '1.05rem',
                     fontWeight: '600',
                     letterSpacing: '0.04em',
-                    color: isActive ? 'rgba(248,250,255,1)' : 'rgba(185,185,205,0.72)',
+                    color: isActive ? 'rgba(248,250,255,1)' : 'rgba(210,210,225,0.9)',
                     transition: 'color 0.2s',
                   }}
                   onMouseEnter={(e) => {
-                    if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(232,232,240,0.95)';
+                    if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(248,250,255,1)';
                   }}
                   onMouseLeave={(e) => {
-                    if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(185,185,205,0.72)';
+                    if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(210,210,225,0.9)';
                   }}
                 >
                   <span
                     style={{
-                      width: '5px',
-                      height: '5px',
+                      width: '6px',
+                      height: '6px',
                       borderRadius: '50%',
-                      backgroundColor: isActive ? 'oklch(0.65 0.25 290)' : 'rgba(150,150,170,0.4)',
+                      backgroundColor: isActive ? 'oklch(0.65 0.25 290)' : 'rgba(170,170,190,0.55)',
                       flexShrink: 0,
                       transition: 'background-color 0.2s',
                       boxShadow: isActive ? '0 0 6px oklch(0.65 0.25 290 / 0.6)' : 'none',
@@ -535,19 +535,19 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
                             background: 'none',
                             border: 'none',
                             textAlign: 'left',
-                            padding: '0.22rem 0',
+                            padding: '0.26rem 0',
                             cursor: 'pointer',
                             fontFamily: "'Casta', 'Barlow Condensed', serif",
-                            fontSize: '0.78rem',
+                            fontSize: '0.9rem',
                             letterSpacing: '0.01em',
-                            color: isSubActive ? 'rgba(232,232,240,0.95)' : 'rgba(130,130,150,0.45)',
+                            color: isSubActive ? 'rgba(248,250,255,1)' : 'rgba(180,180,200,0.7)',
                             transition: 'color 0.2s',
                           }}
                           onMouseEnter={(e) => {
-                            if (!isSubActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(200,200,220,0.75)';
+                            if (!isSubActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(232,232,240,0.95)';
                           }}
                           onMouseLeave={(e) => {
-                            if (!isSubActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(130,130,150,0.45)';
+                            if (!isSubActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(180,180,200,0.7)';
                           }}
                         >
                           {sub.label}
