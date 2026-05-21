@@ -6,6 +6,7 @@
  */
 
 import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import BorderGlow from "@/components/BorderGlow";
 import type { HintError, HintReveal } from "@/hooks/useHints";
@@ -90,9 +91,12 @@ export default function HintModal({
     [revealed],
   );
 
+  // Portal to document.body so the fixed-position overlay escapes any
+  // transformed ancestor (BorderGlow's translate3d creates a containing
+  // block that breaks `position: fixed` for descendants).
   return (
     <AnimatePresence>
-      {open && (
+      {open && createPortal(
         <motion.div
           key="hint-modal"
           initial={{ opacity: 0 }}
@@ -330,7 +334,8 @@ export default function HintModal({
               </div>
             </BorderGlow>
           </motion.div>
-        </motion.div>
+        </motion.div>,
+        document.body,
       )}
     </AnimatePresence>
   );
