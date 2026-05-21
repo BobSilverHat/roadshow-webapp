@@ -131,15 +131,19 @@ export default function ChallengePage({
   }, [completedAtSig, workshopRefresh]);
 
   // Time's-up handler: one-shot. Fades in the overlay, then auto-navs.
+  // No cleanup-clear on the timer — once we've decided to nav, we MUST
+  // nav. Any re-run of this effect (from dep identity changes, hint
+  // state updates, etc.) used to call clearTimeout in cleanup, which
+  // could wipe the pending nav and strand users on the expired page.
+  // The handled-ref guards against scheduling more than one timer.
   useEffect(() => {
     if (workshop.status !== "expired") return;
     if (timeUpHandledRef.current) return;
     timeUpHandledRef.current = true;
     setShowTimeUp(true);
-    const t = window.setTimeout(() => {
+    window.setTimeout(() => {
       navigate("/completed", { replace: true });
     }, TIME_UP_AUTONAV_DELAY_MS);
-    return () => window.clearTimeout(t);
   }, [workshop.status, navigate]);
 
   // When the hook transitions to "complete", raise the reveal overlay,
