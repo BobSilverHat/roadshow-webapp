@@ -93,10 +93,12 @@ export default function HintModal({
 
   // Portal to document.body so the fixed-position overlay escapes any
   // transformed ancestor (BorderGlow's translate3d creates a containing
-  // block that breaks `position: fixed` for descendants).
-  return (
+  // block that breaks `position: fixed` for descendants). The portal
+  // wraps AnimatePresence — not the other way around — so AnimatePresence
+  // can see motion.div as its direct child and track mount/unmount.
+  return createPortal(
     <AnimatePresence>
-      {open && createPortal(
+      {open && (
         <motion.div
           key="hint-modal"
           initial={{ opacity: 0 }}
@@ -334,10 +336,10 @@ export default function HintModal({
               </div>
             </BorderGlow>
           </motion.div>
-        </motion.div>,
-        document.body,
+        </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }
 
