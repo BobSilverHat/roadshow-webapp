@@ -12,6 +12,7 @@ export interface ChallengeQuestion {
   id: string;
   order_idx: number;
   prompt: string;
+  hint_count: number;
 }
 
 export interface ChallengeState {
@@ -52,7 +53,7 @@ async function fetchMeta(challengeId: number): Promise<ChallengeMeta | null> {
 async function fetchQuestions(challengeId: number): Promise<ChallengeQuestion[]> {
   const { data, error } = await supabase
     .from("questions_public")
-    .select("id, order_idx, prompt")
+    .select("id, order_idx, prompt, hint_count")
     .eq("challenge_id", challengeId)
     .order("order_idx");
   if (error) throw error;
