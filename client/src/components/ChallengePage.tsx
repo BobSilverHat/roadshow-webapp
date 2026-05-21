@@ -15,6 +15,7 @@ import QuestionCard from "@/components/QuestionCard";
 import MagicRingsButton from "@/components/MagicRingsButton";
 import WaitingOverlay from "@/components/WaitingOverlay";
 import { useChallenge } from "@/hooks/useChallenge";
+import { useHints, type HintReveal } from "@/hooks/useHints";
 import { useWorkshop } from "@/hooks/useWorkshop";
 import { supabase } from "@/lib/supabase";
 
@@ -82,6 +83,18 @@ export default function ChallengePage({
     totalQuestions,
     submit,
   } = useChallenge({ challengeId, attendeeId: attendee.id });
+  const hints = useHints({ attendeeId: attendee.id });
+
+  function buildRevealed(questionId: string): HintReveal[] {
+    const state = hints.getState(questionId);
+    return Array.from(state.revealed.entries())
+      .map(([idx, text]) => ({ idx, text }))
+      .sort((a, b) => a.idx - b.idx);
+  }
+
+  function makeOnRequestHint(questionId: string) {
+    return (idx: number) => hints.requestHint(questionId, idx);
+  }
   const [revealed, setRevealed] = useState(false);
   const [snapshot, setSnapshot] = useState<LeaderboardSnapshot[] | null>(null);
   const [myRank, setMyRank] = useState<number | null>(null);
@@ -205,6 +218,10 @@ export default function ChallengePage({
   const beganAt = state?.started_at ?? null;
   const completedAt = state?.completed_at ?? null;
   const wrongCount = state?.wrong_count ?? 0;
+  const myHintCount = questions.reduce(
+    (sum, q) => sum + hints.getState(q.id).paidIdxs.size,
+    0,
+  );
   const title = meta
     ? `Challenge ${challengeNumber} — ${titleWithoutPrefix(meta.title)}`
     : `Challenge ${challengeNumber}`;
@@ -236,7 +253,8 @@ export default function ChallengePage({
   const finalMs = beganAt && completedAt
     ? new Date(completedAt).getTime() -
       new Date(beganAt).getTime() +
-      wrongCount * PENALTY_PER_WRONG_MS
+      wrongCount * PENALTY_PER_WRONG_MS +
+      myHintCount * 60_000
     : 0;
 
   return (
@@ -277,6 +295,10 @@ export default function ChallengePage({
                 isSolved={progress.has(questions[i].id)}
                 solvedAnswer={solvedAnswers.get(questions[i].id)}
                 locked={isLocked}
+                hintCount={questions[i].hint_count}
+                paidHintIdxs={hints.getState(questions[i].id).paidIdxs}
+                revealedHints={buildRevealed(questions[i].id)}
+                onRequestHint={makeOnRequestHint(questions[i].id)}
                 onSubmit={submit}
               />
             </motion.div>
@@ -304,6 +326,10 @@ export default function ChallengePage({
                   isSolved={progress.has(questions[4].id)}
                   solvedAnswer={solvedAnswers.get(questions[4].id)}
                   locked={isLocked}
+                  hintCount={questions[4].hint_count}
+                  paidHintIdxs={hints.getState(questions[4].id).paidIdxs}
+                  revealedHints={buildRevealed(questions[4].id)}
+                  onRequestHint={makeOnRequestHint(questions[4].id)}
                   onSubmit={submit}
                 />
               </motion.div>
@@ -334,6 +360,10 @@ export default function ChallengePage({
                 isSolved={progress.has(q.id)}
                 solvedAnswer={solvedAnswers.get(q.id)}
                 locked={isLocked}
+                hintCount={q.hint_count}
+                paidHintIdxs={hints.getState(q.id).paidIdxs}
+                revealedHints={buildRevealed(q.id)}
+                onRequestHint={makeOnRequestHint(q.id)}
                 onSubmit={submit}
               />
             </motion.div>
@@ -407,6 +437,11 @@ export default function ChallengePage({
               {wrongCount > 0
                 ? `${wrongCount} wrong guess${wrongCount === 1 ? "" : "es"} (+${wrongCount * 15}s penalty baked in).`
                 : "Clean run — no wrong guesses."}
+              {myHintCount > 0 && (
+                <>
+                  {" "}· Used {myHintCount} hint{myHintCount === 1 ? "" : "s"} (+{myHintCount}m penalty baked in).
+                </>
+              )}
               {myRank !== null && <> · Current rank <strong style={{ color: "oklch(0.72 0.28 290)" }}>#{myRank}</strong></>}
             </p>
 
