@@ -125,3 +125,6 @@ client/public/__manus__/version.json
 
 # Raw screenshot drop directory (source images are renamed into client/public/steps/*)
 screenshots/
+
+# IDE workspace files (per-user, not shared)
+*.code-workspace

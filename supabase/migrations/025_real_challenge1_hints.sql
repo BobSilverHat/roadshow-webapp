@@ -31,7 +31,7 @@ where challenge_id = 1 and order_idx = 4;
 update public.questions
 set hints = array[
   'Open the Discovery Inventory, drill into the host ai.sora-financial.com, and count its distinct MCP methods.',
-  'Look for the standard MCP request types used to enumerate capabilities, list features, and trigger actions — methods like tools/list, resources/list, and prompts/list. Count each distinct method only once.',
-  'MCP methods also include calls such as tools/call and resources/read — your final total is under 10.'
+  'Look for the standard MCP request types used to enumerate capabilities, list features, and trigger actions; methods like tools/list, resources/list, and prompts/list. Count each distinct method only once.',
+  'MCP methods also include calls such as tools/call and resources/read, your final total is under 10.'
 ]
 where challenge_id = 1 and order_idx = 5;
