@@ -262,20 +262,19 @@ export default function HintModal({
                         role="alert"
                         style={{
                           padding: "0.7rem 0.9rem",
-                          border: "1px solid oklch(0.6 0.18 80 / 0.55)",
+                          border: "1px solid oklch(0.55 0.22 25 / 0.55)",
                           borderRadius: "4px",
-                          background: "oklch(0.2 0.07 80 / 0.22)",
+                          background: "oklch(0.22 0.09 25 / 0.25)",
                           fontFamily:
                             "'IBM Plex Mono', ui-monospace, monospace",
                           fontSize: "0.78rem",
                           lineHeight: 1.55,
-                          color: "oklch(0.88 0.16 85)",
+                          color: "oklch(0.78 0.18 25)",
                           textAlign: "center",
                           marginTop: "0.25rem",
                         }}
                       >
-                        ⚠ Last hint — write this down before closing.
-                        Once you close, the hint won't be visible again.
+                        ⚠ Last hint — once you close, the hint won't be visible again.
                       </div>
                     )}
                   </div>
