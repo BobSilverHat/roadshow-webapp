@@ -36,8 +36,9 @@ function WorkshopClockPill() {
   const isExpired = clock.status === 'expired';
 
   // Shared row chrome (border, layout). Content differs by state.
+  // Bottom positioning is handled by the Salt Access label's marginTop:auto
+  // in WorkshopLayout — this pill renders flush against it.
   const rowStyle = {
-    marginTop: 'auto',
     paddingTop: '1.25rem',
     borderTop: '1px solid rgba(255,255,255,0.06)',
     display: 'flex',
@@ -464,30 +465,6 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
           overflowY: 'auto',
         }}
       >
-        {/* Console Access label */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.4rem',
-            marginBottom: '2rem',
-          }}
-        >
-          <span style={{ color: 'oklch(0.65 0.25 290)', fontSize: '0.55rem' }}>◆</span>
-          <span
-            style={{
-              fontFamily: "'Casta', 'Barlow Condensed', serif",
-              fontSize: '0.7rem',
-              fontWeight: '700',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              color: 'rgba(200,200,220,0.8)',
-            }}
-          >
-            Console Access
-          </span>
-        </div>
-
         {/* Nav items */}
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem' }}>
           {NAV_ITEMS.map((item) => {
@@ -507,15 +484,17 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
                     cursor: 'pointer',
                     width: '100%',
                     fontFamily: "'Casta', 'Barlow Condensed', serif",
-                    fontSize: '0.875rem',
-                    color: isActive ? 'rgba(232,232,240,0.95)' : 'rgba(150,150,170,0.65)',
+                    fontSize: '0.9rem',
+                    fontWeight: '600',
+                    letterSpacing: '0.04em',
+                    color: isActive ? 'rgba(248,250,255,1)' : 'rgba(185,185,205,0.72)',
                     transition: 'color 0.2s',
                   }}
                   onMouseEnter={(e) => {
-                    if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(232,232,240,0.85)';
+                    if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(232,232,240,0.95)';
                   }}
                   onMouseLeave={(e) => {
-                    if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(150,150,170,0.65)';
+                    if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(185,185,205,0.72)';
                   }}
                 >
                   <span
@@ -582,7 +561,63 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
           })}
         </nav>
 
-        {/* Live workshop countdown — anchored to the bottom of the sidebar. */}
+        {/* Salt Access — external link to the Salt platform login. Docks
+            to the bottom of the sidebar, sitting directly above the
+            WorkshopClockPill so the pill's borderTop doubles as the visual
+            divider between this link and the timer. */}
+        <a
+          href="https://salt-labs.secured-api.com/login"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            marginTop: 'auto',
+            marginBottom: '0.85rem',
+            transformOrigin: 'left center',
+            transition: 'transform 0.25s ease, color 0.25s ease, text-shadow 0.25s ease',
+            cursor: 'pointer',
+            textDecoration: 'none',
+            width: 'fit-content',
+          }}
+          onMouseEnter={(e) => {
+            const el = e.currentTarget as HTMLAnchorElement;
+            el.style.transform = 'scale(1.06)';
+            const label = el.querySelector<HTMLSpanElement>('[data-salt-access-label]');
+            if (label) {
+              label.style.color = 'oklch(0.78 0.22 290)';
+              label.style.textShadow = '0 0 14px oklch(0.55 0.28 290 / 0.6)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget as HTMLAnchorElement;
+            el.style.transform = 'scale(1)';
+            const label = el.querySelector<HTMLSpanElement>('[data-salt-access-label]');
+            if (label) {
+              label.style.color = 'rgba(200,200,220,0.8)';
+              label.style.textShadow = 'none';
+            }
+          }}
+        >
+          <span style={{ color: 'oklch(0.65 0.25 290)', fontSize: '0.65rem', lineHeight: 1 }}>◆</span>
+          <span
+            data-salt-access-label
+            style={{
+              fontFamily: "'Casta', 'Barlow Condensed', serif",
+              fontSize: '0.9rem',
+              fontWeight: '700',
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              color: 'rgba(200,200,220,0.8)',
+              transition: 'color 0.25s ease, text-shadow 0.25s ease',
+            }}
+          >
+            Salt Access
+          </span>
+        </a>
+
+        {/* Live workshop countdown — pinned to the bottom under Salt Access. */}
         <WorkshopClockPill />
       </aside>
 

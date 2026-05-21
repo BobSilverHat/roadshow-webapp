@@ -6,12 +6,17 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import BorderGlow from "@/components/BorderGlow";
 
 interface Props {
   orderIdx: number;
   questionId: string;
   prompt: string;
   isSolved: boolean;
+  /** Normalized correct submission for this question, fetched once at
+   *  mount via useChallenge — used to populate the solved-locked card
+   *  on page reload when the in-session `solvedValue` is empty. */
+  solvedAnswer?: string;
   locked?: boolean;
   onSubmit: (
     questionId: string,
@@ -28,12 +33,17 @@ export default function QuestionCard({
   questionId,
   prompt,
   isSolved,
+  solvedAnswer,
   locked = false,
   onSubmit,
 }: Props) {
   const [value, setValue] = useState("");
   const [status, setStatus] = useState<CardStatus>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  // Captures the user's submission at the moment of a correct answer, so
+  // the just-solved card can display exactly what they typed (instead of
+  // the alphabetized canonical form returned by the DB on reload).
+  const [solvedValue, setSolvedValue] = useState<string | null>(null);
 
   // Clear flash after a beat
   useEffect(() => {
@@ -55,6 +65,7 @@ export default function QuestionCard({
     }
     if (result.correct) {
       // Parent flips isSolved, which re-renders us in the solved-locked state.
+      setSolvedValue(value);
       setStatus("idle");
       setValue("");
     } else {
@@ -63,40 +74,84 @@ export default function QuestionCard({
     }
   }
 
-  // Solved-locked view
+  // Solved-locked view — same shape as the active form (chrome + input)
+  // but in green: BorderGlow with green palette, no submit button, and the
+  // user's answer is shown inside a non-editable input-styled element with
+  // the pulsing green glow that matches the WaitingOverlay headlines.
   if (isSolved) {
+    const answerToDisplay = solvedValue ?? solvedAnswer ?? "✓ Solved";
     return (
-      <motion.div
-        initial={{ scale: 0.98 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 0.35 }}
-        style={{
-          position: "relative",
-          padding: "1.25rem 1.35rem",
-          border: "1px solid oklch(0.55 0.22 145 / 0.5)",
-          borderRadius: "6px",
-          background: "oklch(0.35 0.1 145 / 0.2)",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-        }}
+      <BorderGlow
+        className="h-full"
+        backgroundColor="#0e0e16"
+        borderRadius={6}
+        glowColor="145 75 70"
+        glowRadius={28}
+        glowIntensity={0.85}
+        edgeSensitivity={28}
+        coneSpread={22}
+        colors={["#86efac", "#4ade80", "#22c55e"]}
       >
-        <div style={cardHeaderStyle}>
-          <span className="section-label">Question {pad(orderIdx)}</span>
-          <span
+        <motion.div
+          initial={{ scale: 0.98 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.35 }}
+          style={{
+            padding: "1.25rem 1.35rem",
+            background: "transparent",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <div style={cardHeaderStyle}>
+            <span className="section-label">Question {pad(orderIdx)}</span>
+            <span
+              style={{
+                fontFamily: "'Barlow Condensed', sans-serif",
+                fontSize: "0.7rem",
+                fontWeight: 700,
+                letterSpacing: "0.25em",
+                color: "oklch(0.78 0.25 145)",
+              }}
+            >
+              COMPLETE
+            </span>
+          </div>
+          <p style={promptStyle}>{prompt}</p>
+
+          {/* Answer display — styled like the active input box but
+              non-interactive, with the green pulse animation. */}
+          <motion.div
+            aria-label="Your correct answer"
+            animate={{
+              opacity: [0.72, 1, 0.72],
+              textShadow: [
+                "0 0 12px oklch(0.6 0.25 145 / 0.35)",
+                "0 0 32px oklch(0.65 0.28 145 / 0.7)",
+                "0 0 12px oklch(0.6 0.25 145 / 0.35)",
+              ],
+            }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
             style={{
-              fontFamily: "'Barlow Condensed', sans-serif",
-              fontSize: "0.7rem",
-              fontWeight: 700,
-              letterSpacing: "0.25em",
-              color: "oklch(0.78 0.25 145)",
+              marginTop: "auto",
+              background: "rgba(0,0,0,0.25)",
+              border: "1px solid oklch(0.55 0.22 145 / 0.5)",
+              borderRadius: "4px",
+              padding: "0.65rem 0.85rem",
+              color: "oklch(0.88 0.2 145)",
+              fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
+              fontSize: "0.85rem",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              userSelect: "text",
             }}
           >
-            COMPLETE
-          </span>
-        </div>
-        <p style={{ ...promptStyle, opacity: 0.6, marginBottom: 0 }}>{prompt}</p>
-      </motion.div>
+            {answerToDisplay}
+          </motion.div>
+        </motion.div>
+      </BorderGlow>
     );
   }
 
@@ -136,24 +191,32 @@ export default function QuestionCard({
   }
 
   const flashWrong = status === "wrong";
-  const borderColor = flashWrong
-    ? "oklch(0.55 0.2 25)"
-    : "rgba(255,255,255,0.12)";
-  const bgColor = flashWrong
-    ? "oklch(0.3 0.12 25 / 0.15)"
-    : "rgba(255,255,255,0.02)";
+  // Card chrome (border, base bg, glow) comes from BorderGlow. The wrong-
+  // flash overlay still paints red over the BorderGlow's bg for the brief
+  // moment after a wrong answer, then fades back to transparent so the
+  // mesh-gradient edge glow shows through normally.
+  const flashBg = flashWrong ? "oklch(0.3 0.12 25 / 0.3)" : "transparent";
 
   return (
+    <BorderGlow
+      className="h-full"
+      backgroundColor="#0e0e16"
+      borderRadius={6}
+      glowColor="290 80 70"
+      glowRadius={28}
+      glowIntensity={0.85}
+      edgeSensitivity={28}
+      coneSpread={22}
+      colors={["#c084fc", "#a855f7", "#7c3aed"]}
+    >
     <motion.form
       onSubmit={handleSubmit}
       animate={flashWrong ? { x: [0, -6, 6, -4, 4, 0] } : { x: 0 }}
       transition={{ duration: 0.4 }}
       style={{
         padding: "1.25rem 1.35rem",
-        border: `1px solid ${borderColor}`,
-        borderRadius: "6px",
-        background: bgColor,
-        transition: "border-color 0.3s, background 0.3s",
+        background: flashBg,
+        transition: "background 0.3s",
         height: "100%",
         display: "flex",
         flexDirection: "column",
@@ -222,6 +285,7 @@ export default function QuestionCard({
         </div>
       )}
     </motion.form>
+    </BorderGlow>
   );
 }
 

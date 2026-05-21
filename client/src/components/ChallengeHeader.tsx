@@ -9,6 +9,7 @@
  * version while the sidebar stays persistent across pages.
  */
 
+import { motion } from "framer-motion";
 import { useWorkshopClock } from "@/hooks/useWorkshopClock";
 
 interface Props {
@@ -17,6 +18,11 @@ interface Props {
   attendeeName: string;
   solvedCount: number;
   totalQuestions: number;
+  /** When provided, renders a HELP toggle in the right cluster. The
+   *  parent owns the open/closed state. Omit for challenges that don't
+   *  have a help stepper (Challenge 2). */
+  helpOpen?: boolean;
+  onToggleHelp?: () => void;
 }
 
 function formatMs(ms: number): string {
@@ -32,6 +38,8 @@ export default function ChallengeHeader({
   attendeeName,
   solvedCount,
   totalQuestions,
+  helpOpen,
+  onToggleHelp,
 }: Props) {
   const clock = useWorkshopClock();
   // During the initial fetch (openedAt unknown), useWorkshopClock returns
@@ -145,7 +153,7 @@ export default function ChallengeHeader({
         style={{
           display: "flex",
           alignItems: "center",
-          gap: "0.5rem",
+          gap: "0.9rem",
           justifyContent: "flex-end",
           fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
           fontSize: "0.8rem",
@@ -155,8 +163,63 @@ export default function ChallengeHeader({
           textOverflow: "ellipsis",
         }}
       >
-        <span style={{ color: "oklch(0.65 0.25 290)" }}>◆</span>
-        <span>{attendeeName}</span>
+        {onToggleHelp && (
+          <button
+            type="button"
+            onClick={onToggleHelp}
+            aria-pressed={helpOpen}
+            style={{
+              background: "none",
+              border: "none",
+              padding: 0,
+              cursor: "pointer",
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontSize: "0.72rem",
+              fontWeight: 700,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              lineHeight: 1,
+              outline: "none",
+            }}
+          >
+            {helpOpen ? (
+              // Open state — static low-opacity white, indicates "click
+              // to close." No animation so the eye isn't pulled back to
+              // it while the user reads the open stepper below.
+              <span style={{ color: "rgba(232,232,240,0.4)" }}>Help</span>
+            ) : (
+              // Closed state — pulsing pale neon green, same cadence
+              // as the WaitingOverlay headlines + sidebar pill, drawing
+              // attention to the affordance.
+              <motion.span
+                animate={{
+                  opacity: [0.72, 1, 0.72],
+                  textShadow: [
+                    "0 0 8px oklch(0.6 0.25 145 / 0.35)",
+                    "0 0 18px oklch(0.65 0.28 145 / 0.7)",
+                    "0 0 8px oklch(0.6 0.25 145 / 0.35)",
+                  ],
+                }}
+                transition={{
+                  duration: 2.4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                style={{
+                  display: "inline-block",
+                  color: "oklch(0.88 0.2 145)",
+                }}
+              >
+                Help
+              </motion.span>
+            )}
+          </button>
+        )}
+        <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <span style={{ color: "oklch(0.65 0.25 290)" }}>◆</span>
+          <span>{attendeeName}</span>
+        </span>
+
       </div>
     </div>
   );

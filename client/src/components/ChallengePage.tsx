@@ -7,6 +7,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocation } from "wouter";
+import Challenge1HelpStepper from "@/components/Challenge1HelpStepper";
 import ChallengeHeader from "@/components/ChallengeHeader";
 import ChallengeIntro from "@/components/ChallengeIntro";
 import DotMatrixLogo from "@/components/DotMatrixLogo";
@@ -74,6 +75,7 @@ export default function ChallengePage({
     questions,
     state,
     progress,
+    solvedAnswers,
     status,
     error,
     solvedCount,
@@ -85,6 +87,12 @@ export default function ChallengePage({
   const [myRank, setMyRank] = useState<number | null>(null);
   const [showTimeUp, setShowTimeUp] = useState(false);
   const timeUpHandledRef = useRef(false);
+  // Challenge 1 help-stepper visibility. Toggled by the HELP button in
+  // the ChallengeHeader; Complete on the stepper's final step also
+  // flips this back to false via onClose.
+  const [helpOpen, setHelpOpen] = useState(false);
+  // Smooth-scroll target for the celebration reveal card.
+  const completeCardRef = useRef<HTMLDivElement | null>(null);
 
   // Direct nav to /challenge/2 before the workshop is begun → bounce to C1.
   // Funnels both the locked (admin-gated) and ready states to the same
@@ -121,11 +129,25 @@ export default function ChallengePage({
     return () => window.clearTimeout(t);
   }, [workshop.status, navigate]);
 
-  // When the hook transitions to "complete", raise the reveal overlay
-  // and take a one-shot snapshot of the leaderboard for the top-3 peek.
+  // When the hook transitions to "complete", raise the reveal overlay,
+  // take a one-shot snapshot of the leaderboard for the top-3 peek, and
+  // dismiss the help walkthrough + smooth-scroll the celebration card
+  // into the center of the viewport. Help is irrelevant the moment the
+  // challenge ends, so we close it (no-op if already closed) to give the
+  // complete card a quiet stage to land in.
   useEffect(() => {
     if (status !== "complete") return;
     setRevealed(true);
+    setHelpOpen(false);
+    // Layout-settling budget: ~400ms for the help exit animation +
+    // ~100ms for the complete card's mount animation to begin. Scrolling
+    // at t=500ms hits a stable, final layout.
+    const scrollTimer = window.setTimeout(() => {
+      completeCardRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }, 500);
     let mounted = true;
     (async () => {
       const { data } = await supabase.rpc("get_leaderboard");
@@ -136,6 +158,7 @@ export default function ChallengePage({
       setMyRank(idx >= 0 ? idx + 1 : null);
     })();
     return () => {
+      window.clearTimeout(scrollTimer);
       mounted = false;
     };
   }, [status, attendee.id]);
@@ -224,6 +247,10 @@ export default function ChallengePage({
         attendeeName={attendee.name}
         solvedCount={solvedCount}
         totalQuestions={totalQuestions}
+        helpOpen={challengeId === 1 ? helpOpen : undefined}
+        onToggleHelp={
+          challengeId === 1 ? () => setHelpOpen((o) => !o) : undefined
+        }
       />
 
       {questions.length === 5 ? (
@@ -248,6 +275,7 @@ export default function ChallengePage({
                 questionId={questions[i].id}
                 prompt={questions[i].prompt}
                 isSolved={progress.has(questions[i].id)}
+                solvedAnswer={solvedAnswers.get(questions[i].id)}
                 locked={isLocked}
                 onSubmit={submit}
               />
@@ -274,6 +302,7 @@ export default function ChallengePage({
                   questionId={questions[4].id}
                   prompt={questions[4].prompt}
                   isSolved={progress.has(questions[4].id)}
+                  solvedAnswer={solvedAnswers.get(questions[4].id)}
                   locked={isLocked}
                   onSubmit={submit}
                 />
@@ -303,6 +332,7 @@ export default function ChallengePage({
                 questionId={q.id}
                 prompt={q.prompt}
                 isSolved={progress.has(q.id)}
+                solvedAnswer={solvedAnswers.get(q.id)}
                 locked={isLocked}
                 onSubmit={submit}
               />
@@ -311,9 +341,20 @@ export default function ChallengePage({
         </div>
       )}
 
+      {/* Inline help stepper — Challenge 1 only. Visibility is controlled
+          by the TIPS toggle in ChallengeHeader; Complete on the stepper's
+          final step calls onClose, which flips tipsOpen back to false. */}
+      {challengeId === 1 && (
+        <Challenge1HelpStepper
+          open={helpOpen}
+          onClose={() => setHelpOpen(false)}
+        />
+      )}
+
       <AnimatePresence>
         {revealed && completedAt && (
           <motion.div
+            ref={completeCardRef}
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 40 }}
