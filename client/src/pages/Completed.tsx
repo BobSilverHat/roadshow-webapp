@@ -314,10 +314,20 @@ export default function Completed() {
                   }}
                 >
                   {tier === "timed-out"
-                    ? `Workshop timer expired. ${myRow.questions_complete} of 10 questions solved${myRow.wrong_count > 0 ? ` · ${myRow.wrong_count} wrong (+${myRow.wrong_count * 15}s)` : ""}.`
-                    : myRow.wrong_count > 0
-                      ? `${myRow.wrong_count} wrong guess${myRow.wrong_count === 1 ? "" : "es"} · +${myRow.wrong_count * 15}s penalty baked into total`
-                      : "Clean run — no wrong guesses."}
+                    ? `Workshop timer expired. ${myRow.questions_complete} of 10 questions solved${myRow.wrong_count > 0 ? ` · ${myRow.wrong_count} wrong (+${myRow.wrong_count * 15}s)` : ""}${myRow.hints_used > 0 ? ` · ${myRow.hints_used} hint${myRow.hints_used === 1 ? "" : "s"} (+${myRow.hints_used}m)` : ""}.`
+                    : (
+                      <>
+                        {myRow.wrong_count > 0
+                          ? `${myRow.wrong_count} wrong guess${myRow.wrong_count === 1 ? "" : "es"} · +${myRow.wrong_count * 15}s penalty baked into total`
+                          : "Clean run — no wrong guesses."}
+                        {myRow.hints_used > 0 && (
+                          <>
+                            {" "}· {myRow.hints_used} hint
+                            {myRow.hints_used === 1 ? "" : "s"} used (+{myRow.hints_used}m penalty baked in)
+                          </>
+                        )}
+                      </>
+                    )}
                 </div>
               </div>
             </motion.div>
