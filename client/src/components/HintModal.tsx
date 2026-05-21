@@ -259,16 +259,23 @@ export default function HintModal({
                     ))}
                     {revealedCount >= hintCount && (
                       <div
+                        role="alert"
                         style={{
+                          padding: "0.7rem 0.9rem",
+                          border: "1px solid oklch(0.6 0.18 80 / 0.55)",
+                          borderRadius: "4px",
+                          background: "oklch(0.2 0.07 80 / 0.22)",
                           fontFamily:
                             "'IBM Plex Mono', ui-monospace, monospace",
                           fontSize: "0.78rem",
-                          color: "rgba(200,200,220,0.55)",
+                          lineHeight: 1.55,
+                          color: "oklch(0.88 0.16 85)",
                           textAlign: "center",
                           marginTop: "0.25rem",
                         }}
                       >
-                        No more hints.
+                        ⚠ Last hint — write this down before closing.
+                        Once you close, the hint won't be visible again.
                       </div>
                     )}
                   </div>
