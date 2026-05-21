@@ -17,6 +17,7 @@ import WaitingOverlay from "@/components/WaitingOverlay";
 import { useChallenge } from "@/hooks/useChallenge";
 import { useHints, type HintReveal } from "@/hooks/useHints";
 import { useWorkshop } from "@/hooks/useWorkshop";
+import { useWorkshopClock } from "@/hooks/useWorkshopClock";
 import { supabase } from "@/lib/supabase";
 
 interface LeaderboardSnapshot {
@@ -71,6 +72,11 @@ export default function ChallengePage({
 }: Props) {
   const [, navigate] = useLocation();
   const workshop = useWorkshop({ attendeeId: attendee.id });
+  // Per-clock expiry — independent of this user's completion state. Drives
+  // the time-up overlay for EVERYONE when the global 35-min window closes,
+  // including winners who already finished both challenges (whose
+  // workshop.status would otherwise stay "complete").
+  const workshopClock = useWorkshopClock();
   const {
     meta,
     questions,
@@ -131,20 +137,24 @@ export default function ChallengePage({
   }, [completedAtSig, workshopRefresh]);
 
   // Time's-up handler: one-shot. Fades in the overlay, then auto-navs.
+  // Triggered by the GLOBAL clock (useWorkshopClock), NOT per-user
+  // workshop.status — winners who completed before the timer have
+  // workshop.status === "complete", but the overlay + auto-nav still
+  // need to run for them when the global window closes.
   // No cleanup-clear on the timer — once we've decided to nav, we MUST
   // nav. Any re-run of this effect (from dep identity changes, hint
   // state updates, etc.) used to call clearTimeout in cleanup, which
   // could wipe the pending nav and strand users on the expired page.
   // The handled-ref guards against scheduling more than one timer.
   useEffect(() => {
-    if (workshop.status !== "expired") return;
+    if (workshopClock.status !== "expired") return;
     if (timeUpHandledRef.current) return;
     timeUpHandledRef.current = true;
     setShowTimeUp(true);
     window.setTimeout(() => {
       navigate("/completed", { replace: true });
     }, TIME_UP_AUTONAV_DELAY_MS);
-  }, [workshop.status, navigate]);
+  }, [workshopClock.status, navigate]);
 
   // When the hook transitions to "complete", raise the reveal overlay,
   // take a one-shot snapshot of the leaderboard for the top-3 peek, and
