@@ -13,6 +13,7 @@ export interface LeaderboardRow {
   attendee_id: string;
   name: string;
   questions_complete: number;
+  hints_used: number;
   c1_elapsed_ms: number | null;
   c2_elapsed_ms: number | null;
   total_ms: number | null;
