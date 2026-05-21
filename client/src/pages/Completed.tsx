@@ -10,6 +10,7 @@
 import { motion } from "framer-motion";
 import { useMemo } from "react";
 import { useLocation } from "wouter";
+import BorderGlow from "@/components/BorderGlow";
 import WorkshopLayout from "@/components/WorkshopLayout";
 import { useAttendee } from "@/hooks/useAttendee";
 import { useLeaderboard } from "@/hooks/useLeaderboard";
@@ -32,10 +33,28 @@ function formatMs(ms: number | null): string {
 }
 
 function rankAccent(rank: number): string {
-  if (rank === 1) return "oklch(0.82 0.18 85)"; // gold
+  if (rank === 1) return "oklch(0.88 0.2 145)"; // Salt Nexus green
   if (rank === 2) return "oklch(0.78 0.04 260)"; // silver
   if (rank === 3) return "oklch(0.6 0.12 45)"; // bronze
   return "oklch(0.65 0.25 290)";
+}
+
+// Maps tier/rank to the BorderGlow palette + glowColor for the
+// results card. Hex palette feeds the mesh-gradient border; HSL string
+// drives the box-shadow halo.
+function resultsGlow(
+  tier: FinishTier,
+  rank: number,
+): { colors: string[]; glowColor: string } {
+  if (tier === "timed-out")
+    return { colors: ["#fca5a5", "#ef4444", "#b91c1c"], glowColor: "25 75 60" };
+  if (rank === 1)
+    return { colors: ["#86efac", "#4ade80", "#22c55e"], glowColor: "145 75 70" };
+  if (rank === 2)
+    return { colors: ["#e5e7eb", "#cbd5e1", "#94a3b8"], glowColor: "230 8 75" };
+  if (rank === 3)
+    return { colors: ["#fde68a", "#fbbf24", "#d97706"], glowColor: "40 80 60" };
+  return { colors: ["#c084fc", "#a855f7", "#7c3aed"], glowColor: "290 80 70" };
 }
 
 function rankLabel(rank: number): string {
@@ -209,18 +228,21 @@ export default function Completed() {
               animate="visible"
               custom={2}
             >
+              <div style={{ marginBottom: "2.5rem", textAlign: "left" }}>
+              <BorderGlow
+                loop
+                backgroundColor="rgba(10,10,15,0.55)"
+                borderRadius={8}
+                glowRadius={40}
+                glowIntensity={0.9}
+                edgeSensitivity={22}
+                coneSpread={26}
+                colors={resultsGlow(tier, myRank).colors}
+                glowColor={resultsGlow(tier, myRank).glowColor}
+              >
               <div
                 style={{
                   padding: "2rem",
-                  marginBottom: "2.5rem",
-                  border: `1px solid ${tier === "timed-out" ? "oklch(0.55 0.2 25 / 0.5)" : rankAccent(myRank)}`,
-                  borderRadius: "8px",
-                  background: "rgba(10,10,15,0.55)",
-                  boxShadow:
-                    tier === "timed-out"
-                      ? "0 0 28px oklch(0.5 0.2 25 / 0.22)"
-                      : `0 0 40px ${rankAccent(myRank)}33`,
-                  textAlign: "left",
                 }}
               >
                 <div
@@ -329,6 +351,8 @@ export default function Completed() {
                       </>
                     )}
                 </div>
+              </div>
+              </BorderGlow>
               </div>
             </motion.div>
           )}

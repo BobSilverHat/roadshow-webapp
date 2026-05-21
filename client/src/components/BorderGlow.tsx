@@ -21,6 +21,11 @@ interface BorderGlowProps {
   glowIntensity?: number;
   coneSpread?: number;
   animated?: boolean;
+  /** When true, continuously rotates the glow around the card like a
+   *  cursor tracing the border. Independent of hover; ignores `animated`. */
+  loop?: boolean;
+  /** Seconds per full revolution when `loop` is true. Defaults to 6. */
+  loopPeriodSec?: number;
   colors?: string[];
   fillOpacity?: number;
 }
@@ -118,6 +123,8 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
   glowIntensity = 1.0,
   coneSpread = 25,
   animated = false,
+  loop = false,
+  loopPeriodSec = 6,
   colors = ["#c084fc", "#f472b6", "#38bdf8"],
   fillOpacity = 0.5,
 }) => {
@@ -209,6 +216,28 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
       onEnd: () => setSweepActive(false),
     });
   }, [animated]);
+
+  // Continuous spinning sweep — independent of hover. Holds edgeProximity
+  // at max and rotates cursorAngle on an rAF loop.
+  useEffect(() => {
+    if (!loop) return;
+    setSweepActive(true);
+    setEdgeProximity(1);
+    const periodMs = Math.max(0.5, loopPeriodSec) * 1000;
+    const t0 = performance.now();
+    let raf = 0;
+    const tick = (now: number) => {
+      const t = ((now - t0) % periodMs) / periodMs;
+      setCursorAngle(t * 360);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(raf);
+      setSweepActive(false);
+      setEdgeProximity(0);
+    };
+  }, [loop, loopPeriodSec]);
 
   const colorSensitivity = edgeSensitivity + 20;
   const isVisible = isHovered || sweepActive;
