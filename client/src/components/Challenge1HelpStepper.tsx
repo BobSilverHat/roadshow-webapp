@@ -66,17 +66,22 @@ export default function Challenge1HelpStepper({
 }: Challenge1HelpStepperProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
 
-  // When the stepper opens, smooth-scroll it into the center of the
-  // viewport so it never lands below the fold. Delay matches the
-  // motion.div entrance + Stepper mount so the final layout is settled
-  // before we scroll.
+  // When the stepper opens, smooth-scroll it into view, sitting
+  // slightly above the vertical center of the viewport. Computed
+  // manually instead of scrollIntoView({block:"center"}) so we can
+  // bias it upward by SCROLL_BIAS_PX. Delay matches the motion.div
+  // entrance + Stepper mount so the final layout is settled first.
   useEffect(() => {
     if (!open) return;
+    const SCROLL_BIAS_PX = 120;
     const t = window.setTimeout(() => {
-      wrapperRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
+      const el = wrapperRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const elementTopInDoc = rect.top + window.scrollY;
+      const targetY =
+        elementTopInDoc - window.innerHeight / 2 + rect.height / 2 + SCROLL_BIAS_PX;
+      window.scrollTo({ top: Math.max(0, targetY), behavior: "smooth" });
     }, 250);
     return () => window.clearTimeout(t);
   }, [open]);
