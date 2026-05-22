@@ -9,6 +9,7 @@
  * - Label text below: "Begin" on intro, "Next" on all others
  */
 import { useState } from 'react';
+import { useTheme } from 'next-themes';
 import MagicRings from './MagicRings';
 
 interface MagicRingsButtonProps {
@@ -18,6 +19,11 @@ interface MagicRingsButtonProps {
 
 export default function MagicRingsButton({ label = 'Next', onClick }: MagicRingsButtonProps) {
   const [hovered, setHovered] = useState(false);
+  const { resolvedTheme } = useTheme();
+  const ringColors =
+    resolvedTheme === 'light'
+      ? { ringA: '#a855f7', ringB: '#0ea5e9' }
+      : { ringA: '#8B5CF6', ringB: '#C4B5FD' };
 
   return (
     <div
@@ -77,8 +83,8 @@ export default function MagicRingsButton({ label = 'Next', onClick }: MagicRings
           }}
         >
           <MagicRings
-            color="#8B5CF6"
-            colorTwo="#C4B5FD"
+            color={ringColors.ringA}
+            colorTwo={ringColors.ringB}
             ringCount={5}
             speed={0.85}
             attenuation={10}
