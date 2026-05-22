@@ -45,14 +45,14 @@ export default function Leaderboard() {
                 lineHeight: 1.05,
                 letterSpacing: "0.03em",
                 textTransform: "uppercase",
-                color: "rgba(232,232,240,0.97)",
+                color: "var(--foreground)",
                 margin: "0 0 1rem",
               }}
             >
               Leader
               <span
                 style={{
-                  color: "oklch(0.72 0.28 290)",
+                  color: "var(--color-accent-text-bright)",
                   textShadow: "0 0 30px oklch(0.52 0.28 290 / 0.4)",
                 }}
               >
@@ -91,7 +91,7 @@ export default function Leaderboard() {
                   fontWeight: 600,
                   letterSpacing: "0.22em",
                   textTransform: "uppercase",
-                  color: "rgba(200,200,220,0.7)",
+                  color: "var(--muted-foreground)",
                 }}
               >
                 {status === "live"
@@ -114,7 +114,7 @@ export default function Leaderboard() {
                 fontSize: "0.78rem",
                 fontWeight: 300,
                 lineHeight: 1.6,
-                color: "rgba(200,200,220,0.55)",
+                color: "var(--muted-foreground)",
               }}
             >
               Sort order: questions solved (desc), total time (asc), wrong guesses

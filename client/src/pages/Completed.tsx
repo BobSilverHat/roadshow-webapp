@@ -135,7 +135,7 @@ export default function Completed() {
                 lineHeight: 1.05,
                 letterSpacing: "0.03em",
                 textTransform: "uppercase",
-                color: "rgba(232,232,240,0.97)",
+                color: "var(--foreground)",
                 margin: 0,
               }}
             >
@@ -183,7 +183,7 @@ export default function Completed() {
                   Round{" "}
                   <span
                     style={{
-                      color: "oklch(0.72 0.28 290)",
+                      color: "var(--color-accent-text-bright)",
                       textShadow: "0 0 30px oklch(0.52 0.28 290 / 0.4)",
                     }}
                   >
@@ -209,7 +209,7 @@ export default function Completed() {
                   Workshop{" "}
                   <span
                     style={{
-                      color: "oklch(0.72 0.28 290)",
+                      color: "var(--color-accent-text-bright)",
                       textShadow: "0 0 30px oklch(0.52 0.28 290 / 0.4)",
                     }}
                   >
@@ -233,7 +233,7 @@ export default function Completed() {
                 loop
                 fillOpacity={0}
                 outerGlowOnly
-                backgroundColor="#0e0e16"
+                backgroundColor="var(--card)"
                 borderRadius={8}
                 glowRadius={40}
                 glowIntensity={0.9}
@@ -277,7 +277,7 @@ export default function Completed() {
                       fontWeight: 600,
                       letterSpacing: "0.18em",
                       textTransform: "uppercase",
-                      color: "rgba(200,200,220,0.6)",
+                      color: "var(--muted-foreground)",
                     }}
                   >
                     Rank {myRank.toString().padStart(2, "0")} of {rows.length}
@@ -331,10 +331,10 @@ export default function Completed() {
                   style={{
                     marginTop: "1rem",
                     paddingTop: "1rem",
-                    borderTop: "1px solid rgba(255,255,255,0.06)",
+                    borderTop: "1px solid var(--border)",
                     fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
                     fontSize: "0.8rem",
-                    color: "rgba(200,200,220,0.7)",
+                    color: "var(--muted-foreground)",
                   }}
                 >
                   {tier === "timed-out"
@@ -367,7 +367,7 @@ export default function Completed() {
                 fontSize: "0.875rem",
                 fontWeight: 300,
                 lineHeight: 1.65,
-                color: "rgba(200,200,220,0.85)",
+                color: "var(--muted-foreground)",
                 marginBottom: "2rem",
                 textAlign: "center",
               }}
@@ -405,10 +405,10 @@ export default function Completed() {
                 <div
                   key={card.number}
                   style={{
-                    border: "1px solid oklch(0.52 0.28 290 / 0.18)",
+                    border: "1px solid oklch(from var(--color-accent-text) l c h / 0.18)",
                     borderRadius: "4px",
                     padding: "1.25rem",
-                    backgroundColor: "oklch(0.52 0.28 290 / 0.04)",
+                    backgroundColor: "oklch(from var(--color-accent-text) l c h / 0.04)",
                   }}
                 >
                   <div
@@ -416,7 +416,7 @@ export default function Completed() {
                       fontFamily: "'Barlow Condensed', sans-serif",
                       fontSize: "1.5rem",
                       fontWeight: 800,
-                      color: "oklch(0.65 0.25 290)",
+                      color: "var(--color-accent-text)",
                       lineHeight: 1,
                       marginBottom: "0.5rem",
                     }}
@@ -430,7 +430,7 @@ export default function Completed() {
                       fontWeight: 700,
                       letterSpacing: "0.06em",
                       textTransform: "uppercase",
-                      color: "rgba(232,232,240,0.9)",
+                      color: "var(--foreground)",
                       marginBottom: "0.4rem",
                     }}
                   >
@@ -442,7 +442,7 @@ export default function Completed() {
                       fontSize: "0.8rem",
                       fontWeight: 300,
                       lineHeight: 1.5,
-                      color: "rgba(160,160,180,0.75)",
+                      color: "var(--muted-foreground)",
                     }}
                   >
                     {card.desc}
@@ -515,7 +515,7 @@ function Stat({
           fontWeight: 700,
           letterSpacing: "0.22em",
           textTransform: "uppercase",
-          color: "rgba(200,200,220,0.55)",
+          color: "var(--muted-foreground)",
           marginBottom: "0.35rem",
         }}
       >
@@ -526,7 +526,7 @@ function Stat({
           fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
           fontSize: accent ? "1.6rem" : "1.2rem",
           fontWeight: accent ? 600 : 500,
-          color: accent ?? "rgba(232,232,240,0.97)",
+          color: accent ?? "var(--foreground)",
           letterSpacing: "0.04em",
           textShadow: accent ? `0 0 18px ${accent}55` : "none",
         }}
