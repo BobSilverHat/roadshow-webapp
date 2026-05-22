@@ -33,7 +33,7 @@ const bodyParagraph = {
   fontSize: "0.9rem",
   fontWeight: 300,
   lineHeight: 1.7,
-  color: "rgba(210,210,225,0.85)",
+  color: "var(--muted-foreground)",
   margin: "0 0 1.25rem",
 } as const;
 
@@ -42,7 +42,7 @@ const headingSerif = {
   fontWeight: 800,
   letterSpacing: "0.03em",
   textTransform: "uppercase" as const,
-  color: "rgba(232,232,240,0.97)",
+  color: "var(--foreground)",
 };
 
 const STATS = [
@@ -175,9 +175,9 @@ export default function SaltNexus() {
                 key={s.label}
                 style={{
                   padding: "1.1rem 0.85rem",
-                  border: "1px solid oklch(0.52 0.28 290 / 0.22)",
+                  border: "1px solid oklch(from var(--color-accent-text) l c h / 0.22)",
                   borderRadius: "4px",
-                  background: "oklch(0.52 0.28 290 / 0.04)",
+                  background: "oklch(from var(--color-accent-text) l c h / 0.04)",
                   textAlign: "left",
                 }}
               >
@@ -187,7 +187,7 @@ export default function SaltNexus() {
                     fontSize: "1.5rem",
                     fontWeight: 600,
                     letterSpacing: "0.02em",
-                    color: "oklch(0.72 0.28 290)",
+                    color: "var(--color-accent-text-bright)",
                     textShadow: "0 0 18px oklch(0.5 0.28 290 / 0.4)",
                     lineHeight: 1,
                     marginBottom: "0.55rem",
@@ -203,7 +203,7 @@ export default function SaltNexus() {
                     fontWeight: 700,
                     letterSpacing: "0.12em",
                     textTransform: "uppercase",
-                    color: "rgba(200,200,220,0.7)",
+                    color: "var(--muted-foreground)",
                     lineHeight: 1.25,
                   }}
                 >

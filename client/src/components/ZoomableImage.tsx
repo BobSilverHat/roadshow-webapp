@@ -15,6 +15,7 @@
  */
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useTheme } from "next-themes";
 
 interface ZoomableImageProps {
   src: string;
@@ -24,6 +25,8 @@ interface ZoomableImageProps {
 
 export default function ZoomableImage({ src, alt, style }: ZoomableImageProps) {
   const [open, setOpen] = useState(false);
+  const { resolvedTheme } = useTheme();
+  const isLight = resolvedTheme === "light";
 
   useEffect(() => {
     if (!open) return;
@@ -42,17 +45,27 @@ export default function ZoomableImage({ src, alt, style }: ZoomableImageProps) {
 
   return (
     <>
-      <motion.img
-        src={src}
-        alt={alt}
-        onClick={() => setOpen(true)}
-        whileHover={{ scale: 1.005 }}
-        transition={{ duration: 0.2 }}
+      <div
         style={{
-          ...style,
-          cursor: "zoom-in",
+          borderRadius: 6,
+          border: isLight ? "1px solid var(--border)" : undefined,
+          boxShadow: isLight ? "0 4px 16px rgba(0,0,0,0.08)" : undefined,
+          display: "inline-block",
+          lineHeight: 0,
         }}
-      />
+      >
+        <motion.img
+          src={src}
+          alt={alt}
+          onClick={() => setOpen(true)}
+          whileHover={{ scale: 1.005 }}
+          transition={{ duration: 0.2 }}
+          style={{
+            ...style,
+            cursor: "zoom-in",
+          }}
+        />
+      </div>
 
       <AnimatePresence>
         {open && (
@@ -75,7 +88,7 @@ export default function ZoomableImage({ src, alt, style }: ZoomableImageProps) {
               right: 0,
               bottom: 0,
               zIndex: 100,
-              backgroundColor: "rgba(10,10,15,0.9)",
+              backgroundColor: "oklch(from var(--background) l c h / 0.9)",
               backdropFilter: "blur(14px)",
               WebkitBackdropFilter: "blur(14px)",
               display: "flex",
@@ -101,7 +114,7 @@ export default function ZoomableImage({ src, alt, style }: ZoomableImageProps) {
                 fontWeight: 600,
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                color: "rgba(200,200,220,0.55)",
+                color: "var(--muted-foreground)",
                 pointerEvents: "none",
                 userSelect: "none",
               }}
@@ -125,7 +138,7 @@ export default function ZoomableImage({ src, alt, style }: ZoomableImageProps) {
                 maxHeight: "min(100%, 80vh)",
                 objectFit: "contain",
                 borderRadius: "8px",
-                border: "1px solid rgba(255,255,255,0.12)",
+                border: "1px solid var(--border)",
                 boxShadow:
                   "0 40px 120px rgba(124,58,237,0.22), 0 10px 40px rgba(0,0,0,0.55)",
                 cursor: "default",
