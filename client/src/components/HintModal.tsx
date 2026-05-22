@@ -8,6 +8,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import { useTheme } from "next-themes";
 import BorderGlow from "@/components/BorderGlow";
 import type { HintError, HintReveal } from "@/hooks/useHints";
 
@@ -28,8 +29,6 @@ interface Props {
   }>;
   onClose: () => void;
 }
-
-const YELLOW_PALETTE = ["#fde68a", "#facc15", "#f59e0b"];
 
 function pad(n: number): string {
   return n.toString().padStart(2, "0");
@@ -60,6 +59,12 @@ export default function HintModal({
 }: Props) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<HintError | null>(null);
+  const { resolvedTheme } = useTheme();
+  const YELLOW_PALETTE =
+    resolvedTheme === "light"
+      ? ["#f59e0b", "#d97706", "#92400e"]
+      : ["#fde68a", "#facc15", "#f59e0b"];
+  const YELLOW_GLOW = resolvedTheme === "light" ? "35 90 50" : "50 90 70";
 
   // Auto-replay reveals for hints the user already paid for — when the
   // modal opens with paidIdxs but empty revealed text. Each call returns
@@ -116,7 +121,7 @@ export default function HintModal({
             alignItems: "center",
             justifyContent: "center",
             paddingLeft: "var(--sidebar-width, 200px)",
-            background: "rgba(10,10,15,0.65)",
+            background: "oklch(from var(--background) l c h / 0.65)",
             backdropFilter: "blur(10px)",
             WebkitBackdropFilter: "blur(10px)",
           }}
@@ -131,9 +136,9 @@ export default function HintModal({
             style={{ width: "min(520px, 90vw)" }}
           >
             <BorderGlow
-              backgroundColor="#0e0e16"
+              backgroundColor="var(--card)"
               borderRadius={8}
-              glowColor="50 90 70"
+              glowColor={YELLOW_GLOW}
               glowRadius={36}
               glowIntensity={0.95}
               edgeSensitivity={20}
@@ -158,7 +163,7 @@ export default function HintModal({
                 >
                   <span
                     className="section-label"
-                    style={{ color: "oklch(0.82 0.18 85)" }}
+                    style={{ color: "var(--color-hint-bulb)" }}
                   >
                     Question {questionLabel}
                   </span>
@@ -169,7 +174,7 @@ export default function HintModal({
                       fontWeight: 700,
                       letterSpacing: "0.22em",
                       textTransform: "uppercase",
-                      color: "rgba(200,200,220,0.55)",
+                      color: "var(--muted-foreground)",
                     }}
                   >
                     Hint {revealedCount} / {hintCount}
@@ -186,15 +191,15 @@ export default function HintModal({
                         fontWeight: 800,
                         letterSpacing: "0.03em",
                         textTransform: "uppercase",
-                        color: "rgba(232,232,240,0.97)",
+                        color: "var(--foreground)",
                         margin: 0,
                       }}
                     >
                       Reveal a{" "}
                       <span
                         style={{
-                          color: "oklch(0.82 0.18 85)",
-                          textShadow: "0 0 24px oklch(0.6 0.2 85 / 0.45)",
+                          color: "var(--color-hint-bulb)",
+                          textShadow: "0 0 24px var(--color-hint-bulb-glow)",
                         }}
                       >
                         Hint
@@ -206,7 +211,7 @@ export default function HintModal({
                         fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
                         fontSize: "0.875rem",
                         lineHeight: 1.6,
-                        color: "rgba(210,210,225,0.85)",
+                        color: "var(--muted-foreground)",
                         margin: 0,
                       }}
                     >
@@ -228,7 +233,7 @@ export default function HintModal({
                           padding: "0.85rem 1rem",
                           border: "1px solid oklch(0.55 0.18 85 / 0.35)",
                           borderRadius: "4px",
-                          background: "oklch(0.18 0.06 85 / 0.18)",
+                          background: "oklch(from var(--color-hint-bulb) l c h / 0.12)",
                         }}
                       >
                         <div
@@ -238,7 +243,7 @@ export default function HintModal({
                             fontWeight: 700,
                             letterSpacing: "0.22em",
                             textTransform: "uppercase",
-                            color: "oklch(0.82 0.18 85)",
+                            color: "var(--color-hint-bulb)",
                             marginBottom: "0.4rem",
                           }}
                         >
@@ -250,7 +255,7 @@ export default function HintModal({
                               "'IBM Plex Mono', ui-monospace, monospace",
                             fontSize: "0.875rem",
                             lineHeight: 1.6,
-                            color: "rgba(232,232,240,0.92)",
+                            color: "var(--foreground)",
                           }}
                         >
                           {r.text}
@@ -262,14 +267,14 @@ export default function HintModal({
                         role="alert"
                         style={{
                           padding: "0.7rem 0.9rem",
-                          border: "1px solid oklch(0.55 0.22 25 / 0.55)",
+                          border: "1px solid var(--color-time-up)",
                           borderRadius: "4px",
-                          background: "oklch(0.22 0.09 25 / 0.25)",
+                          background: "oklch(from var(--color-time-up) l c h / 0.15)",
                           fontFamily:
                             "'IBM Plex Mono', ui-monospace, monospace",
                           fontSize: "0.78rem",
                           lineHeight: 1.55,
-                          color: "oklch(0.78 0.18 25)",
+                          color: "var(--color-time-up)",
                           textAlign: "center",
                           marginTop: "0.25rem",
                         }}
@@ -285,7 +290,7 @@ export default function HintModal({
                     style={{
                       fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
                       fontSize: "0.78rem",
-                      color: "oklch(0.7 0.2 25)",
+                      color: "var(--color-time-up)",
                     }}
                   >
                     {friendlyError(error)}
@@ -332,7 +337,7 @@ export default function HintModal({
                     style={{
                       fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
                       fontSize: "0.72rem",
-                      color: "rgba(200,200,220,0.55)",
+                      color: "var(--muted-foreground)",
                       textAlign: "center",
                     }}
                   >
@@ -352,8 +357,8 @@ export default function HintModal({
 const cancelButtonStyle: React.CSSProperties = {
   padding: "0.55rem 1rem",
   background: "transparent",
-  color: "rgba(200,200,220,0.85)",
-  border: "1px solid rgba(255,255,255,0.18)",
+  color: "var(--foreground)",
+  border: "1px solid var(--border)",
   borderRadius: "4px",
   fontFamily: "'Barlow Condensed', sans-serif",
   fontSize: "0.78rem",

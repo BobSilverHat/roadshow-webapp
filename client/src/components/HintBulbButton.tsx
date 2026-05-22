@@ -40,7 +40,7 @@ export default function HintBulbButton({ onClick, partiallyUsed }: Props) {
         viewBox="0 0 24 24"
         width={18}
         height={18}
-        fill="oklch(0.82 0.18 85)"
+        fill="var(--color-hint-bulb)"
         aria-hidden="true"
         animate={
           partiallyUsed
@@ -48,9 +48,9 @@ export default function HintBulbButton({ onClick, partiallyUsed }: Props) {
             : {
                 opacity: [0.65, 1, 0.65],
                 filter: [
-                  "drop-shadow(0 0 4px oklch(0.65 0.2 85 / 0.4))",
-                  "drop-shadow(0 0 10px oklch(0.78 0.22 85 / 0.7))",
-                  "drop-shadow(0 0 4px oklch(0.65 0.2 85 / 0.4))",
+                  "drop-shadow(0 0 4px var(--color-hint-bulb-glow))",
+                  "drop-shadow(0 0 10px var(--color-hint-bulb-glow))",
+                  "drop-shadow(0 0 4px var(--color-hint-bulb-glow))",
                 ],
               }
         }

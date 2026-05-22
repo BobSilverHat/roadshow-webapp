@@ -27,7 +27,7 @@ const headingStyle = {
   fontWeight: 800,
   letterSpacing: "0.03em",
   textTransform: "uppercase" as const,
-  color: "rgba(232,232,240,0.97)",
+  color: "var(--foreground)",
   margin: "0 0 0.85rem",
   lineHeight: 1.15,
 };
@@ -37,7 +37,7 @@ const bodyStyle = {
   fontSize: "0.85rem",
   fontWeight: 300,
   lineHeight: 1.65,
-  color: "rgba(210,210,225,0.85)",
+  color: "var(--muted-foreground)",
   margin: "0 0 0.85rem",
 } as const;
 
