@@ -51,14 +51,14 @@ export default function ChallengeHeader({
   const isExpired = clock.status === "expired";
 
   // Color tier — red under 1 min OR expired, amber under 5 min, white otherwise.
-  let timerColor = "rgba(232,232,240,0.97)";
+  let timerColor = "var(--foreground)";
   let timerShadow = "none";
   if (!clockLoaded) {
     // Neutral while loading — no color tier yet.
-    timerColor = "rgba(200,200,220,0.45)";
+    timerColor = "var(--muted-foreground)";
   } else if (isExpired || clock.remainingMs < 60_000) {
-    timerColor = "oklch(0.7 0.2 25)";
-    timerShadow = "0 0 16px oklch(0.5 0.2 25 / 0.4)";
+    timerColor = "var(--color-time-up)";
+    timerShadow = "0 0 16px var(--color-time-up-glow)";
   } else if (clock.remainingMs < 5 * 60_000) {
     timerColor = "oklch(0.78 0.18 75)";
     timerShadow = "0 0 12px oklch(0.55 0.18 75 / 0.35)";
@@ -75,10 +75,10 @@ export default function ChallengeHeader({
         zIndex: 20, // below the WaitingOverlay / Time's Up overlays
         margin: "-2rem -2rem 2.5rem",
         padding: "0.9rem 2rem",
-        background: "rgba(10,10,15,0.85)",
+        background: "oklch(from var(--background) l c h / 0.85)",
         backdropFilter: "blur(8px)",
-        borderTop: "1px solid rgba(255,255,255,0.08)",
-        borderBottom: "1px solid rgba(255,255,255,0.08)",
+        borderTop: "1px solid var(--border)",
+        borderBottom: "1px solid var(--border)",
         display: "grid",
         gridTemplateColumns: "1fr auto 1fr",
         alignItems: "center",
@@ -92,7 +92,7 @@ export default function ChallengeHeader({
           fontWeight: 700,
           letterSpacing: "0.18em",
           textTransform: "uppercase",
-          color: "rgba(200,200,220,0.75)",
+          color: "var(--muted-foreground)",
           whiteSpace: "nowrap",
           overflow: "hidden",
           textOverflow: "ellipsis",
@@ -127,7 +127,7 @@ export default function ChallengeHeader({
             style={{
               fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
               fontSize: "0.72rem",
-              color: "oklch(0.7 0.2 25)",
+              color: "var(--color-time-up)",
               whiteSpace: "nowrap",
             }}
           >
@@ -141,7 +141,7 @@ export default function ChallengeHeader({
             fontWeight: 600,
             letterSpacing: "0.18em",
             textTransform: "uppercase",
-            color: "rgba(200,200,220,0.55)",
+            color: "var(--muted-foreground)",
             whiteSpace: "nowrap",
           }}
         >
@@ -157,7 +157,7 @@ export default function ChallengeHeader({
           justifyContent: "flex-end",
           fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
           fontSize: "0.8rem",
-          color: "rgba(200,200,220,0.85)",
+          color: "var(--muted-foreground)",
           whiteSpace: "nowrap",
           overflow: "hidden",
           textOverflow: "ellipsis",
@@ -186,7 +186,7 @@ export default function ChallengeHeader({
               // Open state — static low-opacity white, indicates "click
               // to close." No animation so the eye isn't pulled back to
               // it while the user reads the open stepper below.
-              <span style={{ color: "rgba(232,232,240,0.4)" }}>Help</span>
+              <span style={{ color: "var(--muted-foreground)" }}>Help</span>
             ) : (
               // Closed state — pulsing pale neon green, same cadence
               // as the WaitingOverlay headlines + sidebar pill, drawing
@@ -216,7 +216,7 @@ export default function ChallengeHeader({
           </button>
         )}
         <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-          <span style={{ color: "oklch(0.65 0.25 290)" }}>◆</span>
+          <span style={{ color: "var(--color-accent-text)" }}>◆</span>
           <span>{attendeeName}</span>
         </span>
 

@@ -202,7 +202,7 @@ export default function ChallengePage({
           fontSize: "0.8rem",
           letterSpacing: "0.2em",
           textTransform: "uppercase",
-          color: "rgba(200,200,220,0.45)",
+          color: "var(--muted-foreground)",
         }}
       >
         Loading challenge…
@@ -221,7 +221,7 @@ export default function ChallengePage({
           background: "oklch(0.35 0.15 25 / 0.15)",
           fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
           fontSize: "0.85rem",
-          color: "oklch(0.7 0.2 25)",
+          color: "var(--color-time-up)",
         }}
       >
         Couldn't load the challenge: {error ?? workshop.error}
@@ -426,14 +426,14 @@ export default function ChallengePage({
                 fontWeight: 800,
                 letterSpacing: "0.03em",
                 textTransform: "uppercase",
-                color: "rgba(232,232,240,0.97)",
+                color: "var(--foreground)",
                 margin: "0 0 0.5rem",
               }}
             >
               Challenge {challengeNumber} -{" "}
               <span
                 style={{
-                  color: "oklch(0.72 0.28 290)",
+                  color: "var(--color-accent-text-bright)",
                   textShadow: "0 0 24px oklch(0.52 0.28 290 / 0.5)",
                 }}
               >
@@ -444,7 +444,7 @@ export default function ChallengePage({
               style={{
                 fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
                 fontSize: "0.85rem",
-                color: "rgba(200,200,220,0.8)",
+                color: "var(--muted-foreground)",
                 margin: "0 0 1.5rem",
               }}
             >
@@ -456,7 +456,7 @@ export default function ChallengePage({
                   {" "}· Used {myHintCount} hint{myHintCount === 1 ? "" : "s"} (+{myHintCount}m penalty baked in).
                 </>
               )}
-              {myRank !== null && <> · Current rank <strong style={{ color: "oklch(0.72 0.28 290)" }}>#{myRank}</strong></>}
+              {myRank !== null && <> · Current rank <strong style={{ color: "var(--color-accent-text-bright)" }}>#{myRank}</strong></>}
             </p>
 
             {snapshot && snapshot.length > 0 && (
@@ -465,9 +465,9 @@ export default function ChallengePage({
                   margin: "0 auto 1.75rem",
                   maxWidth: "420px",
                   padding: "0.9rem 1rem",
-                  border: "1px solid rgba(255,255,255,0.08)",
+                  border: "1px solid var(--border)",
                   borderRadius: "6px",
-                  background: "rgba(10,10,15,0.45)",
+                  background: "oklch(from var(--background) l c h / 0.45)",
                   textAlign: "left",
                 }}
               >
@@ -478,7 +478,7 @@ export default function ChallengePage({
                     fontWeight: 700,
                     letterSpacing: "0.22em",
                     textTransform: "uppercase",
-                    color: "rgba(200,200,220,0.55)",
+                    color: "var(--muted-foreground)",
                     marginBottom: "0.6rem",
                   }}
                 >
@@ -504,7 +504,7 @@ export default function ChallengePage({
                         padding: "0.3rem 0",
                         fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
                         fontSize: "0.82rem",
-                        color: isMe ? "rgba(232,232,240,0.97)" : "rgba(200,200,220,0.8)",
+                        color: isMe ? "var(--foreground)" : "var(--muted-foreground)",
                       }}
                     >
                       <span
@@ -532,7 +532,7 @@ export default function ChallengePage({
                               fontFamily: "'Barlow Condensed', sans-serif",
                               fontSize: "0.6rem",
                               letterSpacing: "0.2em",
-                              color: "oklch(0.72 0.28 290)",
+                              color: "var(--color-accent-text-bright)",
                             }}
                           >
                             YOU
@@ -579,7 +579,7 @@ export default function ChallengePage({
               alignItems: "center",
               justifyContent: "center",
               paddingLeft: "var(--sidebar-width, 200px)",
-              background: "rgba(10,10,15,0.65)",
+              background: "oklch(from var(--background) l c h / 0.65)",
               backdropFilter: "blur(10px)",
               WebkitBackdropFilter: "blur(10px)",
             }}
@@ -598,15 +598,15 @@ export default function ChallengePage({
                   fontWeight: 800,
                   letterSpacing: "0.04em",
                   textTransform: "uppercase",
-                  color: "rgba(232,232,240,0.97)",
+                  color: "var(--foreground)",
                   margin: "0 0 0.5rem",
                 }}
               >
                 Time's{" "}
                 <span
                   style={{
-                    color: "oklch(0.7 0.2 25)",
-                    textShadow: "0 0 24px oklch(0.5 0.2 25 / 0.5)",
+                    color: "var(--color-time-up)",
+                    textShadow: "0 0 24px var(--color-time-up-glow)",
                   }}
                 >
                   Up
@@ -616,14 +616,14 @@ export default function ChallengePage({
                 style={{
                   fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
                   fontSize: "0.875rem",
-                  color: "rgba(200,200,220,0.7)",
+                  color: "var(--muted-foreground)",
                   margin: 0,
                 }}
               >
                 Locking submissions · routing to your results…
               </p>
               <DotMatrixLogo
-                color="oklch(0.7 0.2 25)"
+                color="var(--color-time-up)"
                 label="Time's up pulse"
                 style={{ margin: "2.25rem auto 0" }}
               />

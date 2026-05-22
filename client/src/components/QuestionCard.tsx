@@ -116,7 +116,7 @@ export default function QuestionCard({
     return (
       <BorderGlow
         className="h-full"
-        backgroundColor="#0e0e16"
+        backgroundColor="var(--card)"
         borderRadius={6}
         glowColor="145 75 70"
         glowRadius={28}
@@ -168,7 +168,7 @@ export default function QuestionCard({
             transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
             style={{
               marginTop: "auto",
-              background: "rgba(0,0,0,0.25)",
+              background: "oklch(from var(--card) l c h / 0.5)",
               border: "1px solid oklch(0.55 0.22 145 / 0.5)",
               borderRadius: "4px",
               padding: "0.65rem 0.85rem",
@@ -195,9 +195,9 @@ export default function QuestionCard({
         style={{
           position: "relative",
           padding: "1.25rem 1.35rem",
-          border: "1px solid rgba(255,255,255,0.08)",
+          border: "1px solid var(--border)",
           borderRadius: "6px",
-          background: "rgba(255,255,255,0.015)",
+          background: "oklch(from var(--foreground) l c h / 0.04)",
           height: "100%",
           display: "flex",
           flexDirection: "column",
@@ -212,7 +212,7 @@ export default function QuestionCard({
               fontSize: "0.7rem",
               fontWeight: 700,
               letterSpacing: "0.25em",
-              color: "rgba(200,200,220,0.5)",
+              color: "var(--muted-foreground)",
             }}
           >
             LOCKED
@@ -228,7 +228,7 @@ export default function QuestionCard({
   // flash overlay still paints red over the BorderGlow's bg for the brief
   // moment after a wrong answer, then fades back to transparent so the
   // mesh-gradient edge glow shows through normally.
-  const flashBg = flashWrong ? "oklch(0.3 0.12 25 / 0.3)" : "transparent";
+  const flashBg = flashWrong ? "var(--color-wrong-flash)" : "transparent";
   const allUsed = hintCount > 0 && (paidHintIdxs?.size ?? 0) >= hintCount;
   const bulbVisible = hintCount > 0 && !allUsed && !!onRequestHint;
   const partiallyUsed = (paidHintIdxs?.size ?? 0) > 0;
@@ -236,7 +236,7 @@ export default function QuestionCard({
   return (
     <BorderGlow
       className="h-full"
-      backgroundColor="#0e0e16"
+      backgroundColor="var(--card)"
       borderRadius={6}
       glowColor="290 80 70"
       glowRadius={28}
@@ -281,11 +281,11 @@ export default function QuestionCard({
           autoComplete="off"
           style={{
             flex: 1,
-            background: "rgba(0,0,0,0.25)",
-            border: "1px solid rgba(255,255,255,0.12)",
+            background: "oklch(from var(--card) l c h / 0.5)",
+            border: "1px solid var(--border)",
             borderRadius: "4px",
             padding: "0.65rem 0.85rem",
-            color: "rgba(232,232,240,0.97)",
+            color: "var(--foreground)",
             fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
             fontSize: "0.85rem",
             outline: "none",
@@ -321,7 +321,7 @@ export default function QuestionCard({
             marginTop: "0.75rem",
             fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
             fontSize: "0.75rem",
-            color: "oklch(0.7 0.2 25)",
+            color: "var(--color-time-up)",
           }}
         >
           {errorMsg}
@@ -373,6 +373,6 @@ const promptStyle = {
   fontSize: "0.875rem",
   fontWeight: 300,
   lineHeight: 1.6,
-  color: "rgba(232,232,240,0.92)",
+  color: "var(--foreground)",
   marginBottom: "1rem",
 } as const;
