@@ -42,7 +42,7 @@ function WorkshopClockPill() {
   // in WorkshopLayout — this pill renders flush against it.
   const rowStyle = {
     paddingTop: '1.25rem',
-    borderTop: '1px solid rgba(255,255,255,0.06)',
+    borderTop: '1px solid var(--border)',
     display: 'flex',
     alignItems: 'center',
     gap: '0.5rem',
