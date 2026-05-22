@@ -30,7 +30,7 @@ const bodyParagraphStyle = {
   fontSize: "0.875rem",
   fontWeight: "300",
   lineHeight: "1.65",
-  color: "rgba(200,200,220,0.85)",
+  color: "var(--muted-foreground)",
   marginBottom: "1.5rem",
 } as const;
 
@@ -38,7 +38,7 @@ const stepImageStyle = {
   width: "100%",
   height: "auto",
   borderRadius: "6px",
-  border: "1px solid rgba(255,255,255,0.08)",
+  border: "1px solid var(--border)",
   marginTop: "0.5rem",
   marginBottom: "1.5rem",
   display: "block",
@@ -73,14 +73,14 @@ export default function Scenario1() {
                 lineHeight: "1.05",
                 letterSpacing: "0.03em",
                 textTransform: "uppercase",
-                color: "rgba(232,232,240,0.97)",
+                color: "var(--foreground)",
                 margin: 0,
               }}
             >
               Agentic{" "}
               <span
                 style={{
-                  color: "oklch(0.72 0.28 290)",
+                  color: "var(--color-accent-text-bright)",
                   textShadow: "0 0 30px oklch(0.52 0.28 290 / 0.4)",
                 }}
               >
@@ -123,7 +123,7 @@ export default function Scenario1() {
                   fontWeight: "700",
                   letterSpacing: "0.15em",
                   textTransform: "uppercase",
-                  color: "oklch(0.65 0.25 290)",
+                  color: "var(--color-accent-text)",
                   marginBottom: "1rem",
                 }}
               >
@@ -145,10 +145,10 @@ export default function Scenario1() {
                       fontSize: "0.9rem",
                       fontWeight: "300",
                       lineHeight: "1.6",
-                      color: "rgba(200,200,220,0.8)",
+                      color: "var(--muted-foreground)",
                     }}
                   >
-                    <span style={{ color: "oklch(0.65 0.25 290)", flexShrink: 0, marginTop: "2px" }}>◆</span>
+                    <span style={{ color: "var(--color-accent-text)", flexShrink: 0, marginTop: "2px" }}>◆</span>
                     {obj}
                   </li>
                 ))}
@@ -277,7 +277,7 @@ export default function Scenario1() {
                 fontWeight: "700",
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                color: "rgba(200,200,220,0.78)",
+                color: "var(--muted-foreground)",
                 marginBottom: "1.25rem",
               }}
             >
@@ -289,7 +289,7 @@ export default function Scenario1() {
                 fontSize: "1.35rem",
                 fontWeight: "500",
                 lineHeight: "1.3",
-                color: "rgba(232,232,240,0.97)",
+                color: "var(--foreground)",
                 margin: "0 0 1.5rem",
                 letterSpacing: "-0.01em",
               }}

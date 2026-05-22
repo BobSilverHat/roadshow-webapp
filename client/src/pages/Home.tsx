@@ -61,7 +61,7 @@ export default function Home() {
                 lineHeight: "1.05",
                 letterSpacing: "0.02em",
                 textTransform: "uppercase",
-                color: "rgba(232,232,240,0.97)",
+                color: "var(--foreground)",
                 margin: 0,
               }}
             >
@@ -76,7 +76,7 @@ export default function Home() {
                 lineHeight: "1.05",
                 letterSpacing: "0.02em",
                 textTransform: "uppercase",
-                color: "oklch(0.72 0.28 290)",
+                color: "var(--color-accent-text-bright)",
                 margin: 0,
                 textShadow: "0 0 40px oklch(0.52 0.28 290 / 0.5)",
               }}
@@ -109,7 +109,7 @@ export default function Home() {
                 fontSize: "0.875rem",
                 fontWeight: "300",
                 lineHeight: "1.65",
-                color: "rgba(200,200,220,0.85)",
+                color: "var(--muted-foreground)",
                 textAlign: "center",
                 marginBottom: "1.75rem",
               }}
@@ -126,7 +126,7 @@ export default function Home() {
                 fontSize: "0.875rem",
                 fontWeight: "300",
                 lineHeight: "1.65",
-                color: "rgba(200,200,220,0.85)",
+                color: "var(--muted-foreground)",
                 textAlign: "center",
                 marginBottom: "1.75rem",
               }}
@@ -143,7 +143,7 @@ export default function Home() {
                 fontSize: "0.875rem",
                 fontWeight: "300",
                 lineHeight: "1.65",
-                color: "rgba(200,200,220,0.85)",
+                color: "var(--muted-foreground)",
                 textAlign: "center",
                 marginBottom: "2rem",
               }}
@@ -188,10 +188,10 @@ export default function Home() {
                     fontSize: "0.95rem",
                     fontWeight: "300",
                     lineHeight: "1.65",
-                    color: "rgba(200,200,220,0.85)",
+                    color: "var(--muted-foreground)",
                   }}
                 >
-                  <span style={{ color: "oklch(0.65 0.25 290)", marginTop: "2px", flexShrink: 0 }}>•</span>
+                  <span style={{ color: "var(--color-accent-text)", marginTop: "2px", flexShrink: 0 }}>•</span>
                   <span>
                     <a href="#" className="accent-link">
                       {item.label}
@@ -226,10 +226,10 @@ export default function Home() {
                 margin: "0 0 2rem",
               }}
             >
-              <span style={{ color: "rgba(232,232,240,0.97)" }}>Salt </span>
+              <span style={{ color: "var(--foreground)" }}>Salt </span>
               <span
                 style={{
-                  color: "oklch(0.72 0.28 290)",
+                  color: "var(--color-accent-text-bright)",
                   textShadow: "0 0 30px oklch(0.52 0.28 290 / 0.5)",
                 }}
               >
