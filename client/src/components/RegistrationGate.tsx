@@ -27,17 +27,17 @@ const labelStyle = {
   fontWeight: 700,
   letterSpacing: "0.18em",
   textTransform: "uppercase" as const,
-  color: "oklch(0.65 0.25 290)",
+  color: "var(--color-accent-text)",
   marginBottom: "0.5rem",
 };
 
 const inputStyle = {
   width: "100%",
-  background: "rgba(255,255,255,0.03)",
-  border: "1px solid rgba(255,255,255,0.12)",
+  background: "oklch(from var(--card) l c h / 0.5)",
+  border: "1px solid var(--border)",
   borderRadius: "4px",
   padding: "0.85rem 1rem",
-  color: "rgba(232,232,240,0.97)",
+  color: "var(--foreground)",
   fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
   fontSize: "0.9rem",
   outline: "none",
@@ -63,7 +63,7 @@ export default function RegistrationGate({ children }: RegistrationGateProps) {
           fontSize: "0.8rem",
           letterSpacing: "0.2em",
           textTransform: "uppercase",
-          color: "rgba(200,200,220,0.45)",
+          color: "var(--muted-foreground)",
         }}
       >
         Checking session…
@@ -101,9 +101,9 @@ export default function RegistrationGate({ children }: RegistrationGateProps) {
         maxWidth: "440px",
         margin: "8rem auto 4rem",
         padding: "2.25rem 2rem",
-        border: "1px solid rgba(255,255,255,0.1)",
+        border: "1px solid var(--border)",
         borderRadius: "6px",
-        background: "rgba(10,10,15,0.6)",
+        background: "oklch(from var(--background) l c h / 0.6)",
         backdropFilter: "blur(4px)",
       }}
     >
@@ -120,7 +120,7 @@ export default function RegistrationGate({ children }: RegistrationGateProps) {
           fontWeight: 800,
           letterSpacing: "0.03em",
           textTransform: "uppercase",
-          color: "rgba(232,232,240,0.97)",
+          color: "var(--foreground)",
           margin: "0 0 0.75rem",
         }}
       >
@@ -132,7 +132,7 @@ export default function RegistrationGate({ children }: RegistrationGateProps) {
           fontSize: "0.82rem",
           fontWeight: 300,
           lineHeight: 1.55,
-          color: "rgba(200,200,220,0.75)",
+          color: "var(--muted-foreground)",
           marginBottom: "1.75rem",
         }}
       >
@@ -153,8 +153,8 @@ export default function RegistrationGate({ children }: RegistrationGateProps) {
             onChange={(e) => setName(e.target.value)}
             disabled={submitting}
             style={inputStyle}
-            onFocus={(e) => (e.currentTarget.style.borderColor = "oklch(0.65 0.25 290)")}
-            onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)")}
+            onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-accent-text)")}
+            onBlur={(e) => (e.currentTarget.style.borderColor = "var(--border)")}
           />
         </div>
         <div>
@@ -169,8 +169,8 @@ export default function RegistrationGate({ children }: RegistrationGateProps) {
             onChange={(e) => setEmail(e.target.value)}
             disabled={submitting}
             style={inputStyle}
-            onFocus={(e) => (e.currentTarget.style.borderColor = "oklch(0.65 0.25 290)")}
-            onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)")}
+            onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-accent-text)")}
+            onBlur={(e) => (e.currentTarget.style.borderColor = "var(--border)")}
           />
         </div>
 
@@ -179,11 +179,11 @@ export default function RegistrationGate({ children }: RegistrationGateProps) {
             style={{
               fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
               fontSize: "0.78rem",
-              color: "oklch(0.7 0.2 25)",
+              color: "var(--color-time-up)",
               padding: "0.7rem 0.9rem",
-              border: "1px solid oklch(0.55 0.2 25 / 0.4)",
+              border: "1px solid var(--color-time-up-glow)",
               borderRadius: "4px",
-              background: "oklch(0.4 0.15 25 / 0.15)",
+              background: "var(--color-time-up-glow)",
             }}
           >
             {visibleError}

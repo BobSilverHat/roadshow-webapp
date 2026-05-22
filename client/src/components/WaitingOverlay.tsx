@@ -71,7 +71,7 @@ export default function WaitingOverlay({ variant = "workshop" }: Props) {
         alignItems: "center",
         justifyContent: "center",
         paddingLeft: "var(--sidebar-width, 200px)",
-        background: "rgba(10,10,15,0.65)",
+        background: "oklch(from var(--background) l c h / 0.65)",
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
       }}
@@ -96,7 +96,7 @@ export default function WaitingOverlay({ variant = "workshop" }: Props) {
             fontWeight: 800,
             letterSpacing: "0.04em",
             textTransform: "uppercase",
-            color: "rgba(232,232,240,0.97)",
+            color: "var(--foreground)",
             margin: "0 0 0.75rem",
             lineHeight: 1.05,
           }}
@@ -124,7 +124,7 @@ export default function WaitingOverlay({ variant = "workshop" }: Props) {
           style={{
             fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
             fontSize: "0.875rem",
-            color: "rgba(200,220,210,0.7)",
+            color: "var(--muted-foreground)",
             margin: "0 auto",
             maxWidth: "440px",
             lineHeight: 1.6,
