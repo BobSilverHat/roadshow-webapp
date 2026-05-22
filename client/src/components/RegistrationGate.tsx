@@ -181,9 +181,9 @@ export default function RegistrationGate({ children }: RegistrationGateProps) {
               fontSize: "0.78rem",
               color: "var(--color-time-up)",
               padding: "0.7rem 0.9rem",
-              border: "1px solid var(--color-time-up-glow)",
+              border: "1px solid oklch(from var(--color-time-up) l c h / 0.4)",
               borderRadius: "4px",
-              background: "var(--color-time-up-glow)",
+              background: "oklch(from var(--color-time-up) l c h / 0.15)",
             }}
           >
             {visibleError}
