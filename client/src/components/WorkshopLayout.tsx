@@ -8,6 +8,8 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useLocation } from 'wouter';
+import { useTheme } from 'next-themes';
+import ThemeToggle from '@/components/ThemeToggle';
 import { useWorkshopClock } from '@/hooks/useWorkshopClock';
 
 const SALT_LOGO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663485309764/9Qvd9Kw2BJuzG4W4rxnhxw/salt-logo_4799bb3b.png";
@@ -219,6 +221,8 @@ interface WorkshopLayoutProps {
 export default function WorkshopLayout({ children, activeId }: WorkshopLayoutProps) {
   const [, navigate] = useLocation();
   const [scrolled, setScrolled] = useState(false);
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme !== 'light';
 
   // The sidebar's right edge aligns just past the Salt logo's right edge,
   // so the sidebar column lines up vertically with the navbar branding.
@@ -301,7 +305,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
     <div
       style={{
         minHeight: '100vh',
-        backgroundColor: '#0a0a0f',
+        backgroundColor: 'var(--background)',
         position: 'relative',
         // Exposed so descendants (e.g. ZoomableImage's fixed backdrop) can
         // inset to the main-content area and avoid overlapping the fixed
@@ -312,54 +316,71 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
       } as React.CSSProperties}
     >
       {/* Background shader video — fixed, behind all content */}
-      <video
-        src={HERO_BG_VIDEO_URL}
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        aria-hidden="true"
-        style={{
-          position: 'fixed',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          zIndex: 0,
-          pointerEvents: 'none',
-        }}
-      />
+      {isDark ? (
+        <video
+          src={HERO_BG_VIDEO_URL}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: 0,
+            pointerEvents: 'none',
+          }}
+        />
+      ) : (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: -2,
+            pointerEvents: 'none',
+            background:
+              'radial-gradient(ellipse at 50% 40%, oklch(0.88 0.08 290 / 0.45) 0%, oklch(0.97 0.005 285 / 0) 60%)',
+          }}
+        />
+      )}
 
       {/* Purple tint — shifts the blue shader highlights in the bottom-left
           toward violet. `mix-blend-mode: color` preserves luminance so blacks
           stay black; only chromatic pixels pick up the purple hue. */}
-      <div
-        style={{
-          position: 'fixed',
-          inset: 0,
-          pointerEvents: 'none',
-          zIndex: 0,
-          background:
-            'radial-gradient(ellipse 70% 60% at 15% 90%, rgba(139,92,246,0.85) 0%, rgba(124,58,237,0.55) 35%, rgba(124,58,237,0.15) 65%, transparent 90%)',
-          mixBlendMode: 'color',
-        }}
-      />
+      {isDark && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            pointerEvents: 'none',
+            zIndex: 0,
+            background:
+              'radial-gradient(ellipse 70% 60% at 15% 90%, rgba(139,92,246,0.85) 0%, rgba(124,58,237,0.55) 35%, rgba(124,58,237,0.15) 65%, transparent 90%)',
+            mixBlendMode: 'color',
+          }}
+        />
+      )}
 
       {/* Noise texture overlay */}
       <div className="noise-overlay" />
 
       {/* Dark gradient overlay */}
-      <div
-        style={{
-          position: 'fixed',
-          inset: 0,
-          background:
-            'linear-gradient(to bottom, rgba(10,10,15,0.68) 0%, rgba(10,10,15,0.78) 40%, rgba(10,10,15,0.92) 100%)',
-          pointerEvents: 'none',
-          zIndex: 0,
-        }}
-      />
+      {isDark && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background:
+              'linear-gradient(to bottom, rgba(10,10,15,0.68) 0%, rgba(10,10,15,0.78) 40%, rgba(10,10,15,0.92) 100%)',
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        />
+      )}
 
       {/* ============================================================
           TOP NAVBAR
@@ -376,8 +397,10 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0 2rem',
-          borderBottom: scrolled ? '1px solid rgba(255,255,255,0.07)' : '1px solid rgba(255,255,255,0.04)',
-          backgroundColor: scrolled ? 'rgba(10,10,15,0.92)' : 'rgba(10,10,15,0.75)',
+          borderBottom: '1px solid var(--border)',
+          backgroundColor: scrolled
+            ? 'oklch(from var(--background) l c h / 0.92)'
+            : 'oklch(from var(--background) l c h / 0.75)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
           transition: 'background-color 0.3s ease, border-color 0.3s ease',
@@ -393,7 +416,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
               height: '36px',
               width: 'auto',
               objectFit: 'contain',
-              filter: 'brightness(0) invert(1)',
+              filter: isDark ? 'brightness(0) invert(1)' : 'brightness(0)',
               cursor: 'pointer',
             }}
             onClick={() => navigate('/')}
@@ -416,8 +439,8 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
                 width: '6px',
                 height: '6px',
                 borderRadius: '50%',
-                backgroundColor: 'oklch(0.65 0.25 290)',
-                boxShadow: '0 0 6px oklch(0.65 0.25 290)',
+                backgroundColor: 'var(--color-accent-text)',
+                boxShadow: '0 0 6px var(--color-accent-text)',
               }}
             />
             <span
@@ -427,7 +450,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
                 fontWeight: '600',
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
-                color: 'oklch(0.65 0.25 290)',
+                color: 'var(--color-accent-text)',
               }}
             >
               Workshop
@@ -439,11 +462,21 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
               fontSize: '1.05rem',
               fontWeight: '600',
               letterSpacing: '0.04em',
-              color: 'rgba(232,232,240,0.95)',
+              color: 'var(--foreground)',
             }}
           >
             Agentic AI Security
           </div>
+        </div>
+        <div
+          style={{
+            marginLeft: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.75rem',
+          }}
+        >
+          <ThemeToggle />
         </div>
       </header>
 
@@ -459,7 +492,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
           width: `${sidebarWidth}px`,
           zIndex: 40,
           padding: '2rem 1.5rem',
-          borderRight: '1px solid rgba(255,255,255,0.06)',
+          borderRight: '1px solid var(--border)',
           display: 'flex',
           flexDirection: 'column',
           overflowY: 'auto',
@@ -487,14 +520,14 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
                     fontSize: '1rem',
                     fontWeight: isActive ? 800 : 600,
                     letterSpacing: '0.04em',
-                    color: isActive ? 'rgba(248,250,255,1)' : 'rgba(210,210,225,0.9)',
+                    color: isActive ? 'var(--foreground)' : 'var(--muted-foreground)',
                     transition: 'color 0.2s',
                   }}
                   onMouseEnter={(e) => {
-                    if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(248,250,255,1)';
+                    if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = 'var(--foreground)';
                   }}
                   onMouseLeave={(e) => {
-                    if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(210,210,225,0.9)';
+                    if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = 'var(--muted-foreground)';
                   }}
                 >
                   <span
@@ -502,10 +535,10 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
                       width: '6px',
                       height: '6px',
                       borderRadius: '50%',
-                      backgroundColor: isActive ? 'oklch(0.65 0.25 290)' : 'rgba(170,170,190,0.55)',
+                      backgroundColor: isActive ? 'var(--color-accent-text)' : 'var(--muted-foreground)',
                       flexShrink: 0,
                       transition: 'background-color 0.2s',
-                      boxShadow: isActive ? '0 0 6px oklch(0.65 0.25 290 / 0.6)' : 'none',
+                      boxShadow: isActive ? '0 0 6px oklch(from var(--color-accent-text) l c h / 0.6)' : 'none',
                     }}
                   />
                   {item.label}
@@ -520,7 +553,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
                       paddingLeft: '0.9rem',
                       marginTop: '0.2rem',
                       marginBottom: '0.5rem',
-                      borderLeft: '1px solid rgba(255,255,255,0.06)',
+                      borderLeft: '1px solid var(--border)',
                       display: 'flex',
                       flexDirection: 'column',
                     }}
@@ -541,14 +574,14 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
                             fontSize: '0.85rem',
                             fontWeight: isSubActive ? 700 : 500,
                             letterSpacing: '0.01em',
-                            color: isSubActive ? 'rgba(248,250,255,1)' : 'rgba(180,180,200,0.7)',
+                            color: isSubActive ? 'var(--foreground)' : 'var(--muted-foreground)',
                             transition: 'color 0.2s',
                           }}
                           onMouseEnter={(e) => {
-                            if (!isSubActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(232,232,240,0.95)';
+                            if (!isSubActive) (e.currentTarget as HTMLButtonElement).style.color = 'var(--foreground)';
                           }}
                           onMouseLeave={(e) => {
-                            if (!isSubActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(180,180,200,0.7)';
+                            if (!isSubActive) (e.currentTarget as HTMLButtonElement).style.color = 'var(--muted-foreground)';
                           }}
                         >
                           {sub.label}
@@ -587,7 +620,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
             el.style.transform = 'scale(1.06)';
             const label = el.querySelector<HTMLSpanElement>('[data-salt-access-label]');
             if (label) {
-              label.style.color = 'oklch(0.78 0.22 290)';
+              label.style.color = 'var(--color-accent-text-bright)';
               label.style.textShadow = '0 0 14px oklch(0.55 0.28 290 / 0.6)';
             }
           }}
@@ -596,12 +629,12 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
             el.style.transform = 'scale(1)';
             const label = el.querySelector<HTMLSpanElement>('[data-salt-access-label]');
             if (label) {
-              label.style.color = 'rgba(200,200,220,0.8)';
+              label.style.color = 'var(--muted-foreground)';
               label.style.textShadow = 'none';
             }
           }}
         >
-          <span style={{ color: 'oklch(0.65 0.25 290)', fontSize: '0.65rem', lineHeight: 1 }}>◆</span>
+          <span style={{ color: 'var(--color-accent-text)', fontSize: '0.65rem', lineHeight: 1 }}>◆</span>
           <span
             data-salt-access-label
             style={{
@@ -610,7 +643,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
               fontWeight: '700',
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
-              color: 'rgba(200,200,220,0.8)',
+              color: 'var(--muted-foreground)',
               transition: 'color 0.25s ease, text-shadow 0.25s ease',
             }}
           >
