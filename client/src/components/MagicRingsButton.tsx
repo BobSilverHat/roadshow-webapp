@@ -113,7 +113,7 @@ export default function MagicRingsButton({ label = 'Next', onClick }: MagicRings
             height: '64px',
             borderRadius: '50%',
             border: `1.5px solid ${hovered ? 'rgba(167,139,250,0.9)' : 'rgba(167,139,250,0.45)'}`,
-            backgroundColor: hovered ? 'rgba(124,58,237,0.18)' : 'rgba(10,10,15,0.6)',
+            backgroundColor: hovered ? 'rgba(124,58,237,0.18)' : 'oklch(from var(--background) l c h / 0.6)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
