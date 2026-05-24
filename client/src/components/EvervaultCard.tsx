@@ -112,7 +112,7 @@ export default function EvervaultCard({ children, className, style }: EvervaultC
   return (
     <div className={className} style={outerStyle}>
     <BorderGlow
-      backgroundColor="#0e0e16"
+      backgroundColor="var(--card)"
       borderRadius={6}
       glowColor="290 80 70"
       glowRadius={28}
@@ -171,7 +171,7 @@ export default function EvervaultCard({ children, className, style }: EvervaultC
             fontSize: "0.65rem",
             lineHeight: 1.1,
             fontWeight: 400,
-            color: "rgba(255, 255, 255, 0.9)",
+            color: "oklch(from var(--foreground) l c h / 0.9)",
             whiteSpace: "pre-wrap",
             wordBreak: "break-all",
             mixBlendMode: "overlay",
@@ -196,7 +196,7 @@ export default function EvervaultCard({ children, className, style }: EvervaultC
             zIndex: 10,
             filter: hovered ? "brightness(1.25) saturate(1.1)" : "none",
             textShadow: hovered
-              ? "0 0 14px rgba(10,10,15,0.9), 0 1px 3px rgba(10,10,15,0.75)"
+              ? "0 0 14px oklch(from var(--background) l c h / 0.9), 0 1px 3px oklch(from var(--background) l c h / 0.75)"
               : "none",
             transition: "filter 0.3s ease, text-shadow 0.3s ease",
           }}
