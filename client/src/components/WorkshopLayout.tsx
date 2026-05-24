@@ -400,9 +400,17 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
           justifyContent: 'space-between',
           padding: '0 2rem',
           borderBottom: '1px solid var(--border)',
-          backgroundColor: scrolled
-            ? 'oklch(from var(--background) l c h / 0.92)'
-            : 'oklch(from var(--background) l c h / 0.75)',
+          backgroundColor: isDark
+            ? (scrolled
+                ? 'oklch(from var(--background) l c h / 0.92)'
+                : 'oklch(from var(--background) l c h / 0.75)')
+            // Light: match the page wash (0.75 alpha) so the shader ghosts
+            // through behind the navbar exactly like the page body. Scroll
+            // adds a touch more opacity for readability against scrolling
+            // content but stays translucent.
+            : (scrolled
+                ? 'oklch(from var(--background) l c h / 0.6)'
+                : 'oklch(from var(--background) l c h / 0.4)'),
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
           transition: 'background-color 0.3s ease, border-color 0.3s ease',
