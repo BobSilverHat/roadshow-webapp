@@ -9,6 +9,7 @@
  */
 
 import { useRef, useCallback, useState, useEffect, type ReactNode } from "react";
+import { useTheme } from "next-themes";
 
 interface BorderGlowProps {
   children?: ReactNode;
@@ -142,6 +143,13 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  // Outer glow uses `plus-lighter` blend (additive) which only "glows" on
+  // dark backgrounds — on white, adding light makes no visible change.
+  // In light mode, swap to `normal` so the glow alpha-blends as a colored
+  // halo. Inner fill keeps `soft-light` in both — works reasonably across
+  // backgrounds.
+  const { resolvedTheme } = useTheme();
+  const outerGlowBlend = resolvedTheme === "light" ? "normal" : "plus-lighter";
   const [cursorAngle, setCursorAngle] = useState(45);
   const [edgeProximity, setEdgeProximity] = useState(0);
   const [sweepActive, setSweepActive] = useState(false);
@@ -340,7 +348,7 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
             maskImage: `conic-gradient(from ${angleDeg} at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%)`,
             WebkitMaskImage: `conic-gradient(from ${angleDeg} at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%)`,
             opacity: glowOpacity,
-            mixBlendMode: "plus-lighter",
+            mixBlendMode: outerGlowBlend,
             transition: isVisible ? "opacity 0.25s ease-out" : "opacity 0.75s ease-in-out",
           } as React.CSSProperties
         }
