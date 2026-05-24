@@ -70,8 +70,8 @@ function WorkshopClockPill() {
             fontWeight: 700,
             letterSpacing: '0.15em',
             textTransform: 'uppercase',
-            color: 'oklch(0.78 0.22 25)',
-            textShadow: '0 0 10px oklch(0.5 0.2 25 / 0.5)',
+            color: 'var(--color-time-up)',
+            textShadow: '0 0 10px var(--color-time-up-glow)',
           }}
         >
           Complete
@@ -91,8 +91,7 @@ function WorkshopClockPill() {
             fontSize: '0.85rem',
             fontWeight: 600,
             letterSpacing: '0.04em',
-            color: 'rgba(245,245,250,0.97)',
-            textShadow: '0 0 8px rgba(255,255,255,0.35)',
+            color: 'var(--foreground)',
             fontVariantNumeric: 'tabular-nums',
             marginLeft: 'auto',
           }}
@@ -154,27 +153,19 @@ function WorkshopClockPill() {
       >
         ·
       </span>
-      <motion.span
-        animate={{
-          textShadow: [
-            '0 0 5px rgba(255,255,255,0.25)',
-            '0 0 14px rgba(255,255,255,0.6)',
-            '0 0 5px rgba(255,255,255,0.25)',
-          ],
-        }}
-        transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+      <span
         style={{
           fontFamily: "'Casta', 'Barlow Condensed', serif",
           fontSize: '0.85rem',
           fontWeight: 600,
           letterSpacing: '0.04em',
-          color: 'rgba(245,245,250,0.97)',
+          color: 'var(--foreground)',
           fontVariantNumeric: 'tabular-nums',
           marginLeft: 'auto',
         }}
       >
         {formatRemaining(clock.remainingMs)}
-      </motion.span>
+      </span>
     </div>
   );
 }
@@ -593,7 +584,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
             />
             <span
               style={{
-                fontFamily: "'Casta', 'Barlow Condensed', serif",
+                fontFamily: "'Nostalgic Whispers', 'Barlow Condensed', serif",
                 fontSize: '0.65rem',
                 fontWeight: '600',
                 letterSpacing: '0.15em',
@@ -606,11 +597,12 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
           </div>
           <div
             style={{
-              fontFamily: "'Casta', 'Barlow Condensed', serif",
-              fontSize: '1.05rem',
+              fontFamily: "'Nostalgic Whispers', 'Barlow Condensed', serif",
+              fontSize: '0.95rem',
               fontWeight: '600',
-              letterSpacing: '0.04em',
+              letterSpacing: '0.03em',
               color: 'var(--foreground)',
+              whiteSpace: 'nowrap',
             }}
           >
             Agentic AI Security
