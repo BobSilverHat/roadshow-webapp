@@ -405,12 +405,16 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
             ? (scrolled
                 ? 'oklch(from var(--background) l c h / 0.92)'
                 : 'oklch(from var(--background) l c h / 0.75)')
-            // Light: fully transparent so the navbar inherits the same
-            // shader+wash surface the page body + sidebar sit on. No
-            // backdrop-filter for the same reason — sidebar has none.
-            : 'transparent',
-          backdropFilter: isDark ? 'blur(12px)' : undefined,
-          WebkitBackdropFilter: isDark ? 'blur(12px)' : undefined,
+            // Light: match the TOP of the wash gradient (0.96 alpha) so
+            // the navbar looks like a seamless continuation of the page
+            // surface rather than a separate strip — but still opaque
+            // enough to block scrolled content from bleeding through.
+            // Bump a touch when scrolled for extra safety.
+            : (scrolled
+                ? 'oklch(from var(--background) l c h / 0.99)'
+                : 'oklch(from var(--background) l c h / 0.96)'),
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
           transition: 'background-color 0.3s ease, border-color 0.3s ease',
         }}
       >
