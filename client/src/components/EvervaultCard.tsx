@@ -155,48 +155,59 @@ export default function EvervaultCard({ children, className, style }: EvervaultC
           ...innerStyle,
         }}
       >
-        {/* Purple gradient tint — revealed only inside the cursor's radial
-            mask. Alphas intentionally low so the reveal is a whisper behind
-            the text, not a blown-out spotlight. */}
-        <motion.div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "linear-gradient(135deg, oklch(0.52 0.28 290 / 0.5), oklch(0.65 0.25 290 / 0.3))",
-            opacity: hovered ? 1 : 0,
-            transition: "opacity 0.3s",
-            pointerEvents: "none",
-            ...maskStyle,
-          }}
-        />
+        {/* Hover-reveal layers (purple gradient + hex glyphs). DARK MODE
+            ONLY — these effects were authored against the obsidian card
+            and read as subtle atmospheric noise on dark. On a white card
+            they sit loud (no dark luminance to absorb them) so we skip
+            them entirely in light mode and rely on the BorderGlow ring
+            + content brightening to signal hover. */}
+        {!isLight && (
+          <>
+            {/* Purple gradient tint — revealed only inside the cursor's
+                radial mask. Alphas intentionally low so the reveal is a
+                whisper behind the text, not a blown-out spotlight. */}
+            <motion.div
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                inset: 0,
+                background:
+                  "linear-gradient(135deg, oklch(0.52 0.28 290 / 0.5), oklch(0.65 0.25 290 / 0.3))",
+                opacity: hovered ? 1 : 0,
+                transition: "opacity 0.3s",
+                pointerEvents: "none",
+                ...maskStyle,
+              }}
+            />
 
-        {/* Random hex/binary glyphs — same cursor mask, overlay-blended on
-            top. Capped at 60% opacity so they read as ambient shimmer. */}
-        <motion.div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: 0,
-            fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-            fontSize: "0.65rem",
-            lineHeight: 1.1,
-            fontWeight: 400,
-            color: glyphColor,
-            whiteSpace: "pre-wrap",
-            wordBreak: "break-all",
-            mixBlendMode: glyphBlend,
-            opacity: hovered ? glyphMaxOpacity : 0,
-            transition: "opacity 0.3s",
-            pointerEvents: "none",
-            userSelect: "none",
-            overflow: "hidden",
-            ...maskStyle,
-          }}
-        >
-          {randomString}
-        </motion.div>
+            {/* Random hex/binary glyphs — same cursor mask, overlay-blended
+                on top. Capped at 60% opacity so they read as ambient
+                shimmer. */}
+            <motion.div
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                inset: 0,
+                fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
+                fontSize: "0.65rem",
+                lineHeight: 1.1,
+                fontWeight: 400,
+                color: glyphColor,
+                whiteSpace: "pre-wrap",
+                wordBreak: "break-all",
+                mixBlendMode: glyphBlend,
+                opacity: hovered ? glyphMaxOpacity : 0,
+                transition: "opacity 0.3s",
+                pointerEvents: "none",
+                userSelect: "none",
+                overflow: "hidden",
+                ...maskStyle,
+              }}
+            >
+              {randomString}
+            </motion.div>
+          </>
+        )}
 
         {/* Card content — always on top, unaffected by the mask. On hover a
             brightness/saturation filter lifts all descendant text, and a
