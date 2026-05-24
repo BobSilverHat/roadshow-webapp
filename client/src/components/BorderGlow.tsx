@@ -339,14 +339,24 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
         }
       />
 
-      {/* outer glow */}
+      {/* outer glow. In dark mode the conic mask localizes the glow to a
+          ~72° arc around the cursor — looks like a directional gleam on
+          the dark bg. In light mode the same mask leaves white gaps in
+          the halo (the absent-glow regions show through), so drop the
+          mask and let the full halo show as a continuous ring. */}
       <span
         className="absolute pointer-events-none z-[1] rounded-[inherit]"
         style={
           {
             inset: `${-glowRadius}px`,
-            maskImage: `conic-gradient(from ${angleDeg} at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%)`,
-            WebkitMaskImage: `conic-gradient(from ${angleDeg} at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%)`,
+            maskImage:
+              resolvedTheme === "light"
+                ? undefined
+                : `conic-gradient(from ${angleDeg} at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%)`,
+            WebkitMaskImage:
+              resolvedTheme === "light"
+                ? undefined
+                : `conic-gradient(from ${angleDeg} at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%)`,
             opacity: glowOpacity,
             mixBlendMode: outerGlowBlend,
             transition: isVisible ? "opacity 0.25s ease-out" : "opacity 0.75s ease-in-out",
