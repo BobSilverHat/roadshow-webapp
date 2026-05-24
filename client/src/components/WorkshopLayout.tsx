@@ -346,7 +346,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
             zIndex: 1,
             pointerEvents: 'none',
             background:
-              'linear-gradient(to bottom, oklch(0.97 0.005 285 / 0.99) 0%, oklch(0.97 0.005 285 / 0.99) 70px, oklch(0.97 0.005 285 / 0.6) 100%)',
+              'linear-gradient(to bottom, oklch(0.97 0.005 285 / 0.99) 0%, oklch(0.97 0.005 285 / 0.99) 70px, oklch(0.97 0.005 285 / 0.78) 100%)',
           }}
         />
       )}
