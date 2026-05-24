@@ -118,12 +118,14 @@
 :root.light {
   --background: oklch(0.97 0.005 285);
   --foreground: oklch(0 0 0);
-  /* Card surfaces match the background so BorderGlow-wrapped cards
-     read as extensions of the page surface (separation comes from the
-     BorderGlow ring/halo, not a contrasting fill). */
-  --card: oklch(0.97 0.005 285);
+  /* Card surfaces sit one notch BELOW --background's lightness so they
+     read as the same off-white as the navbar (which is --background at
+     96% alpha + backdrop-blur over the shader+wash, effectively a
+     ~0.95 luminance off-white). A fully-opaque 0.97-L card otherwise
+     pops as too-white against the slightly muted surroundings. */
+  --card: oklch(0.95 0.005 285);
   --card-foreground: oklch(0 0 0);
-  --popover: oklch(0.97 0.005 285);
+  --popover: oklch(0.95 0.005 285);
   --popover-foreground: oklch(0 0 0);
   --primary: oklch(0.52 0.28 290);
   --primary-foreground: oklch(0.98 0 0);
