@@ -117,17 +117,17 @@
 /* Light theme overrides — applied when next-themes sets <html class="light"> */
 :root.light {
   --background: oklch(0.97 0.005 285);
-  --foreground: oklch(0.18 0.01 285);
+  --foreground: oklch(0.12 0.012 285);
   --card: oklch(0.99 0.003 285);
-  --card-foreground: oklch(0.18 0.01 285);
+  --card-foreground: oklch(0.12 0.012 285);
   --popover: oklch(0.99 0.003 285);
-  --popover-foreground: oklch(0.18 0.01 285);
+  --popover-foreground: oklch(0.12 0.012 285);
   --primary: oklch(0.52 0.28 290);
   --primary-foreground: oklch(0.98 0 0);
   --secondary: oklch(0.94 0.006 285);
-  --secondary-foreground: oklch(0.28 0.012 285);
+  --secondary-foreground: oklch(0.22 0.012 285);
   --muted: oklch(0.94 0.006 285);
-  --muted-foreground: oklch(0.42 0.012 285);
+  --muted-foreground: oklch(0.32 0.014 285);
   --accent: oklch(0.52 0.28 290);
   --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.5 0.22 25);
