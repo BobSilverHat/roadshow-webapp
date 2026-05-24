@@ -17,6 +17,7 @@
 import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
+import { useTheme } from "next-themes";
 import BorderGlow from "@/components/BorderGlow";
 
 interface EvervaultCardProps {
@@ -41,6 +42,17 @@ export default function EvervaultCard({ children, className, style }: EvervaultC
   const [randomString, setRandomString] = useState("");
   const [hovered, setHovered] = useState(false);
   const frameRef = useRef<number | null>(null);
+  const { resolvedTheme } = useTheme();
+  const isLight = resolvedTheme === "light";
+  // Hex-glyph reveal: light mode uses a low-opacity purple tint with
+  // normal blend so it sits as a whisper inside the purple-gradient
+  // reveal; dark mode keeps the original near-white overlay-blend
+  // shimmer that reads against the dark card.
+  const glyphColor = isLight
+    ? "oklch(from var(--color-accent-text) l c h / 0.55)"
+    : "oklch(from var(--foreground) l c h / 0.9)";
+  const glyphBlend = isLight ? ("normal" as const) : ("overlay" as const);
+  const glyphMaxOpacity = isLight ? 0.25 : 0.6;
 
   useEffect(() => {
     setRandomString(generateRandomString(3500));
@@ -171,11 +183,11 @@ export default function EvervaultCard({ children, className, style }: EvervaultC
             fontSize: "0.65rem",
             lineHeight: 1.1,
             fontWeight: 400,
-            color: "oklch(from var(--foreground) l c h / 0.9)",
+            color: glyphColor,
             whiteSpace: "pre-wrap",
             wordBreak: "break-all",
-            mixBlendMode: "overlay",
-            opacity: hovered ? 0.6 : 0,
+            mixBlendMode: glyphBlend,
+            opacity: hovered ? glyphMaxOpacity : 0,
             transition: "opacity 0.3s",
             pointerEvents: "none",
             userSelect: "none",
