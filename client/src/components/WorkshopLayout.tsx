@@ -435,54 +435,9 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
           />
         </div>
 
-        {/* Right: Workshop title */}
-        <div style={{ textAlign: 'right' }}>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              justifyContent: 'flex-end',
-              marginBottom: '2px',
-            }}
-          >
-            <div
-              style={{
-                width: '6px',
-                height: '6px',
-                borderRadius: '50%',
-                backgroundColor: 'var(--color-accent-text)',
-                boxShadow: '0 0 6px var(--color-accent-text)',
-              }}
-            />
-            <span
-              style={{
-                fontFamily: "'Casta', 'Barlow Condensed', serif",
-                fontSize: '0.65rem',
-                fontWeight: '600',
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                color: 'var(--color-accent-text)',
-              }}
-            >
-              Workshop
-            </span>
-          </div>
-          <div
-            style={{
-              fontFamily: "'Casta', 'Barlow Condensed', serif",
-              fontSize: '1.05rem',
-              fontWeight: '600',
-              letterSpacing: '0.04em',
-              color: 'var(--foreground)',
-            }}
-          >
-            Agentic AI Security
-          </div>
-        </div>
+        {/* Right: theme toggle (Workshop title moved into the sidebar) */}
         <div
           style={{
-            marginLeft: '1rem',
             display: 'flex',
             alignItems: 'center',
             gap: '0.75rem',
@@ -607,61 +562,60 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
           })}
         </nav>
 
-        {/* Salt Access — external link to the Salt platform login. Docks
-            to the bottom of the sidebar, sitting directly above the
+        {/* Workshop branding — moved here from the navbar's right cluster.
+            Docks to the bottom of the sidebar, sitting directly above the
             WorkshopClockPill so the pill's borderTop doubles as the visual
-            divider between this link and the timer. */}
-        <a
-          href="https://salt-labs.secured-api.com/login"
-          target="_blank"
-          rel="noopener noreferrer"
+            divider. Same two-line shape (Workshop label + title heading)
+            as the original, just left-aligned for the sidebar context. */}
+        <div
           style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.4rem',
             marginTop: 'auto',
             marginBottom: '0.85rem',
-            transformOrigin: 'left center',
-            transition: 'transform 0.25s ease, color 0.25s ease, text-shadow 0.25s ease',
-            cursor: 'pointer',
-            textDecoration: 'none',
-            width: 'fit-content',
-          }}
-          onMouseEnter={(e) => {
-            const el = e.currentTarget as HTMLAnchorElement;
-            el.style.transform = 'scale(1.06)';
-            const label = el.querySelector<HTMLSpanElement>('[data-salt-access-label]');
-            if (label) {
-              label.style.color = 'var(--color-accent-text-bright)';
-              label.style.textShadow = '0 0 14px oklch(0.55 0.28 290 / 0.6)';
-            }
-          }}
-          onMouseLeave={(e) => {
-            const el = e.currentTarget as HTMLAnchorElement;
-            el.style.transform = 'scale(1)';
-            const label = el.querySelector<HTMLSpanElement>('[data-salt-access-label]');
-            if (label) {
-              label.style.color = 'var(--muted-foreground)';
-              label.style.textShadow = 'none';
-            }
+            textAlign: 'left',
           }}
         >
-          <span style={{ color: 'var(--color-accent-text)', fontSize: '0.65rem', lineHeight: 1 }}>◆</span>
-          <span
-            data-salt-access-label
+          <div
             style={{
-              fontFamily: "'Casta', 'Barlow Condensed', serif",
-              fontSize: '0.9rem',
-              fontWeight: '700',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              color: 'var(--muted-foreground)',
-              transition: 'color 0.25s ease, text-shadow 0.25s ease',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              marginBottom: '2px',
             }}
           >
-            Salt Access
-          </span>
-        </a>
+            <div
+              style={{
+                width: '6px',
+                height: '6px',
+                borderRadius: '50%',
+                backgroundColor: 'var(--color-accent-text)',
+                boxShadow: '0 0 6px var(--color-accent-text)',
+              }}
+            />
+            <span
+              style={{
+                fontFamily: "'Casta', 'Barlow Condensed', serif",
+                fontSize: '0.65rem',
+                fontWeight: '600',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: 'var(--color-accent-text)',
+              }}
+            >
+              Workshop
+            </span>
+          </div>
+          <div
+            style={{
+              fontFamily: "'Casta', 'Barlow Condensed', serif",
+              fontSize: '1.05rem',
+              fontWeight: '600',
+              letterSpacing: '0.04em',
+              color: 'var(--foreground)',
+            }}
+          >
+            Agentic AI Security
+          </div>
+        </div>
 
         {/* Live workshop countdown — pinned to the bottom under Salt Access. */}
         <WorkshopClockPill />
