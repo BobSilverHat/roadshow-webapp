@@ -315,35 +315,37 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
         ['--navbar-height' as string]: '70px',
       } as React.CSSProperties}
     >
-      {/* Background shader video — fixed, behind all content */}
-      {isDark ? (
-        <video
-          src={HERO_BG_VIDEO_URL}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
+      {/* Background shader video — fixed, behind all content. Renders in
+          BOTH themes; light mode adds a high-opacity white wash on top so
+          the shader motion ghosts through faintly without the dark
+          obsidian feel. */}
+      <video
+        src={HERO_BG_VIDEO_URL}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+        style={{
+          position: 'fixed',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
+      {!isDark && (
+        <div
           aria-hidden="true"
           style={{
             position: 'fixed',
             inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            zIndex: 0,
+            zIndex: 1,
             pointerEvents: 'none',
-          }}
-        />
-      ) : (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: -2,
-            pointerEvents: 'none',
-            background:
-              'radial-gradient(ellipse at 50% 40%, oklch(0.88 0.08 290 / 0.45) 0%, oklch(0.97 0.005 285 / 0) 60%)',
+            background: 'oklch(0.97 0.005 285 / 0.88)',
           }}
         />
       )}
