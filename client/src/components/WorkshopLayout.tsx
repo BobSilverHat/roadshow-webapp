@@ -345,7 +345,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
             inset: 0,
             zIndex: 1,
             pointerEvents: 'none',
-            background: 'oklch(0.97 0.005 285 / 0.88)',
+            background: 'oklch(0.97 0.005 285 / 0.75)',
           }}
         />
       )}
