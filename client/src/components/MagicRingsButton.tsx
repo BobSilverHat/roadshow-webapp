@@ -113,7 +113,7 @@ export default function MagicRingsButton({ label = 'Next', onClick }: MagicRings
             height: '64px',
             borderRadius: '50%',
             border: `1.5px solid ${hovered ? 'rgba(167,139,250,0.9)' : 'rgba(167,139,250,0.45)'}`,
-            backgroundColor: hovered ? 'rgba(124,58,237,0.18)' : 'oklch(from var(--background) l c h / 0.6)',
+            backgroundColor: hovered ? 'rgba(124,58,237,0.18)' : 'rgba(10,10,15,0.6)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -154,7 +154,7 @@ export default function MagicRingsButton({ label = 'Next', onClick }: MagicRings
           fontWeight: '600',
           letterSpacing: '0.18em',
           textTransform: 'uppercase',
-          color: hovered ? 'rgba(196,181,253,0.9)' : 'rgba(150,130,200,0.65)',
+          color: hovered ? 'var(--color-accent-text-bright)' : 'var(--color-accent-text)',
           transition: 'color 0.3s ease',
           marginTop: '-0.5rem',
         }}
