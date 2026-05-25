@@ -116,23 +116,24 @@ export default function ChallengePage({
   // Smooth-scroll target for the celebration reveal card.
   const completeCardRef = useRef<HTMLDivElement | null>(null);
 
-  // First-visit auto-open: when a user lands on /challenge/1 and the
-  // workshop is in_progress, pop the help stepper open automatically.
-  // Persists via localStorage so subsequent visits don't re-trigger.
+  // First-visit auto-open: when a user JUST clicked Begin on
+  // /challenge/1 (workshop.startedAt within the last 5 seconds), pop
+  // the help stepper open automatically. Using the timestamp on the
+  // attendee's challenge_attempts row instead of localStorage means
+  // (a) refreshing the page mid-challenge doesn't re-open it, and
+  // (b) the gate resets naturally per attendee so DB resets / new
+  // registrations get a fresh auto-open on their next Begin click.
+  const workshopStartedAt = workshop.startedAt;
   useEffect(() => {
     if (challengeId !== 1) return;
     if (workshop.status !== "in_progress") return;
+    if (!workshopStartedAt) return;
     if (helpAutoOpenedRef.current) return;
+    const startedMs = new Date(workshopStartedAt).getTime();
+    if (Date.now() - startedMs > 5000) return;
     helpAutoOpenedRef.current = true;
-    try {
-      if (window.localStorage.getItem("salt-help-c1-seen") === "1") return;
-      window.localStorage.setItem("salt-help-c1-seen", "1");
-    } catch {
-      // localStorage unavailable (private mode etc.) — still open this
-      // session; we just won't remember next time.
-    }
     setHelpOpen(true);
-  }, [challengeId, workshop.status]);
+  }, [challengeId, workshop.status, workshopStartedAt]);
 
   // Direct nav to /challenge/2 before the workshop is begun → bounce to C1.
   // Funnels both the locked (admin-gated) and ready states to the same
