@@ -27,8 +27,8 @@ const fadeUp = {
 };
 
 const bodyParagraphStyle = {
-  fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-  fontSize: "0.875rem",
+  fontFamily: "'Inter', sans-serif",
+  fontSize: "1rem",
   fontWeight: "300",
   lineHeight: "1.65",
   color: "var(--muted-foreground)",
@@ -52,9 +52,9 @@ export default function Scenario2() {
     <WorkshopLayout activeId="scenario-2">
       <div
         style={{
-          maxWidth: "700px",
+          maxWidth: "880px",
           margin: "0 auto",
-          padding: "0 2rem 6rem",
+          padding: "0 1.5rem 6rem",
         }}
       >
         {/* ====================================================
@@ -146,7 +146,7 @@ export default function Scenario2() {
                       display: "flex",
                       gap: "0.5rem",
                       marginBottom: "0.6rem",
-                      fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
+                      fontFamily: "'Inter', sans-serif",
                       fontSize: "0.9rem",
                       fontWeight: "300",
                       lineHeight: "1.6",
@@ -347,7 +347,7 @@ export default function Scenario2() {
             </span>
             <h2
               style={{
-                fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
+                fontFamily: "'Inter', sans-serif",
                 fontSize: "1.35rem",
                 fontWeight: "500",
                 lineHeight: "1.3",
