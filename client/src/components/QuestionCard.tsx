@@ -369,9 +369,9 @@ const cardHeaderStyle = {
 } as const;
 
 const promptStyle = {
-  fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-  fontSize: "0.875rem",
-  fontWeight: 300,
+  fontFamily: "'Inter', sans-serif",
+  fontSize: "1rem",
+  fontWeight: 400,
   lineHeight: 1.6,
   color: "var(--foreground)",
   marginBottom: "1rem",
