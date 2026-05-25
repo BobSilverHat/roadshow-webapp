@@ -105,7 +105,7 @@ export default function Home() {
           >
             <p
               style={{
-                fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
+                fontFamily: "'Inter', sans-serif",
                 fontSize: "0.875rem",
                 fontWeight: "300",
                 lineHeight: "1.65",
@@ -122,7 +122,7 @@ export default function Home() {
 
             <p
               style={{
-                fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
+                fontFamily: "'Inter', sans-serif",
                 fontSize: "0.875rem",
                 fontWeight: "300",
                 lineHeight: "1.65",
@@ -139,7 +139,7 @@ export default function Home() {
 
             <p
               style={{
-                fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
+                fontFamily: "'Inter', sans-serif",
                 fontSize: "0.875rem",
                 fontWeight: "300",
                 lineHeight: "1.65",
@@ -184,7 +184,7 @@ export default function Home() {
                     display: "flex",
                     gap: "0.5rem",
                     marginBottom: "1rem",
-                    fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
+                    fontFamily: "'Inter', sans-serif",
                     fontSize: "0.95rem",
                     fontWeight: "300",
                     lineHeight: "1.65",
