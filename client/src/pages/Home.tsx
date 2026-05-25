@@ -25,9 +25,9 @@ export default function Home() {
     <WorkshopLayout activeId="introduction">
       <div
         style={{
-          maxWidth: "700px",
+          maxWidth: "880px",
           margin: "0 auto",
-          padding: "0 2rem 6rem",
+          padding: "0 1.5rem 6rem",
         }}
       >
         {/* ====================================================
