@@ -110,8 +110,29 @@ export default function ChallengePage({
   // the ChallengeHeader; Complete on the stepper's final step also
   // flips this back to false via onClose.
   const [helpOpen, setHelpOpen] = useState(false);
+  // One-shot ref so the first-visit auto-open below only fires once per
+  // mount (independent of the localStorage gate).
+  const helpAutoOpenedRef = useRef(false);
   // Smooth-scroll target for the celebration reveal card.
   const completeCardRef = useRef<HTMLDivElement | null>(null);
+
+  // First-visit auto-open: when a user lands on /challenge/1 and the
+  // workshop is in_progress, pop the help stepper open automatically.
+  // Persists via localStorage so subsequent visits don't re-trigger.
+  useEffect(() => {
+    if (challengeId !== 1) return;
+    if (workshop.status !== "in_progress") return;
+    if (helpAutoOpenedRef.current) return;
+    helpAutoOpenedRef.current = true;
+    try {
+      if (window.localStorage.getItem("salt-help-c1-seen") === "1") return;
+      window.localStorage.setItem("salt-help-c1-seen", "1");
+    } catch {
+      // localStorage unavailable (private mode etc.) — still open this
+      // session; we just won't remember next time.
+    }
+    setHelpOpen(true);
+  }, [challengeId, workshop.status]);
 
   // Direct nav to /challenge/2 before the workshop is begun → bounce to C1.
   // Funnels both the locked (admin-gated) and ready states to the same
