@@ -106,7 +106,7 @@ export default function Home() {
             <p
               style={{
                 fontFamily: "'Inter', sans-serif",
-                fontSize: "0.875rem",
+                fontSize: "1rem",
                 fontWeight: "300",
                 lineHeight: "1.65",
                 color: "var(--muted-foreground)",
@@ -123,7 +123,7 @@ export default function Home() {
             <p
               style={{
                 fontFamily: "'Inter', sans-serif",
-                fontSize: "0.875rem",
+                fontSize: "1rem",
                 fontWeight: "300",
                 lineHeight: "1.65",
                 color: "var(--muted-foreground)",
@@ -140,7 +140,7 @@ export default function Home() {
             <p
               style={{
                 fontFamily: "'Inter', sans-serif",
-                fontSize: "0.875rem",
+                fontSize: "1rem",
                 fontWeight: "300",
                 lineHeight: "1.65",
                 color: "var(--muted-foreground)",
