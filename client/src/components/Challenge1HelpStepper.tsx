@@ -33,8 +33,8 @@ const headingStyle = {
 };
 
 const bodyStyle = {
-  fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-  fontSize: "0.85rem",
+  fontFamily: "'Inter', sans-serif",
+  fontSize: "0.95rem",
   fontWeight: 300,
   lineHeight: 1.65,
   color: "var(--muted-foreground)",
