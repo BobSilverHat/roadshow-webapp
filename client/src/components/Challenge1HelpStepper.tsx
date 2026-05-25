@@ -98,20 +98,41 @@ export default function Challenge1HelpStepper({
     return () => window.clearTimeout(t);
   }, [open]);
 
+  // Entry animation. On the first-visit auto-open (scrollOnOpen=false
+  // from parent), match the question-card fadeUp pattern exactly
+  // (opacity + y:24, duration 0.5s) and add a 0.5s delay so the
+  // stepper cascades in AFTER the 5 question cards finish their
+  // staggered entrance (each card delays by i * 0.08s, last ends
+  // at ~0.82s). For manual HELP toggles, use the snappier easing
+  // with no delay so it pops immediately.
+  const entryTransition = scrollOnOpen
+    ? { duration: 0.4, ease: [0.16, 1, 0.3, 1] as const }
+    : { duration: 0.5, delay: 0.5 };
+
   return (
     <AnimatePresence initial={false}>
       {open && (
         <motion.div
           key="challenge1-help-stepper"
           ref={wrapperRef}
-          // Enter: just fade + slide. Card mounts at full natural height
-          // so the inner Stepper can measure its content correctly on
-          // first paint — no racing height animations.
-          initial={{ opacity: 0, y: 20 }}
+          // Enter: fade + slide up, matches question-card fadeUp.hidden.
+          // Mounts at full natural height so the inner Stepper can
+          // measure its content on first paint — no racing height
+          // animations.
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           // Exit: collapse height so content below reflows cleanly.
-          exit={{ opacity: 0, y: 24, height: 0, marginTop: 0, marginBottom: 0 }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          // Override the entry transition with the snappy curve so
+          // closing always feels brisk regardless of which path opened it.
+          exit={{
+            opacity: 0,
+            y: 24,
+            height: 0,
+            marginTop: 0,
+            marginBottom: 0,
+            transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
+          }}
+          transition={entryTransition}
           style={{ overflow: "hidden" }}
         >
     <Stepper
