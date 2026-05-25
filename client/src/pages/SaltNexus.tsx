@@ -29,8 +29,8 @@ const fadeUp = {
 };
 
 const bodyParagraph = {
-  fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-  fontSize: "0.9rem",
+  fontFamily: "'Inter', sans-serif",
+  fontSize: "1rem",
   fontWeight: 300,
   lineHeight: 1.7,
   color: "var(--muted-foreground)",
@@ -58,7 +58,7 @@ export default function SaltNexus() {
 
   return (
     <WorkshopLayout activeId="salt-nexus">
-      <div style={{ maxWidth: "740px", margin: "0 auto", padding: "0 2rem 6rem" }}>
+      <div style={{ maxWidth: "880px", margin: "0 auto", padding: "0 1.5rem 6rem" }}>
         <section style={{ paddingTop: "4rem" }}>
           {/* Section label */}
           <motion.div
