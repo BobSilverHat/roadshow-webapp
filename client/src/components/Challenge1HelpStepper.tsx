@@ -56,15 +56,26 @@ interface Challenge1HelpStepperProps {
   /** Whether the stepper is visible. Controlled by the TIPS toggle in
    *  the ChallengeHeader. */
   open: boolean;
+  /** When false, the stepper renders without scrolling the page to
+   *  center it. Used by ChallengePage for the first-visit auto-open
+   *  so the user keeps the natural top-of-page view (question grid
+   *  stays fully visible). Defaults to true for manual HELP clicks. */
+  scrollOnOpen?: boolean;
   /** Fired when the user clicks Complete on the last step. */
   onClose: () => void;
 }
 
 export default function Challenge1HelpStepper({
   open,
+  scrollOnOpen = true,
   onClose,
 }: Challenge1HelpStepperProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
+  // Capture scrollOnOpen at the moment of an open transition. Using a
+  // ref instead of a dep avoids re-firing the scroll if the parent
+  // flips the prop while open is still true.
+  const scrollOnOpenRef = useRef(scrollOnOpen);
+  scrollOnOpenRef.current = scrollOnOpen;
 
   // When the stepper opens, smooth-scroll it into view, sitting
   // slightly above the vertical center of the viewport. Computed
@@ -73,6 +84,7 @@ export default function Challenge1HelpStepper({
   // entrance + Stepper mount so the final layout is settled first.
   useEffect(() => {
     if (!open) return;
+    if (!scrollOnOpenRef.current) return;
     const SCROLL_BIAS_PX = 120;
     const t = window.setTimeout(() => {
       const el = wrapperRef.current;

@@ -110,6 +110,11 @@ export default function ChallengePage({
   // the ChallengeHeader; Complete on the stepper's final step also
   // flips this back to false via onClose.
   const [helpOpen, setHelpOpen] = useState(false);
+  // True when the next/current open was triggered by a HELP button click
+  // (so the stepper should scroll itself into view). False when opened
+  // by the first-visit auto-open below (no scroll — let the user keep
+  // the natural top-of-page view of the question grid).
+  const [helpScrollOnOpen, setHelpScrollOnOpen] = useState(true);
   // One-shot ref so the first-visit auto-open below only fires once per
   // mount (independent of the localStorage gate).
   const helpAutoOpenedRef = useRef(false);
@@ -132,6 +137,7 @@ export default function ChallengePage({
     const startedMs = new Date(workshopStartedAt).getTime();
     if (Date.now() - startedMs > 5000) return;
     helpAutoOpenedRef.current = true;
+    setHelpScrollOnOpen(false);
     setHelpOpen(true);
   }, [challengeId, workshop.status, workshopStartedAt]);
 
@@ -303,7 +309,13 @@ export default function ChallengePage({
         totalQuestions={totalQuestions}
         helpOpen={challengeId === 1 ? helpOpen : undefined}
         onToggleHelp={
-          challengeId === 1 ? () => setHelpOpen((o) => !o) : undefined
+          challengeId === 1
+            ? () => {
+                // Manual HELP click — always scroll the stepper into view.
+                setHelpScrollOnOpen(true);
+                setHelpOpen((o) => !o);
+              }
+            : undefined
         }
       />
 
@@ -413,6 +425,7 @@ export default function ChallengePage({
       {challengeId === 1 && (
         <Challenge1HelpStepper
           open={helpOpen}
+          scrollOnOpen={helpScrollOnOpen}
           onClose={() => setHelpOpen(false)}
         />
       )}
