@@ -476,7 +476,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
                     width: '100%',
                     fontFamily: "'Inter', sans-serif",
                     fontSize: '0.9rem',
-                    fontWeight: isActive ? 500 : 300,
+                    fontWeight: isActive ? 400 : 300,
                     letterSpacing: '0.04em',
                     color: isActive ? 'var(--foreground)' : 'var(--muted-foreground)',
                     transition: 'color 0.2s',
