@@ -21,11 +21,11 @@ export default function StepSection({ stepNumber, title, id, children }: StepSec
       id={id}
       data-step-id={id}
       style={{
-        paddingTop: "3rem",
+        paddingTop: "1.5rem",
         scrollMarginTop: "90px",
       }}
     >
-      <hr className="section-divider" />
+      <hr className="section-divider" style={{ marginTop: "1.5rem" }} />
       <div style={{ marginTop: "2rem", marginBottom: "3.5rem" }}>
         <span
           style={{
