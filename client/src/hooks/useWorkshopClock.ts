@@ -27,6 +27,10 @@ export interface WorkshopClock {
   remainingMs: number;
   /** Separate admin gate for the post-challenge Salt Nexus phase. */
   nexusOpen: boolean;
+  /** When true, the 35-minute timer is disabled — submissions never
+   *  expire, status never flips to "expired", and clients should render
+   *  "REVIEW MODE" in place of the countdown. */
+  reviewMode: boolean;
 }
 
 const POLL_INTERVAL_MS = 3000;
@@ -35,18 +39,20 @@ export function useWorkshopClock(): WorkshopClock {
   const [openedAt, setOpenedAt] = useState<string | null>(null);
   const [challengeOpen, setChallengeOpen] = useState<boolean>(false);
   const [nexusOpen, setNexusOpen] = useState<boolean>(false);
+  const [reviewMode, setReviewMode] = useState<boolean>(false);
   const [now, setNow] = useState<number>(() => Date.now());
 
   const fetchConfig = useCallback(async () => {
     const { data, error } = await supabase
       .from("workshop_config")
-      .select("challenge_open, opened_at, nexus_open")
+      .select("challenge_open, opened_at, nexus_open, review_mode")
       .eq("id", 1)
       .maybeSingle();
     if (error) return;
     setOpenedAt(data?.opened_at ?? null);
     setChallengeOpen(!!data?.challenge_open);
     setNexusOpen(!!data?.nexus_open);
+    setReviewMode(!!data?.review_mode);
   }, []);
 
   // Initial fetch + poll
@@ -71,7 +77,7 @@ export function useWorkshopClock(): WorkshopClock {
 
   let status: WorkshopClockStatus;
   if (!challengeOpen || !openedAt) status = "closed";
-  else if (now > expiresAtMs) status = "expired";
+  else if (!reviewMode && now > expiresAtMs) status = "expired";
   else status = "in_progress";
 
   const remainingMs = openedAt ? Math.max(0, expiresAtMs - now) : 0;
@@ -84,5 +90,5 @@ export function useWorkshopClock(): WorkshopClock {
     return () => window.clearInterval(id);
   }, [status]);
 
-  return { openedAt, expiresAt, status, remainingMs, nexusOpen };
+  return { openedAt, expiresAt, status, remainingMs, nexusOpen, reviewMode };
 }

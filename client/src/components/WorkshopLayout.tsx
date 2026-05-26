@@ -49,6 +49,36 @@ function WorkshopClockPill() {
     whiteSpace: 'nowrap',
   } as const;
 
+  if (clock.reviewMode) {
+    // Demo / handoff window — no countdown, no urgency.
+    return (
+      <div style={rowStyle}>
+        <div
+          style={{
+            flex: '0 0 auto',
+            width: '6px',
+            height: '6px',
+            borderRadius: '50%',
+            backgroundColor: 'var(--color-accent-text)',
+            boxShadow: '0 0 8px oklch(from var(--color-accent-text) l c h / 0.55)',
+          }}
+        />
+        <span
+          style={{
+            fontFamily: "'Casta', 'Barlow Condensed', serif",
+            fontSize: '0.62rem',
+            fontWeight: 700,
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            color: 'var(--color-accent-text)',
+          }}
+        >
+          Review Mode
+        </span>
+      </div>
+    );
+  }
+
   if (isExpired) {
     // Final state: static red. No pulse — the workshop is over.
     return (

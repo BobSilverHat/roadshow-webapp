@@ -47,7 +47,12 @@ export default function ChallengeHeader({
   // timer flashes red on first paint. Render a neutral placeholder until
   // the clock has loaded.
   const clockLoaded = clock.openedAt !== null;
-  const remainingLabel = clockLoaded ? formatMs(clock.remainingMs) : "--:--";
+  const reviewMode = clock.reviewMode;
+  const remainingLabel = !clockLoaded
+    ? "--:--"
+    : reviewMode
+      ? "REVIEW MODE"
+      : formatMs(clock.remainingMs);
   const isExpired = clock.status === "expired";
 
   // Color tier — red under 1 min OR expired, amber under 5 min, white otherwise.
@@ -56,6 +61,10 @@ export default function ChallengeHeader({
   if (!clockLoaded) {
     // Neutral while loading — no color tier yet.
     timerColor = "var(--muted-foreground)";
+  } else if (reviewMode) {
+    // Demo mode — accent-purple, no urgency.
+    timerColor = "var(--color-accent-text)";
+    timerShadow = "none";
   } else if (isExpired || clock.remainingMs < 60_000) {
     timerColor = "var(--color-time-up)";
     timerShadow = "0 0 16px var(--color-time-up-glow)";

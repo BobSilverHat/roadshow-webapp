@@ -175,6 +175,7 @@ export default function ChallengePage({
   // could wipe the pending nav and strand users on the expired page.
   // The handled-ref guards against scheduling more than one timer.
   useEffect(() => {
+    if (workshopClock.reviewMode) return;
     if (workshopClock.status !== "expired") return;
     if (timeUpHandledRef.current) return;
     timeUpHandledRef.current = true;
@@ -182,7 +183,7 @@ export default function ChallengePage({
     window.setTimeout(() => {
       navigate("/completed", { replace: true });
     }, TIME_UP_AUTONAV_DELAY_MS);
-  }, [workshopClock.status, navigate]);
+  }, [workshopClock.status, workshopClock.reviewMode, navigate]);
 
   // When the hook transitions to "complete", raise the reveal overlay,
   // take a one-shot snapshot of the leaderboard for the top-3 peek, and
