@@ -110,8 +110,8 @@ export default function Leaderboard() {
             <p
               style={{
                 marginTop: "1.5rem",
-                fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-                fontSize: "0.78rem",
+                fontFamily: "'Inter', sans-serif",
+                fontSize: "0.875rem",
                 fontWeight: 300,
                 lineHeight: 1.6,
                 color: "var(--muted-foreground)",
