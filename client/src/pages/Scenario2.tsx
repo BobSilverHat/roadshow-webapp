@@ -329,8 +329,7 @@ export default function Scenario2() {
             SUMMARY
             ==================================================== */}
         <section id="summary" data-step-id="summary" style={{ paddingTop: "3rem", scrollMarginTop: "90px" }}>
-          <hr className="section-divider" />
-          <div style={{ marginTop: "2rem", marginBottom: "3rem" }}>
+            <div style={{ marginTop: "2rem", marginBottom: "3rem" }}>
             <span
               style={{
                 display: "block",
@@ -367,7 +366,6 @@ export default function Scenario2() {
           </div>
         </section>
 
-        <hr className="section-divider" />
 
         {/* Navigation button */}
         <section
