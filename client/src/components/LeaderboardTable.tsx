@@ -30,7 +30,7 @@ const rankAccent = (rank: number): string => {
   if (rank === 1) return "oklch(0.82 0.18 85)"; // gold
   if (rank === 2) return "oklch(0.78 0.04 260)"; // silver
   if (rank === 3) return "oklch(0.6 0.12 45)"; // bronze
-  return "rgba(200,200,220,0.55)";
+  return "var(--muted-foreground)";
 };
 
 export default function LeaderboardTable({ rows, currentAttendeeId }: Props) {
@@ -39,14 +39,14 @@ export default function LeaderboardTable({ rows, currentAttendeeId }: Props) {
       <div
         style={{
           padding: "3rem 2rem",
-          border: "1px dashed rgba(255,255,255,0.15)",
+          border: "1px dashed var(--border)",
           borderRadius: "6px",
           textAlign: "center",
           fontFamily: "'Barlow Condensed', sans-serif",
           fontSize: "0.75rem",
           letterSpacing: "0.2em",
           textTransform: "uppercase",
-          color: "rgba(200,200,220,0.45)",
+          color: "var(--muted-foreground)",
         }}
       >
         No competitors yet — be the first
@@ -57,10 +57,10 @@ export default function LeaderboardTable({ rows, currentAttendeeId }: Props) {
   return (
     <div
       style={{
-        border: "1px solid rgba(255,255,255,0.08)",
+        border: "1px solid var(--border)",
         borderRadius: "6px",
         overflow: "hidden",
-        background: "rgba(255,255,255,0.015)",
+        background: "oklch(from var(--foreground) l c h / 0.03)",
       }}
     >
       {/* Header */}
@@ -69,14 +69,14 @@ export default function LeaderboardTable({ rows, currentAttendeeId }: Props) {
           display: "grid",
           gridTemplateColumns: headerTemplate,
           padding: "0.9rem 1rem",
-          background: "rgba(255,255,255,0.03)",
-          borderBottom: "1px solid rgba(255,255,255,0.08)",
+          background: "oklch(from var(--foreground) l c h / 0.05)",
+          borderBottom: "1px solid var(--border)",
           fontFamily: "'Barlow Condensed', sans-serif",
           fontSize: "0.7rem",
           fontWeight: 700,
           letterSpacing: "0.18em",
           textTransform: "uppercase",
-          color: "rgba(200,200,220,0.65)",
+          color: "var(--muted-foreground)",
         }}
       >
         <span>Rank</span>
@@ -105,11 +105,13 @@ export default function LeaderboardTable({ rows, currentAttendeeId }: Props) {
                 display: "grid",
                 gridTemplateColumns: headerTemplate,
                 padding: "0.85rem 1rem",
-                borderBottom: "1px solid rgba(255,255,255,0.05)",
+                borderBottom: "1px solid var(--border)",
                 fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
                 fontSize: "0.85rem",
-                background: isMe ? "oklch(0.35 0.15 290 / 0.2)" : "transparent",
-                color: "rgba(232,232,240,0.92)",
+                background: isMe
+                  ? "oklch(from var(--color-accent-text) l c h / 0.12)"
+                  : "transparent",
+                color: "var(--foreground)",
               }}
             >
               <span
@@ -138,7 +140,7 @@ export default function LeaderboardTable({ rows, currentAttendeeId }: Props) {
                       fontFamily: "'Barlow Condensed', sans-serif",
                       fontSize: "0.65rem",
                       letterSpacing: "0.2em",
-                      color: "oklch(0.72 0.28 290)",
+                      color: "var(--color-accent-text-bright)",
                     }}
                   >
                     YOU
@@ -150,7 +152,7 @@ export default function LeaderboardTable({ rows, currentAttendeeId }: Props) {
               <span
                 style={{
                   ...numCellStyle,
-                  color: row.total_ms !== null ? "rgba(232,232,240,0.97)" : "rgba(200,200,220,0.45)",
+                  color: row.total_ms !== null ? "var(--foreground)" : "var(--muted-foreground)",
                   fontWeight: row.total_ms !== null ? 500 : 300,
                 }}
               >
@@ -159,7 +161,7 @@ export default function LeaderboardTable({ rows, currentAttendeeId }: Props) {
               <span
                 style={{
                   ...numCellStyle,
-                  color: row.wrong_count > 0 ? "oklch(0.7 0.2 25)" : "rgba(200,200,220,0.55)",
+                  color: row.wrong_count > 0 ? "var(--color-time-up)" : "var(--muted-foreground)",
                 }}
               >
                 {row.wrong_count}
@@ -181,5 +183,5 @@ const numColStyle = {
 
 const numCellStyle = {
   textAlign: "right" as const,
-  color: "rgba(200,200,220,0.85)",
+  color: "var(--muted-foreground)",
 };
