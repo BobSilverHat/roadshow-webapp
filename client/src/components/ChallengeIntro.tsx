@@ -35,7 +35,7 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      style={{ paddingTop: "3rem", maxWidth: "700px", margin: "0 auto" }}
+      style={{ paddingTop: "3rem", maxWidth: "880px", margin: "0 auto" }}
     >
       <span className="section-label" style={{ display: "block", marginBottom: "0.75rem" }}>
         Challenge {number}
@@ -48,7 +48,7 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
           lineHeight: 1.05,
           letterSpacing: "0.03em",
           textTransform: "uppercase",
-          color: "rgba(232,232,240,0.97)",
+          color: "var(--foreground)",
           margin: "0 0 0.75rem",
         }}
       >
@@ -62,7 +62,7 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
             fontWeight: 400,
             letterSpacing: "0.08em",
             textTransform: "uppercase",
-            color: "rgba(200,200,220,0.65)",
+            color: "var(--muted-foreground)",
             marginBottom: "2rem",
           }}
         >
@@ -72,11 +72,11 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
 
       <p
         style={{
-          fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-          fontSize: "0.875rem",
+          fontFamily: "'Inter', sans-serif",
+          fontSize: "1rem",
           fontWeight: 300,
           lineHeight: 1.65,
-          color: "rgba(200,200,220,0.85)",
+          color: "var(--muted-foreground)",
           marginBottom: "1rem",
         }}
       >
@@ -87,11 +87,11 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
       </p>
       <p
         style={{
-          fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-          fontSize: "0.875rem",
+          fontFamily: "'Inter', sans-serif",
+          fontSize: "1rem",
           fontWeight: 300,
           lineHeight: 1.65,
-          color: "rgba(200,200,220,0.85)",
+          color: "var(--muted-foreground)",
           marginBottom: "1rem",
         }}
       >
@@ -102,11 +102,11 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
       </p>
       <p
         style={{
-          fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-          fontSize: "0.8rem",
+          fontFamily: "'Inter', sans-serif",
+          fontSize: "0.9rem",
           fontWeight: 300,
           lineHeight: 1.6,
-          color: "rgba(200,200,220,0.6)",
+          color: "var(--muted-foreground)",
           marginBottom: "1.5rem",
         }}
       >
@@ -117,11 +117,11 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
 
       <p
         style={{
-          fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-          fontSize: "0.875rem",
+          fontFamily: "'Inter', sans-serif",
+          fontSize: "1rem",
           fontWeight: 300,
           lineHeight: 1.65,
-          color: "rgba(200,200,220,0.85)",
+          color: "var(--muted-foreground)",
           marginBottom: "2.5rem",
         }}
       >

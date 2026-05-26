@@ -332,8 +332,8 @@ export default function Completed() {
                     marginTop: "1rem",
                     paddingTop: "1rem",
                     borderTop: "1px solid var(--border)",
-                    fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-                    fontSize: "0.8rem",
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: "0.9rem",
                     color: "var(--muted-foreground)",
                   }}
                 >
@@ -363,8 +363,8 @@ export default function Completed() {
             {/* Scenario recap cards */}
             <p
               style={{
-                fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-                fontSize: "0.875rem",
+                fontFamily: "'Inter', sans-serif",
+                fontSize: "1rem",
                 fontWeight: 300,
                 lineHeight: 1.65,
                 color: "var(--muted-foreground)",
@@ -438,8 +438,8 @@ export default function Completed() {
                   </div>
                   <div
                     style={{
-                      fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-                      fontSize: "0.8rem",
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: "0.875rem",
                       fontWeight: 300,
                       lineHeight: 1.5,
                       color: "var(--muted-foreground)",
