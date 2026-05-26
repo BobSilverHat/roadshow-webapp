@@ -93,7 +93,7 @@ export default function Stepper({
   return (
     <div {...rest} style={{ maxWidth: "820px", margin: "0 auto", ...(rest.style ?? {}) }}>
       <BorderGlow
-        backgroundColor="#0e0e16"
+        backgroundColor="var(--card)"
         borderRadius={6}
         glowColor="290 80 70"
         glowRadius={28}
@@ -173,8 +173,8 @@ export default function Stepper({
                   onClick={handleBack}
                   style={{
                     background: "transparent",
-                    border: "1px solid rgba(255,255,255,0.12)",
-                    color: "rgba(200,200,220,0.75)",
+                    border: "1px solid var(--border)",
+                    color: "var(--muted-foreground)",
                     padding: "0.55rem 1.1rem",
                     borderRadius: "4px",
                     fontFamily: "'Barlow Condensed', sans-serif",
@@ -187,15 +187,15 @@ export default function Stepper({
                   }}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLButtonElement).style.color =
-                      "rgba(232,232,240,0.95)";
+                      "var(--foreground)";
                     (e.currentTarget as HTMLButtonElement).style.borderColor =
-                      "rgba(255,255,255,0.24)";
+                      "oklch(from var(--foreground) l c h / 0.24)";
                   }}
                   onMouseLeave={(e) => {
                     (e.currentTarget as HTMLButtonElement).style.color =
-                      "rgba(200,200,220,0.75)";
+                      "var(--muted-foreground)";
                     (e.currentTarget as HTMLButtonElement).style.borderColor =
-                      "rgba(255,255,255,0.12)";
+                      "var(--border)";
                   }}
                   {...backButtonProps}
                 >
@@ -376,20 +376,20 @@ function StepIndicator({
         variants={{
           inactive: {
             scale: 1,
-            backgroundColor: "rgba(255,255,255,0.06)",
-            color: "rgba(180,180,200,0.55)",
-            boxShadow: "0 0 0 1px rgba(255,255,255,0.08) inset",
+            backgroundColor: "oklch(from var(--foreground) l c h / 0.08)",
+            color: "var(--muted-foreground)",
+            boxShadow: "0 0 0 1px var(--border) inset",
           },
           active: {
             scale: 1.05,
             backgroundColor: "oklch(0.52 0.28 290)",
-            color: "rgba(232,232,240,0.97)",
+            color: "oklch(0.98 0 0)",
             boxShadow: "0 0 18px oklch(0.6 0.28 290 / 0.6)",
           },
           complete: {
             scale: 1,
             backgroundColor: "oklch(0.52 0.28 290 / 0.85)",
-            color: "rgba(232,232,240,0.97)",
+            color: "oklch(0.98 0 0)",
             boxShadow: "0 0 10px oklch(0.6 0.28 290 / 0.4)",
           },
         }}
@@ -415,7 +415,7 @@ function StepIndicator({
               height: "10px",
               width: "10px",
               borderRadius: "50%",
-              background: "rgba(232,232,240,0.97)",
+              background: "oklch(0.98 0 0)",
             }}
           />
         ) : (
@@ -445,7 +445,7 @@ function StepConnector({ isComplete }: StepConnectorProps) {
         flex: 1,
         overflow: "hidden",
         borderRadius: "2px",
-        background: "rgba(255,255,255,0.08)",
+        background: "var(--border)",
       }}
     >
       <motion.div
