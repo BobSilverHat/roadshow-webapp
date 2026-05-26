@@ -35,7 +35,7 @@ export default function StepSection({ stepNumber, title, id, children }: StepSec
             fontWeight: "700",
             letterSpacing: "0.2em",
             textTransform: "uppercase",
-            color: "rgba(200,200,220,0.78)",
+            color: "var(--muted-foreground)",
             marginBottom: "1.25rem",
           }}
         >
@@ -47,7 +47,7 @@ export default function StepSection({ stepNumber, title, id, children }: StepSec
             fontSize: "1.35rem",
             fontWeight: "500",
             lineHeight: "1.3",
-            color: "rgba(232,232,240,0.97)",
+            color: "var(--foreground)",
             margin: "0 0 1.5rem",
             letterSpacing: "-0.01em",
           }}
