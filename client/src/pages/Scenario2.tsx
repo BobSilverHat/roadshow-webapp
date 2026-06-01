@@ -11,6 +11,7 @@
 
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
+import { useTranslation, Trans } from "react-i18next";
 import WorkshopLayout from "@/components/WorkshopLayout";
 import MagicRingsButton from "@/components/MagicRingsButton";
 import StepSection from "@/components/StepSection";
@@ -47,6 +48,7 @@ const stepImageStyle = {
 
 export default function Scenario2() {
   const [, navigate] = useLocation();
+  const { t } = useTranslation("scenario2");
 
   return (
     <WorkshopLayout activeId="scenario-2">
@@ -62,7 +64,7 @@ export default function Scenario2() {
             ==================================================== */}
         <section id="overview" data-step-id="overview" style={{ paddingTop: "5rem", scrollMarginTop: "90px" }}>
           <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0} style={{ marginBottom: "0.75rem" }}>
-            <span className="section-label">Scenario 2</span>
+            <span className="section-label">{t("sectionLabel")}</span>
           </motion.div>
 
           <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={1} style={{ marginBottom: "2rem" }}>
@@ -78,45 +80,33 @@ export default function Scenario2() {
                 margin: 0,
               }}
             >
-              Posture{" "}
+              {t("title1")}{" "}
               <span
                 style={{
                   color: "var(--color-accent-text-bright)",
                   textShadow: "0 0 30px oklch(0.52 0.28 290 / 0.4)",
                 }}
               >
-                Management
+                {t("title2")}
               </span>
             </h1>
           </motion.div>
 
           <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={2}>
             <p style={bodyParagraphStyle}>
-              Discovery gave you the map. Posture shows you where the cracks are. With your Agentic Security Graph
-              established, Salt analyzes every MCP server, tool, and API inside it for misconfigurations, exposed
-              secrets, missing authentication, and sensitive data leaking where it shouldn't, before an attacker
-              turns any of it into a breach.
+              {t("overview.p1")}
             </p>
 
             <p style={bodyParagraphStyle}>
-              Not every agent carries the same blast radius. Salt's posture engine scores each finding by what the
-              compromised tool can actually reach, which MCPs, which downstream APIs, which data categories, so your
-              team spends its time on the{" "}
-              <a href="#" className="accent-link">
-                handful of agents and tools that can cause real damage
-              </a>
-              , not the entire backlog.
+              <Trans i18nKey="overview.p2" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
+                Not every agent carries the same blast radius. Salt's posture engine scores each finding by what the compromised tool can actually reach, which MCPs, which downstream APIs, which data categories, so your team spends its time on the <l1>handful of agents and tools that can cause real damage</l1>, not the entire backlog.
+              </Trans>
             </p>
 
             <p style={{ ...bodyParagraphStyle, marginBottom: "2rem" }}>
-              Posture runs continuously, not at scan time. Salt tracks{" "}
-              <a href="#" className="accent-link">
-                compliance drift, unauthenticated MCPs, hardcoded credentials in tool configs, and sensitive data
-                exposed by the capabilities behind every agent, 
-              </a>
-              {" "}
-               as your graph evolves, so does the finding list. You see new risk the moment it appears, not at the
-              next quarterly audit.
+              <Trans i18nKey="overview.p3" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
+                Posture runs continuously, not at scan time. Salt tracks <l1>compliance drift, unauthenticated MCPs, hardcoded credentials in tool configs, and sensitive data exposed by the capabilities behind every agent, </l1> as your graph evolves, so does the finding list. You see new risk the moment it appears, not at the next quarterly audit.
+              </Trans>
             </p>
 
             {/* Key objectives */}
@@ -132,14 +122,10 @@ export default function Scenario2() {
                   marginBottom: "1rem",
                 }}
               >
-                Key Objectives
+                {t("overview.keyObjectivesLabel")}
               </p>
               <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                {[
-                  "Rank every posture finding across MCPs, tools, and APIs by severity and blast radius",
-                  "Expose hardcoded secrets, unauthenticated MCPs, and sensitive data leaking through tool responses",
-                  "Correlate findings to the attackers actively probing those same endpoints",
-                ].map((obj, i) => (
+                {(t("overview.objectives", { returnObjects: true }) as string[]).map((obj, i) => (
                   <li
                     key={i}
                     style={{
@@ -165,27 +151,25 @@ export default function Scenario2() {
         {/* ====================================================
             STEP 01 — Posture Gaps Overview
             ==================================================== */}
-        <StepSection stepNumber="01" title="Posture Gaps Overview" id="step-01">
+        <StepSection stepNumber="01" title={t("step01.title")} id="step-01">
           <p style={bodyParagraphStyle}>
-            Open the Posture Gaps dashboard to see every policy violation across your entire Agentic Security Graph, 
-            ranked by severity. <a href="#" className="accent-link">909 gaps</a> detected here: shadow APIs, PII
-            without authentication, strict-transport headers missing, MCPs exposed externally. The donut on the right
-            breaks severity; the table below is the full, sortable worklist.
+            <Trans i18nKey="step01.body1" t={t} components={{ l1: <a href="#" className="accent-link" /> }} values={{ gaps: 909 }}>
+              Open the Posture Gaps dashboard to see every policy violation across your entire Agentic Security Graph, ranked by severity. <l1>909 gaps</l1> detected here: shadow APIs, PII without authentication, strict-transport headers missing, MCPs exposed externally. The donut on the right breaks severity; the table below is the full, sortable worklist.
+            </Trans>
           </p>
           <ZoomableImage
             src="/steps/scenario2/step01-posture-gaps.png"
-            alt="Posture Gaps dashboard — severity breakdown and full gap list"
+            alt={t("step01.image1Alt")}
             style={stepImageStyle}
           />
           <p style={bodyParagraphStyle}>
-            Not sure where to start? Ask Pepper AI, {" "}
-            <a href="#" className="accent-link">"What APIs have the highest risk score?"</a>, {" "}and Pepper surfaces a
-            ranked list of the APIs contributing the most exposure, pulled live from the same graph data. Natural
-            language in, prioritized triage out.
+            <Trans i18nKey="step01.body2" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
+              Not sure where to start? Ask Pepper AI, <l1>"What APIs have the highest risk score?"</l1>, and Pepper surfaces a ranked list of the APIs contributing the most exposure, pulled live from the same graph data. Natural language in, prioritized triage out.
+            </Trans>
           </p>
           <ZoomableImage
             src="/steps/scenario2/step01-pepper-ai.png"
-            alt="Pepper AI answering which APIs have the highest risk score"
+            alt={t("step01.image2Alt")}
             style={stepImageStyle}
           />
         </StepSection>
@@ -193,20 +177,20 @@ export default function Scenario2() {
         {/* ====================================================
             STEP 02 — Filter to What Matters
             ==================================================== */}
-        <StepSection stepNumber="02" title="Filter to What Matters" id="step-02">
+        <StepSection stepNumber="02" title={t("step02.title")} id="step-02">
           <p style={bodyParagraphStyle}>
-            909 findings can be a lot to digest. Filter it. Here we narrow to{" "}
-            <a href="#" className="accent-link">
-              MCP servers exposed externally returning sensitive data
-            </a>{" "}
-            and{" "}
-            <a href="#" className="accent-link">exposed hardcoded secrets</a>, {" "}two critical-only policies, collapsing
-            the list to 42 items you can actually take action on this week. Every filter condition is a Salt policy primitive,
-            so the filtered worklist is also a saved query you can re-run any time.
+            <Trans
+              i18nKey="step02.body"
+              t={t}
+              components={{ l1: <a href="#" className="accent-link" />, l2: <a href="#" className="accent-link" /> }}
+              values={{ total: 909, filtered: 42 }}
+            >
+              909 findings can be a lot to digest. Filter it. Here we narrow to <l1>MCP servers exposed externally returning sensitive data</l1> and <l2>exposed hardcoded secrets</l2>, two critical-only policies, collapsing the list to 42 items you can actually take action on this week. Every filter condition is a Salt policy primitive, so the filtered worklist is also a saved query you can re-run any time.
+            </Trans>
           </p>
           <ZoomableImage
             src="/steps/scenario2/step02-filter.png"
-            alt="Posture Gaps filtered to externally-exposed MCPs and hardcoded secrets"
+            alt={t("step02.imageAlt")}
             style={stepImageStyle}
           />
         </StepSection>
@@ -214,30 +198,38 @@ export default function Scenario2() {
         {/* ====================================================
             STEP 03 — The Posture Gap Drawer
             ==================================================== */}
-        <StepSection stepNumber="03" title="The Posture Gap Drawer" id="step-03">
+        <StepSection stepNumber="03" title={t("step03.title")} id="step-03">
           <p style={bodyParagraphStyle}>
-            Click any posture gap to open its side-drawer. The{" "}
-            <a href="#" className="accent-link">API Found</a> tab pins the exact endpoint that triggered the finding,
-            POST /mcp/tools/call/sfdc.cases.create on crm.sora-financial.com, alongside{" "}
-            <a href="#" className="accent-link">Evidence</a> and parameter findings: the live response samples proving
-            the violation, here an Account number and Email exposed in the response content.
+            <Trans
+              i18nKey="step03.body1"
+              t={t}
+              components={{ l1: <a href="#" className="accent-link" />, l2: <a href="#" className="accent-link" /> }}
+            >
+              Click any posture gap to open its side-drawer. The <l1>API Found</l1> tab pins the exact endpoint that triggered the finding, POST /mcp/tools/call/sfdc.cases.create on crm.sora-financial.com, alongside <l2>Evidence</l2> and parameter findings: the live response samples proving the violation, here an Account number and Email exposed in the response content.
+            </Trans>
           </p>
           <ZoomableImage
             src="/steps/scenario2/step03-drawer-full.png"
-            alt="Posture gap side drawer — API Found tab with API details and parameter findings"
+            alt={t("step03.image1Alt")}
             style={stepImageStyle}
           />
           <p style={bodyParagraphStyle}>
-            Switch to the <a href="#" className="accent-link">Policy</a> tab to see why it fired. The{" "}
-            <a href="#" className="accent-link">Description</a> explains the risk in plain language;{" "}
-            <a href="#" className="accent-link">General Remediation</a> is a concrete action list, disable external
-            access, apply authentication, sanitize responses. <a href="#" className="accent-link">Policy Conditions</a>{" "}
-            shows the exact rule Salt matched: Technologies IS MCP AND Exposure IS External AND Response Content WITH
-            Sensitive Parameter IS True.
+            <Trans
+              i18nKey="step03.body2"
+              t={t}
+              components={{
+                l1: <a href="#" className="accent-link" />,
+                l2: <a href="#" className="accent-link" />,
+                l3: <a href="#" className="accent-link" />,
+                l4: <a href="#" className="accent-link" />,
+              }}
+            >
+              Switch to the <l1>Policy</l1> tab to see why it fired. The <l2>Description</l2> explains the risk in plain language; <l3>General Remediation</l3> is a concrete action list, disable external access, apply authentication, sanitize responses. <l4>Policy Conditions</l4> shows the exact rule Salt matched: Technologies IS MCP AND Exposure IS External AND Response Content WITH Sensitive Parameter IS True.
+            </Trans>
           </p>
           <ZoomableImage
             src="/steps/scenario2/step03-conditions-evidence.png"
-            alt="Posture gap side drawer — Policy tab with description, remediation, and policy conditions"
+            alt={t("step03.image2Alt")}
             style={stepImageStyle}
           />
         </StepSection>
@@ -245,52 +237,50 @@ export default function Scenario2() {
         {/* ====================================================
             STEP 04 — Investigate the API
             ==================================================== */}
-        <StepSection stepNumber="04" title="Investigate the API" id="step-04">
+        <StepSection stepNumber="04" title={t("step04.title")} id="step-04">
           <p style={bodyParagraphStyle}>
-            Click the API link on any gap row to pivot from the posture finding into the full{" "}
-            <a href="#" className="accent-link">API investigation</a>, {" "} where Salt keeps everything it knows about
-            that specific endpoint.
+            <Trans i18nKey="step04.body1" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
+              Click the API link on any gap row to pivot from the posture finding into the full <l1>API investigation</l1>,  where Salt keeps everything it knows about that specific endpoint.
+            </Trans>
           </p>
           <ZoomableImage
             src="/steps/scenario2/step04-investigate-link.png"
-            alt="Navigation arrow from the gap drawer into the API details"
+            alt={t("step04.image1Alt")}
             style={stepImageStyle}
           />
           <p style={bodyParagraphStyle}>
-            The API Overview opens on a radar plotting all five risk dimensions with a single{" "}
-            <a href="#" className="accent-link">composite score of 7.8 (HIGH)</a>. Pepper AI auto-summarizes what the
-            endpoint actually does: creates Salesforce support cases via an MCP tool, Bearer-authenticated, returning
-            account numbers and emails. No spec hunting.
+            <Trans i18nKey="step04.body2" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
+              The API Overview opens on a radar plotting all five risk dimensions with a single <l1>composite score of 7.8 (HIGH)</l1>. Pepper AI auto-summarizes what the endpoint actually does: creates Salesforce support cases via an MCP tool, Bearer-authenticated, returning account numbers and emails. No spec hunting.
+            </Trans>
           </p>
           <ZoomableImage
             src="/steps/scenario2/step04-api-overview.png"
-            alt="API Overview — risk radar and Pepper AI summary"
+            alt={t("step04.image2Alt")}
             style={stepImageStyle}
           />
           <ZoomableImage
             src="/steps/scenario2/step04-pepper-summary.png"
-            alt="Pepper AI summary of the API — purpose, data, protocol"
+            alt={t("step04.image3Alt")}
             style={stepImageStyle}
           />
           <p style={bodyParagraphStyle}>
-            <a href="#" className="accent-link">Data &amp; Structure → Sensitive Data</a> lists every parameter
-            carrying sensitive content, access tokens in request headers, account numbers and emails across request
-            and response content, IP addresses forwarded, a phone number in the response headers, with data-type tags
-            so you can see exactly what's leaking and where.
+            <Trans i18nKey="step04.body3" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
+              <l1>Data &amp; Structure → Sensitive Data</l1> lists every parameter carrying sensitive content, access tokens in request headers, account numbers and emails across request and response content, IP addresses forwarded, a phone number in the response headers, with data-type tags so you can see exactly what's leaking and where.
+            </Trans>
           </p>
           <ZoomableImage
             src="/steps/scenario2/step04-sensitive-data.png"
-            alt="Sensitive Data tab — parameters carrying sensitive content"
+            alt={t("step04.image4Alt")}
             style={stepImageStyle}
           />
           <p style={bodyParagraphStyle}>
-            The <a href="#" className="accent-link">Details</a> tab carries the full metadata: source, labels, auth
-            type, content type, MCP technology tags, activity timeline, and extended metadata, all the context an
-            investigator needs without leaving the view.
+            <Trans i18nKey="step04.body4" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
+              The <l1>Details</l1> tab carries the full metadata: source, labels, auth type, content type, MCP technology tags, activity timeline, and extended metadata, all the context an investigator needs without leaving the view.
+            </Trans>
           </p>
           <ZoomableImage
             src="/steps/scenario2/step04-api-details.png"
-            alt="API Details tab — full metadata and activity"
+            alt={t("step04.image5Alt")}
             style={stepImageStyle}
           />
         </StepSection>
@@ -298,27 +288,25 @@ export default function Scenario2() {
         {/* ====================================================
             STEP 05 — Attacker Correlation
             ==================================================== */}
-        <StepSection stepNumber="05" title="Attacker Correlation" id="step-05">
+        <StepSection stepNumber="05" title={t("step05.title")} id="step-05">
           <p style={bodyParagraphStyle}>
-            Posture tells you what's exposed. <a href="#" className="accent-link">Attackers</a> tells you who's
-            already probing it. The Attackers tab on the API drawer correlates every adversary that has touched this
-            exact endpoint, with severity, risk type (Broken User Auth, Parameter Tampering, Security Misconfig,
-            Injection), status, and detection time.
+            <Trans i18nKey="step05.body1" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
+              Posture tells you what's exposed. <l1>Attackers</l1> tells you who's already probing it. The Attackers tab on the API drawer correlates every adversary that has touched this exact endpoint, with severity, risk type (Broken User Auth, Parameter Tampering, Security Misconfig, Injection), status, and detection time.
+            </Trans>
           </p>
           <ZoomableImage
             src="/steps/scenario2/step05-attackers.png"
-            alt="Attackers tab — correlated adversaries against this API"
+            alt={t("step05.image1Alt")}
             style={stepImageStyle}
           />
           <p style={bodyParagraphStyle}>
-            Click through to Protect for the full attacker profile: categorized{" "}
-            <a href="#" className="accent-link">risk types</a>, most-attacked APIs, server-response distribution, and
-            a timeline of every attempt. This is where posture management hands off to runtime protection, the
-            subject of the next scenario.
+            <Trans i18nKey="step05.body2" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
+              Click through to Protect for the full attacker profile: categorized <l1>risk types</l1>, most-attacked APIs, server-response distribution, and a timeline of every attempt. This is where posture management hands off to runtime protection, the subject of the next scenario.
+            </Trans>
           </p>
           <ZoomableImage
             src="/steps/scenario2/step05-protect.png"
-            alt="Attacker detail inside Protect — full adversary profile"
+            alt={t("step05.image2Alt")}
             style={stepImageStyle}
           />
         </StepSection>
@@ -340,7 +328,7 @@ export default function Scenario2() {
                 marginBottom: "1.25rem",
               }}
             >
-              Summary
+              {t("summary.label")}
             </span>
             <h2
               style={{
@@ -353,13 +341,12 @@ export default function Scenario2() {
                 letterSpacing: "-0.01em",
               }}
             >
-              From 909 gaps to a named adversary.
+              {t("summary.heading", { gaps: 909 })}
             </h2>
             <p style={bodyParagraphStyle}>
-              You walked the triage path: overview the full gap list, filter to criticals, open a gap drawer for its
-              conditions and evidence, pivot into the offending API to see its risk radar and sensitive-data exposure,
-              and correlate it to active attackers. Posture stopped being a static scan, it became a{" "}
-              <a href="#" className="accent-link">live bridge into runtime protection</a>, which is Scenario 3.
+              <Trans i18nKey="summary.body" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
+                You walked the triage path: overview the full gap list, filter to criticals, open a gap drawer for its conditions and evidence, pivot into the offending API to see its risk radar and sensitive-data exposure, and correlate it to active attackers. Posture stopped being a static scan, it became a <l1>live bridge into runtime protection</l1>, which is Scenario 3.
+              </Trans>
             </p>
           </div>
         </section>
@@ -380,7 +367,7 @@ export default function Scenario2() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <MagicRingsButton label="Next" onClick={() => navigate("/scenario/3")} />
+            <MagicRingsButton label={t("nextButton")} onClick={() => navigate("/scenario/3")} />
           </motion.div>
         </section>
       </div>
