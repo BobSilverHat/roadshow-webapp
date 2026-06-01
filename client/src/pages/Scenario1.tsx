@@ -165,7 +165,7 @@ export default function Scenario1() {
             Start with the high-level view. The Inventory dashboard surfaces how many{" "}
             <a href="#" className="accent-link">MCPs, capabilities, and connected APIs</a>{" "}
             exist in your environment, plus live request volume. You'll immediately see posture gaps detected across
-            capabilities and capabilities touching sensitive data — PII, emails, addresses — without opening a single
+            capabilities and capabilities touching sensitive data like PII, emails, addresses, without opening a single
             API spec.
           </p>
           <ZoomableImage src="/steps/scenario1/step01-inventory.png" alt="Agentic Inventory dashboard" style={stepImageStyle} />
@@ -176,11 +176,14 @@ export default function Scenario1() {
             ==================================================== */}
         <StepSection stepNumber="02" title="The Agentic Security Graph" id="step-02">
           <p style={bodyParagraphStyle}>
-            Switch to the Graph view to see relationships. Every MCP node connects to the agents that call it; every
-            agent connects to the APIs downstream. Turn on{" "}
+            Switch to the Graph view to see how everything connects. The graph reads left to right across four linked
+            columns: your MCPs, the Technologies they run on, the third-party Applications they reach, and the
+            Capabilities each one exposes. Hover any node to highlight its connections and preview its risk score, top
+            posture gap, and sensitive data; click to open its full side drawer. Turn on{" "}
             <a href="#" className="accent-link">Insight Layers</a>{" "}
-            to overlay risk score, posture gaps, or sensitive data as color-coded halos — making the highest-value
-            targets visible at a glance.
+            to recolor the whole graph by risk score, posture gaps, or sensitive data, so the highest-value targets
+            stand out at a glance. Filters and layer toggles trim the view to what matters, and they persist across
+            both Table and Graph.
           </p>
           <ZoomableImage src="/steps/scenario1/step02-graph.png" alt="The Agentic Security Graph view" style={stepImageStyle} />
         </StepSection>
@@ -191,7 +194,7 @@ export default function Scenario1() {
         <StepSection stepNumber="03" title="The MCP Side Drawer" id="step-03">
           <p style={bodyParagraphStyle}>
             Click any MCP node to open its side drawer. The <a href="#" className="accent-link">Overview</a> tab
-            explains what the MCP does, who hosts it, and which technologies it runs on — plus a local graph of every
+            explains what the MCP does, who hosts it, and which technologies it runs on, plus a local graph of every
             tool it exposes.
           </p>
           <ZoomableImage
@@ -200,8 +203,8 @@ export default function Scenario1() {
             style={stepImageStyle}
           />
           <p style={bodyParagraphStyle}>
-            The <a href="#" className="accent-link">Capabilities</a> tab lists every tool the MCP exposes —
-            stripe.orders.cancel, plaid.identity.verify, zendesk.tickets.get — with their own per-tool risk scores so
+            The <a href="#" className="accent-link">Capabilities</a> tab lists every tool the MCP exposes,
+            snowflake.query.execute, dbt.model.run, github.pr.merge, with their own per-tool risk scores so
             you can pinpoint which capability introduces the most exposure.
           </p>
           <ZoomableImage
@@ -212,13 +215,30 @@ export default function Scenario1() {
         </StepSection>
 
         {/* ====================================================
-            STEP 04 — Tool Capabilities
+            STEP 04 — Capabilities Page
             ==================================================== */}
-        <StepSection stepNumber="04" title="Tool Capabilities" id="step-04">
+        <StepSection stepNumber="04" title="The Capabilities Page" id="step-04">
+          <p style={bodyParagraphStyle}>
+            Flatten the graph into a single capabilities table. Every tool across every MCP in one view, sortable by{" "}
+            <a href="#" className="accent-link">risk score</a>. This is where you triage, sort highest-risk to top,
+            filter by source type, and stack-rank remediation work. It's how posture management turns into an
+            actionable backlog.
+          </p>
+          <ZoomableImage
+            src="/steps/scenario1/step05-capabilities.png"
+            alt="Capabilities page — aggregate tool view"
+            style={stepImageStyle}
+          />
+        </StepSection>
+
+        {/* ====================================================
+            STEP 05 — Tool Capabilities
+            ==================================================== */}
+        <StepSection stepNumber="05" title="Tool Capabilities" id="step-05">
           <p style={bodyParagraphStyle}>
             Drill into any tool to see why Salt scored it. The{" "}
-            <a href="#" className="accent-link">Risk Factors</a> radar plots five axes — Posture, Sensitive Data,
-            Exposure, Authenticated, Protocol — giving a visual read on where the exposure lives.
+            <a href="#" className="accent-link">Risk Factors</a> radar plots five axes, Posture, Sensitive Data,
+            Exposure, Authenticated, Protocol, giving a visual read on where the exposure lives.
           </p>
           <ZoomableImage
             src="/steps/scenario1/step04-tool-risk.png"
@@ -226,8 +246,8 @@ export default function Scenario1() {
             style={stepImageStyle}
           />
           <p style={bodyParagraphStyle}>
-            <a href="#" className="accent-link">Posture Gaps</a> lists the specific policy violations — MCP exposed
-            externally, PII without auth, strict-transport headers missing — with severity and status so you can
+            <a href="#" className="accent-link">Posture Gaps</a> lists the specific policy violations, MCP exposed
+            externally, PII without auth, strict-transport headers missing, with severity and status so you can
             prioritize remediation directly.
           </p>
           <ZoomableImage
@@ -236,29 +256,12 @@ export default function Scenario1() {
             style={stepImageStyle}
           />
           <p style={bodyParagraphStyle}>
-            <a href="#" className="accent-link">Attackers</a> surfaces adversary correlations — which threat actors
-            have touched this exact tool in the wild — turning generic risk scoring into a real-world threat read.
+            <a href="#" className="accent-link">Attackers</a> surfaces adversary correlations, which threat actors
+            have touched this exact tool in the wild, turning generic risk scoring into a real-world threat read.
           </p>
           <ZoomableImage
             src="/steps/scenario1/step04-attackers.png"
             alt="Tool drawer — Attackers tab"
-            style={stepImageStyle}
-          />
-        </StepSection>
-
-        {/* ====================================================
-            STEP 05 — Capabilities Page
-            ==================================================== */}
-        <StepSection stepNumber="05" title="The Capabilities Page" id="step-05">
-          <p style={bodyParagraphStyle}>
-            Flatten the graph into a single capabilities table. Every tool across every MCP in one view, sortable by{" "}
-            <a href="#" className="accent-link">risk score</a>. This is where you triage — sort highest-risk to top,
-            filter by source type, and stack-rank remediation work. It's how posture management turns into an
-            actionable backlog.
-          </p>
-          <ZoomableImage
-            src="/steps/scenario1/step05-capabilities.png"
-            alt="Capabilities page — aggregate tool view"
             style={stepImageStyle}
           />
         </StepSection>
@@ -296,8 +299,8 @@ export default function Scenario1() {
               End-to-end visibility, established.
             </h2>
             <p style={bodyParagraphStyle}>
-              You walked the discovery progression: inventory count, graph view, MCP drilldown, per-tool risk surface,
-              and a flat capabilities backlog. You now have end-to-end visibility into every agent, MCP, and API in
+              You walked the discovery progression: inventory count, graph view, MCP drilldown, a flat capabilities
+              backlog, and the per-tool risk surface. You now have end-to-end visibility into every agent, MCP, and API in
               your environment — the foundation{" "}
               <a href="#" className="accent-link">posture management</a> will build on in the next scenario.
             </p>

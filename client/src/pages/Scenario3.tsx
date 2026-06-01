@@ -406,7 +406,7 @@ export default function Scenario3() {
             </h2>
             <p style={bodyParagraphStyle}>
               You watched a single attacker move through prompt injection → MCP discovery → mass-assignment fuzzing →
-              JWT forgery → direct tool abuse → cash-out, and Salt logged the intent at every step — including the
+              JWT forgery → direct tool abuse → cash-out, and Salt logged the intent at every step, including the
               moves that bypassed the LLM and AIDR entirely. Discovery told you what exists. Posture told you what's
               exposed. Runtime tells you{" "}
               <a href="#" className="accent-link">who's actively moving against you</a>, and stops them while it
