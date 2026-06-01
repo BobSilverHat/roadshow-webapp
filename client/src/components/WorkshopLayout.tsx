@@ -10,6 +10,7 @@ import { motion } from 'framer-motion';
 import { useLocation } from 'wouter';
 import { useTheme } from 'next-themes';
 import ThemeToggle from '@/components/ThemeToggle';
+import LanguageToggle from '@/components/LanguageToggle';
 import { useWorkshopClock } from '@/hooks/useWorkshopClock';
 
 const SALT_LOGO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663485309764/9Qvd9Kw2BJuzG4W4rxnhxw/salt-logo_4799bb3b.png";
@@ -456,7 +457,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
           />
         </div>
 
-        {/* Right: theme toggle (Workshop title moved into the sidebar) */}
+        {/* Right: language toggle + theme toggle (Workshop title moved into the sidebar) */}
         <div
           style={{
             display: 'flex',
@@ -464,6 +465,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
             gap: '0.75rem',
           }}
         >
+          <LanguageToggle />
           <ThemeToggle />
         </div>
       </header>
