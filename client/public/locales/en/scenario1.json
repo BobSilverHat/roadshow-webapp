@@ -1,0 +1,53 @@
+{
+  "sectionLabel": "Scenario 1",
+  "title1": "Agentic",
+  "title2": "Discovery",
+  "overview": {
+    "p1": "You can't secure what you can't see. This scenario is a top-down investigation, start at the Agentic Security Graph, then drill into the MCP servers, tools, and APIs beneath it; ending with full visibility into your agentic attack surface. Eight years of API security research, now applied to every agent, through understanding the tools and apis they can access, from deploy to runtime.",
+    "p2": "Salt automatically maps the full <l1>Agentic Security Graph</l1>, showing every agent, the tools they call, the APIs they reach, and the data they touch. This gives you a complete picture of your agentic attack surface before attackers find the gaps.",
+    "p3": "You can identify <l1>shadow APIs, zombie endpoints, unauthenticated MCP servers, and sensitive data exposure</l1> across your entire agentic landscape, building the foundation for a complete security posture.",
+    "keyObjectivesLabel": "Key Objectives",
+    "objectives": [
+      "Map every agent, MCP server, tool, and API across your entire Agentic Security Graph",
+      "Surface shadow MCPs, MCP server tools, and unauthenticated APIs silently exposing sensitive data",
+      "Drill any tool to reveal its risk factors, posture gaps, and real-world attackers"
+    ]
+  },
+  "step01": {
+    "title": "The Agentic Inventory",
+    "body": "Start with the high-level view. The Inventory dashboard surfaces how many <l1>MCPs, capabilities, and connected APIs</l1> exist in your environment, plus live request volume. You'll immediately see posture gaps detected across capabilities and capabilities touching sensitive data like PII, emails, addresses, without opening a single API spec.",
+    "imageAlt": "Agentic Inventory dashboard"
+  },
+  "step02": {
+    "title": "The Agentic Security Graph",
+    "body": "Switch to the Graph view to see how everything connects. The graph reads left to right across four linked columns: your MCPs, the Technologies they run on, the third-party Applications they reach, and the Capabilities each one exposes. Hover any node to highlight its connections and preview its risk score, top posture gap, and sensitive data; click to open its full side drawer. Turn on <l1>Insight Layers</l1> to recolor the whole graph by risk score, posture gaps, or sensitive data, so the highest-value targets stand out at a glance. Filters and layer toggles trim the view to what matters, and they persist across both Table and Graph.",
+    "imageAlt": "The Agentic Security Graph view"
+  },
+  "step03": {
+    "title": "The MCP Side Drawer",
+    "body1": "Click any MCP node to open its side drawer. The <l1>Overview</l1> tab explains what the MCP does, who hosts it, and which technologies it runs on, plus a local graph of every tool it exposes.",
+    "image1Alt": "MCP side drawer — Overview tab",
+    "body2": "The <l1>Capabilities</l1> tab lists every tool the MCP exposes, snowflake.query.execute, dbt.model.run, github.pr.merge, with their own per-tool risk scores so you can pinpoint which capability introduces the most exposure.",
+    "image2Alt": "MCP side drawer — Capabilities tab"
+  },
+  "step04": {
+    "title": "The Capabilities Page",
+    "body": "Flatten the graph into a single capabilities table. Every tool across every MCP in one view, sortable by <l1>risk score</l1>. This is where you triage, sort highest-risk to top, filter by source type, and stack-rank remediation work. It's how posture management turns into an actionable backlog.",
+    "imageAlt": "Capabilities page — aggregate tool view"
+  },
+  "step05": {
+    "title": "Tool Capabilities",
+    "body1": "Drill into any tool to see why Salt scored it. The <l1>Risk Factors</l1> radar plots five axes, Posture, Sensitive Data, Exposure, Authenticated, Protocol, giving a visual read on where the exposure lives.",
+    "image1Alt": "Tool drawer — Risk Factors radar chart",
+    "body2": "<l1>Posture Gaps</l1> lists the specific policy violations, MCP exposed externally, PII without auth, strict-transport headers missing, with severity and status so you can prioritize remediation directly.",
+    "image2Alt": "Tool drawer — Posture Gaps tab",
+    "body3": "<l1>Attackers</l1> surfaces adversary correlations, which threat actors have touched this exact tool in the wild, turning generic risk scoring into a real-world threat read.",
+    "image3Alt": "Tool drawer — Attackers tab"
+  },
+  "summary": {
+    "label": "Summary",
+    "heading": "End-to-end visibility, established.",
+    "body": "You walked the discovery progression: inventory count, graph view, MCP drilldown, a flat capabilities backlog, and the per-tool risk surface. You now have end-to-end visibility into every agent, MCP, and API in your environment — the foundation <l1>posture management</l1> will build on in the next scenario."
+  },
+  "nextButton": "Next"
+}
