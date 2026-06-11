@@ -1,26 +1,26 @@
 {
-  "appReady": "Ready",
+  "appReady": "Pronto",
   "notFound": {
     "heading": "404",
-    "subheading": "Page Not Found",
-    "bodyLine1": "Sorry, the page you are looking for doesn't exist.",
-    "bodyLine2": "It may have been moved or deleted.",
-    "goHome": "Go Home"
+    "subheading": "Página Não Encontrada",
+    "bodyLine1": "A página que você está procurando não existe.",
+    "bodyLine2": "Ela pode ter sido movida ou excluída.",
+    "goHome": "Ir para Início"
   },
   "nav": {
-    "introduction": "Introduction",
-    "scenario1": "Scenario 1",
-    "scenario2": "Scenario 2",
-    "scenario3": "Scenario 3",
+    "introduction": "Introdução",
+    "scenario1": "Cenário 1",
+    "scenario2": "Cenário 2",
+    "scenario3": "Cenário 3",
     "challenge1": "Challenge 1",
     "challenge2": "Challenge 2",
     "saltNexus": "Salt Nexus",
-    "leaderboard": "Leaderboard",
-    "completed": "Completed!",
+    "leaderboard": "Placar",
+    "completed": "Concluído!",
     "sub": {
-      "overview": "Overview",
-      "summary": "Summary",
-      "step": "Step / {{n}}"
+      "overview": "Visão Geral",
+      "summary": "Resumo",
+      "step": "Etapa / {{n}}"
     }
   },
   "sidebar": {
@@ -28,16 +28,16 @@
     "workshopTitle": "Agentic AI Security"
   },
   "clock": {
-    "reviewMode": "Review Mode",
-    "complete": "Complete",
-    "inProgress": "In Progress"
+    "reviewMode": "Modo Revisão",
+    "complete": "Concluído",
+    "inProgress": "Em Andamento"
   },
   "themeToggle": {
-    "toLightMode": "Switch to light mode",
-    "toDarkMode": "Switch to dark mode"
+    "toLightMode": "Mudar para modo claro",
+    "toDarkMode": "Mudar para modo escuro"
   },
   "errorBoundary": {
-    "heading": "An unexpected error occurred.",
-    "reloadButton": "Reload Page"
+    "heading": "Ocorreu um erro inesperado.",
+    "reloadButton": "Recarregar Página"
   }
 }
