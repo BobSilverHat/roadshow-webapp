@@ -15,45 +15,16 @@
  */
 
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import DotMatrixLogo from "@/components/DotMatrixLogo";
 
 interface Props {
   variant?: "workshop" | "nexus";
 }
 
-interface VariantCopy {
-  label: string;
-  headlineLead: string;
-  headlineAccent: string;
-  body: string;
-  dotMatrixLabel: string;
-}
-
-const COPY: Record<NonNullable<Props["variant"]>, VariantCopy> = {
-  workshop: {
-    label: "Standby",
-    headlineLead: "The Workshop",
-    headlineAccent: "Begins Soon",
-    body:
-      "Your admin will open the challenge shortly. Sit tight, keep this tab open. " +
-      "When the gate lifts, you'll see the Begin button — and the 35-minute clock " +
-      "starts the moment you click.",
-    dotMatrixLabel: "Standby pulse",
-  },
-  nexus: {
-    label: "Standby",
-    headlineLead: "Salt",
-    headlineAccent: "Nexus Opens Soon",
-    body:
-      "Nexus unlocks once the challenge phase wraps up. Your admin will release " +
-      "it when the 35-minute timer ends, stay in this tab and we'll route you to " +
-      "the live attack simulation the moment it opens.",
-    dotMatrixLabel: "Nexus standby pulse",
-  },
-};
-
 export default function WaitingOverlay({ variant = "workshop" }: Props) {
-  const copy = COPY[variant];
+  const { t } = useTranslation("challenge");
+  const ns = `waiting.${variant}` as const;
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -87,7 +58,7 @@ export default function WaitingOverlay({ variant = "workshop" }: Props) {
           animate={{ opacity: [0.5, 0.9, 0.5] }}
           transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
         >
-          {copy.label}
+          {t(`${ns}.label`)}
         </motion.span>
         <h2
           style={{
@@ -101,7 +72,7 @@ export default function WaitingOverlay({ variant = "workshop" }: Props) {
             lineHeight: 1.05,
           }}
         >
-          {copy.headlineLead}{" "}
+          {t(`${ns}.headlineLead`)}{" "}
           <motion.span
             animate={{
               opacity: [0.72, 1, 0.72],
@@ -117,7 +88,7 @@ export default function WaitingOverlay({ variant = "workshop" }: Props) {
               color: "oklch(0.88 0.2 145)",
             }}
           >
-            {copy.headlineAccent}
+            {t(`${ns}.headlineAccent`)}
           </motion.span>
         </h2>
         <p
@@ -130,11 +101,11 @@ export default function WaitingOverlay({ variant = "workshop" }: Props) {
             lineHeight: 1.6,
           }}
         >
-          {copy.body}
+          {t(`${ns}.body`)}
         </p>
         <DotMatrixLogo
           color="oklch(0.88 0.2 145)"
-          label={copy.dotMatrixLabel}
+          label={t(`${ns}.dotMatrixLabel`)}
           style={{ margin: "2.25rem auto 0" }}
         />
       </div>
