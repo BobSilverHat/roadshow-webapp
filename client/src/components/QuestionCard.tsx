@@ -6,6 +6,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import BorderGlow from "@/components/BorderGlow";
 import HintBulbButton from "@/components/HintBulbButton";
 import HintModal from "@/components/HintModal";
@@ -56,6 +57,7 @@ export default function QuestionCard({
   onRequestHint,
   onSubmit,
 }: Props) {
+  const { t } = useTranslation("challenge");
   const [value, setValue] = useState("");
   const [status, setStatus] = useState<CardStatus>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -93,7 +95,7 @@ export default function QuestionCard({
     const result = await onSubmit(questionId, value);
     if (!result.ok) {
       setStatus("error");
-      setErrorMsg(friendlyError(result.error ?? "submit_failed"));
+      setErrorMsg(friendlyError(result.error ?? "submit_failed", t));
       return;
     }
     if (result.correct) {
@@ -138,7 +140,7 @@ export default function QuestionCard({
           }}
         >
           <div style={cardHeaderStyle}>
-            <span className="section-label">Question {pad(orderIdx)}</span>
+            <span className="section-label">{t("question.label", { n: pad(orderIdx) })}</span>
             <span
               style={{
                 fontFamily: "'Barlow Condensed', sans-serif",
@@ -148,7 +150,7 @@ export default function QuestionCard({
                 color: "oklch(0.78 0.25 145)",
               }}
             >
-              COMPLETE
+              {t("question.complete")}
             </span>
           </div>
           <p style={promptStyle}>{prompt}</p>
@@ -205,7 +207,7 @@ export default function QuestionCard({
         }}
       >
         <div style={cardHeaderStyle}>
-          <span className="section-label">Question {pad(orderIdx)}</span>
+          <span className="section-label">{t("question.label", { n: pad(orderIdx) })}</span>
           <span
             style={{
               fontFamily: "'Barlow Condensed', sans-serif",
@@ -215,7 +217,7 @@ export default function QuestionCard({
               color: "var(--muted-foreground)",
             }}
           >
-            LOCKED
+            {t("question.locked")}
           </span>
         </div>
         <p style={{ ...promptStyle, opacity: 0.7, marginBottom: 0 }}>{prompt}</p>
@@ -266,7 +268,7 @@ export default function QuestionCard({
         />
       )}
       <div style={cardHeaderStyle}>
-        <span className="section-label">Question {pad(orderIdx)}</span>
+        <span className="section-label">{t("question.label", { n: pad(orderIdx) })}</span>
       </div>
       <p style={promptStyle}>{prompt}</p>
 
@@ -275,7 +277,7 @@ export default function QuestionCard({
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="Enter flag (comma + space for multiple)"
+          placeholder={t("question.placeholder")}
           disabled={status === "submitting"}
           spellCheck={false}
           autoComplete="off"
@@ -311,7 +313,7 @@ export default function QuestionCard({
             transition: "opacity 0.2s",
           }}
         >
-          {status === "submitting" ? "…" : "Submit"}
+          {status === "submitting" ? "…" : t("question.submit")}
         </button>
       </div>
 
@@ -346,18 +348,18 @@ function pad(n: number): string {
   return n.toString().padStart(2, "0");
 }
 
-function friendlyError(code: string): string {
+function friendlyError(code: string, t: (key: string) => string): string {
   switch (code) {
     case "time_expired":
-      return "Time's up — answer not submitted.";
+      return t("question.error.timeExpired");
     case "challenge_not_begun":
-      return "Couldn't submit. Refresh and try again.";
+      return t("question.error.notBegun");
     case "already_answered":
-      return "Already solved on another tab.";
+      return t("question.error.alreadyAnswered");
     case "not_registered":
-      return "Registration expired. Refresh to re-register.";
+      return t("question.error.notRegistered");
     default:
-      return "Submission failed. Try again.";
+      return t("question.error.default");
   }
 }
 
