@@ -9,6 +9,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import i18n from "@/i18n";
 
 export type HintError =
   | "not_registered"
@@ -93,6 +94,7 @@ export function useHints({ attendeeId }: UseHintsOptions) {
       const { data, error } = await supabase.rpc("request_hint", {
         p_question_id: questionId,
         p_hint_idx: idx,
+        p_locale: i18n.language,
       });
       if (error) return { ok: false, error: "rpc_failed" };
       if (!data?.ok)
