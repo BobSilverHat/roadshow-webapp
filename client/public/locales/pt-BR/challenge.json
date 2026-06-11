@@ -1,144 +1,144 @@
 {
   "intro": {
     "sectionLabel": "Challenge {{number}}",
-    "p1": "You have <l1>35 minutes</l1> total to complete both challenges. Starting Challenge 1 unlocks Challenge 2 — work them in any order, and switch between them at will. When the timer hits zero, submissions lock and you'll be taken to your results.",
-    "p2": "Every answer lives inside the Salt platform. Open it in another tab, hunt through the UI, submit each flag here. Wrong guesses add <l1>+15 seconds</l1> each, so take the time to get it right.",
-    "p3": "<l1>Answers with multiple values:</l1> separate each with a comma + space. Order doesn't matter — `A, B` and `B, A` both land. Answers are case-insensitive and whitespace-tolerant.",
-    "launchLink": "Launch the Salt Platform →",
-    "errorStart": "Couldn't start the timer. Refresh and try again.",
-    "buttonStarting": "Starting…",
-    "buttonBegin": "Begin Workshop"
+    "p1": "Você tem <l1>35 minutos</l1> no total para concluir os dois desafios. Iniciar o Challenge 1 desbloqueia o Challenge 2 — resolva-os em qualquer ordem e alterne entre eles à vontade. Quando o timer chegar a zero, as submissões serão bloqueadas e você será levado aos seus resultados.",
+    "p2": "Todas as respostas estão dentro da plataforma Salt. Abra-a em outra aba, explore a interface e submeta cada flag aqui. Palpites errados somam <l1>+15 segundos</l1> cada — vá com calma e acerte.",
+    "p3": "<l1>Respostas com múltiplos valores:</l1> separe cada um com vírgula + espaço. A ordem não importa — `A, B` e `B, A` são equivalentes. As respostas não diferenciam maiúsculas/minúsculas e tolerem espaços extras.",
+    "launchLink": "Abrir a Plataforma Salt →",
+    "errorStart": "Não foi possível iniciar o timer. Recarregue a página e tente novamente.",
+    "buttonStarting": "Iniciando…",
+    "buttonBegin": "Iniciar Workshop"
   },
   "header": {
-    "reviewMode": "REVIEW MODE",
-    "solved": "{{solved}} / {{total}} solved",
-    "help": "Help"
+    "reviewMode": "MODO REVISÃO",
+    "solved": "{{solved}} / {{total}} resolvidas",
+    "help": "Ajuda"
   },
   "question": {
-    "label": "Question {{n}}",
-    "complete": "COMPLETE",
-    "locked": "LOCKED",
-    "placeholder": "Enter flag (comma + space for multiple)",
-    "submit": "Submit",
+    "label": "Questão {{n}}",
+    "complete": "CONCLUÍDA",
+    "locked": "BLOQUEADA",
+    "placeholder": "Digite a flag (vírgula + espaço para múltiplos)",
+    "submit": "Enviar",
     "error": {
-      "timeExpired": "Time's up — answer not submitted.",
-      "notBegun": "Couldn't submit. Refresh and try again.",
-      "alreadyAnswered": "Already solved on another tab.",
-      "notRegistered": "Registration expired. Refresh to re-register.",
-      "default": "Submission failed. Try again."
+      "timeExpired": "Tempo esgotado — resposta não enviada.",
+      "notBegun": "Não foi possível enviar. Recarregue e tente novamente.",
+      "alreadyAnswered": "Já resolvida em outra aba.",
+      "notRegistered": "Registro expirado. Recarregue para se registrar novamente.",
+      "default": "Falha na submissão. Tente novamente."
     }
   },
   "waiting": {
     "workshop": {
-      "label": "Standby",
-      "headlineLead": "The Workshop",
-      "headlineAccent": "Begins Soon",
-      "body": "Your admin will open the challenge shortly. Sit tight, keep this tab open. When the gate lifts, you'll see the Begin button — and the 35-minute clock starts the moment you click.",
-      "dotMatrixLabel": "Standby pulse"
+      "label": "Aguarde",
+      "headlineLead": "O Workshop",
+      "headlineAccent": "Começa em Breve",
+      "body": "Seu administrador abrirá o desafio em instantes. Fique aqui com esta aba aberta. Quando a largada for dada, o botão Iniciar aparecerá — e o cronômetro de 35 minutos começa assim que você clicar.",
+      "dotMatrixLabel": "Pulso de standby"
     },
     "nexus": {
-      "label": "Standby",
+      "label": "Aguarde",
       "headlineLead": "Salt",
-      "headlineAccent": "Nexus Opens Soon",
-      "body": "Nexus unlocks once the challenge phase wraps up. Your admin will release it when the 35-minute timer ends, stay in this tab and we'll route you to the live attack simulation the moment it opens.",
-      "dotMatrixLabel": "Nexus standby pulse"
+      "headlineAccent": "Nexus Abre em Breve",
+      "body": "Nexus é liberado quando a fase de desafios termina. Seu administrador vai abrir após o timer de 35 minutos expirar — fique nesta aba e você será redirecionado para a simulação de ataque ao vivo assim que abrir.",
+      "dotMatrixLabel": "Pulso de standby do Nexus"
     }
   },
   "helpStepper": {
-    "back": "Back",
-    "next": "Next",
+    "back": "Voltar",
+    "next": "Próximo",
     "step1": {
-      "label": "Step 01",
-      "heading": "Launch the Salt Platform",
-      "body": "Open the Salt platform in a new tab, submit each flag here as you find it. <l1>Launch Salt Platform →</l1>"
+      "label": "Etapa 01",
+      "heading": "Abra a Plataforma Salt",
+      "body": "Abra a plataforma Salt em uma nova aba e submeta cada flag aqui conforme encontrar. <l1>Abrir a Plataforma Salt →</l1>"
     },
     "step2": {
-      "label": "Step 02",
-      "heading": "How to find the answers",
-      "body": "Every question above maps to a screen Scenario 1 walked you through, the inventory dashboard, the agentic graph, the MCP and tool side-drawers, and the sortable capabilities table."
+      "label": "Etapa 02",
+      "heading": "Como encontrar as respostas",
+      "body": "Cada questão acima corresponde a uma tela percorrida no Cenário 1: o painel de inventário, o grafo agentic, os painéis laterais de MCP e ferramentas, e a tabela de capabilities ordenável."
     },
     "step3": {
-      "label": "Step 03",
-      "heading": "The Agentic UI",
-      "body": "Salt surfaces every MCP server an agent touches, in a single agentic security view. Within this page, you can find the MCP servers SALT identified within your environment, relevant details for each, and filter for the specific capabilities of each tool connected."
+      "label": "Etapa 03",
+      "heading": "A Interface Agentic",
+      "body": "Salt exibe todos os servidores MCP que um agente acessa em uma única visão de segurança agentic. Nessa página, você encontra os servidores MCP identificados pela Salt no seu ambiente, detalhes relevantes de cada um e pode filtrar pelas capabilities específicas de cada ferramenta conectada."
     },
     "step4": {
-      "label": "Step 04",
-      "heading": "The Agentic Security Graph",
-      "body": "The Graph view gives you a comprehensive view of each MCP server, and there respective tools/capabilities, along with the technologies and applications involved for each. You'll also find an insight layer to overlay the risk, posture gaps, and sensitive data exposure."
+      "label": "Etapa 04",
+      "heading": "O Agentic Security Graph",
+      "body": "A visualização em Graph oferece uma visão completa de cada servidor MCP e suas respectivas ferramentas/capabilities, além das tecnologias e aplicações envolvidas. Você também encontrará um Insight Layers para sobrepor o risco, Posture Gaps e exposição de dados sensíveis."
     },
     "step5": {
-      "label": "Step 05",
-      "heading": "The Discovery Inventory",
-      "body": "The inventory dashboard is the high-level count of everything Salt finds across your API landscape. This includes each specific host, there respective api's, and any MCP related findings. Use the resources we just went over to answer the questions above. Happy hunting!"
+      "label": "Etapa 05",
+      "heading": "O Inventário de Descoberta",
+      "body": "O painel de inventário mostra a contagem geral de tudo que Salt encontra no seu ambiente de APIs. Isso inclui cada host específico, suas respectivas APIs e qualquer finding relacionado a MCP. Use os recursos que acabamos de ver para responder às questões acima. Boa caçada!"
     }
   },
   "hintBulb": {
-    "ariaLabel": "Reveal a hint"
+    "ariaLabel": "Revelar uma dica"
   },
   "hint": {
-    "questionLabel": "Question {{label}}",
-    "counter": "Hint {{count}} / {{total}}",
-    "revealHeading": "Reveal a",
-    "revealHeadingAccent": "Hint",
+    "questionLabel": "Questão {{label}}",
+    "counter": "Dica {{count}} / {{total}}",
+    "revealHeading": "Revelar uma",
+    "revealHeadingAccent": "Dica",
     "revealHeadingPunct": "?",
-    "penaltyWarning": "+60 seconds will be added to your total time.",
-    "hintLabel": "Hint {{n}}",
-    "lastHintWarning": "⚠ Last hint — once you close, the hint won't be visible again.",
-    "penaltyFooter": "+60s per hint baked into your total time.",
-    "buttonCancel": "Cancel",
-    "buttonClose": "Close",
-    "buttonRevealFirst": "Reveal +60s",
-    "buttonRevealNext": "Reveal Hint {{n}} +60s",
+    "penaltyWarning": "+60 segundos serão adicionados ao seu tempo total.",
+    "hintLabel": "Dica {{n}}",
+    "lastHintWarning": "⚠ Última dica — após fechar, ela não estará mais visível.",
+    "penaltyFooter": "+60s por dica já incluídos no seu tempo total.",
+    "buttonCancel": "Cancelar",
+    "buttonClose": "Fechar",
+    "buttonRevealFirst": "Revelar +60s",
+    "buttonRevealNext": "Revelar Dica {{n}} +60s",
     "error": {
-      "already_solved": "You've already solved this question.",
-      "time_expired": "Workshop window closed.",
-      "challenge_not_begun": "Challenge hasn't started yet.",
-      "challenge_locked": "The challenge is locked.",
-      "default": "Couldn't reveal hint. Try again."
+      "already_solved": "Você já resolveu esta questão.",
+      "time_expired": "Janela do Workshop encerrada.",
+      "challenge_not_begun": "O desafio ainda não começou.",
+      "challenge_locked": "O desafio está bloqueado.",
+      "default": "Não foi possível revelar a dica. Tente novamente."
     }
   },
   "registration": {
-    "sessionLoading": "Checking session…",
-    "sectionLabel": "Registration",
-    "heading": "Enter the Arena",
-    "body": "Your name and email lock you to this session. One registration per email, no second chances, no do-overs.",
-    "labelName": "Name",
-    "labelEmail": "Email",
-    "fieldRequired": "Both fields are required.",
-    "buttonSubmitting": "Registering…",
-    "buttonBegin": "Begin",
+    "sessionLoading": "Verificando sessão…",
+    "sectionLabel": "Registro",
+    "heading": "Entre na Arena",
+    "body": "Seu nome e e-mail vinculam você a esta sessão. Um registro por e-mail, sem segunda chance, sem desfazer.",
+    "labelName": "Nome",
+    "labelEmail": "E-mail",
+    "fieldRequired": "Ambos os campos são obrigatórios.",
+    "buttonSubmitting": "Registrando…",
+    "buttonBegin": "Iniciar",
     "error": {
-      "email_claimed": "That email is already competing. Use a different one.",
-      "missing_fields": "Both name and email are required.",
-      "not_authenticated": "Session failed to start. Refresh and try again.",
-      "anonymous_signin_failed": "Couldn't start a session. Anonymous auth may be disabled on the project.",
-      "attendee_fetch_failed": "Registered, but couldn't load your profile. Refresh.",
-      "session_lost": "Your session expired. Refresh and try again.",
-      "stale_session": "Your previous session is no longer valid. Refresh the page and try again.",
-      "registration_failed": "Registration failed. Try again.",
-      "unknown": "Unknown error"
+      "email_claimed": "Esse e-mail já está competindo. Use outro.",
+      "missing_fields": "Nome e e-mail são obrigatórios.",
+      "not_authenticated": "Falha ao iniciar sessão. Recarregue e tente novamente.",
+      "anonymous_signin_failed": "Não foi possível iniciar a sessão. A autenticação anônima pode estar desativada no projeto.",
+      "attendee_fetch_failed": "Registrado, mas não foi possível carregar seu perfil. Recarregue.",
+      "session_lost": "Sua sessão expirou. Recarregue e tente novamente.",
+      "stale_session": "Sua sessão anterior não é mais válida. Recarregue a página e tente novamente.",
+      "registration_failed": "Registro falhou. Tente novamente.",
+      "unknown": "Erro desconhecido"
     }
   },
   "page": {
-    "loading": "Loading challenge…",
-    "errorPrefix": "Couldn't load the challenge: ",
+    "loading": "Carregando desafio…",
+    "errorPrefix": "Não foi possível carregar o desafio: ",
     "headerTitle": "Challenge {{number}} — {{name}}",
     "headerTitleFallback": "Challenge {{number}}",
-    "completeLabel": "Complete",
+    "completeLabel": "Concluído",
     "completeTitlePrefix": "Challenge {{number}} - ",
-    "cleanRun": "Clean run — no wrong guesses.",
-    "wrongGuesses_one": "{{count}} wrong guess (+{{penalty}}s penalty baked in).",
-    "wrongGuesses_other": "{{count}} wrong guesses (+{{penalty}}s penalty baked in).",
-    "hintsUsed_one": " · Used {{count}} hint (+{{penalty}}m penalty baked in).",
-    "hintsUsed_other": " · Used {{count}} hints (+{{penalty}}m penalty baked in).",
-    "currentRankPrefix": " · Current rank ",
-    "podiumNow": "Podium right now",
-    "you": "YOU",
-    "timeUpLabel": "Workshop Closed",
-    "timeUpWord1": "Time's",
-    "timeUpWord2": "Up",
-    "timeUpBody": "Locking submissions · routing to your results…",
-    "timeUpDotMatrix": "Time's up pulse"
+    "cleanRun": "Sem erros — nenhum palpite incorreto.",
+    "wrongGuesses_one": "{{count}} palpite errado (+{{penalty}}s de penalidade incluídos).",
+    "wrongGuesses_other": "{{count}} palpites errados (+{{penalty}}s de penalidade incluídos).",
+    "hintsUsed_one": " · Usou {{count}} dica (+{{penalty}}m de penalidade incluídos).",
+    "hintsUsed_other": " · Usou {{count}} dicas (+{{penalty}}m de penalidade incluídos).",
+    "currentRankPrefix": " · Posição atual ",
+    "podiumNow": "Pódio agora",
+    "you": "VOCÊ",
+    "timeUpLabel": "Workshop Encerrado",
+    "timeUpWord1": "Tempo",
+    "timeUpWord2": "Esgotado",
+    "timeUpBody": "Bloqueando submissões · redirecionando para seus resultados…",
+    "timeUpDotMatrix": "Pulso de tempo esgotado"
   }
 }
