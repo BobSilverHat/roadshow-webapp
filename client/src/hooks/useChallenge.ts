@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/lib/supabase";
+import i18n from "@/i18n";
 
 export interface ChallengeMeta {
   id: number;
@@ -13,6 +15,35 @@ export interface ChallengeQuestion {
   order_idx: number;
   prompt: string;
   hint_count: number;
+}
+
+// Raw DB shapes — include pt columns but are never exposed to consumers.
+interface RawChallengeMeta {
+  id: number;
+  slug: string;
+  title: string;
+  subtitle: string | null;
+  title_pt: string | null;
+  subtitle_pt: string | null;
+}
+
+interface RawChallengeQuestion {
+  id: string;
+  order_idx: number;
+  prompt: string;
+  hint_count: number;
+  prompt_pt: string | null;
+  hints_pt: string[] | null;
+}
+
+/** Per-field locale fallback: use pt value when language is pt-* AND pt is non-empty. */
+function pickLocale(en: string, pt: string | null | undefined): string {
+  return i18n.language?.startsWith("pt") && pt ? pt : en;
+}
+
+function pickLocaleNullable(en: string | null, pt: string | null | undefined): string | null {
+  if (en === null) return null;
+  return i18n.language?.startsWith("pt") && pt ? pt : en;
 }
 
 export interface ChallengeState {
@@ -40,24 +71,24 @@ interface UseChallengeOptions {
   attendeeId: string | null;
 }
 
-async function fetchMeta(challengeId: number): Promise<ChallengeMeta | null> {
+async function fetchMeta(challengeId: number): Promise<RawChallengeMeta | null> {
   const { data, error } = await supabase
     .from("challenges")
-    .select("id, slug, title, subtitle")
+    .select("id, slug, title, subtitle, title_pt, subtitle_pt")
     .eq("id", challengeId)
     .maybeSingle();
   if (error) throw error;
-  return (data as ChallengeMeta | null) ?? null;
+  return (data as RawChallengeMeta | null) ?? null;
 }
 
-async function fetchQuestions(challengeId: number): Promise<ChallengeQuestion[]> {
+async function fetchQuestions(challengeId: number): Promise<RawChallengeQuestion[]> {
   const { data, error } = await supabase
     .from("questions_public")
-    .select("id, order_idx, prompt, hint_count")
+    .select("id, order_idx, prompt, hint_count, prompt_pt, hints_pt")
     .eq("challenge_id", challengeId)
     .order("order_idx");
   if (error) throw error;
-  return (data as ChallengeQuestion[]) ?? [];
+  return (data as RawChallengeQuestion[]) ?? [];
 }
 
 async function fetchAttempt(
@@ -118,8 +149,12 @@ function deriveStatus(state: ChallengeState | null): ChallengeStatus {
 }
 
 export function useChallenge({ challengeId, attendeeId }: UseChallengeOptions) {
-  const [meta, setMeta] = useState<ChallengeMeta | null>(null);
-  const [questions, setQuestions] = useState<ChallengeQuestion[]>([]);
+  // useTranslation subscribes this component to language changes so the
+  // useMemo below re-runs (and re-resolves pt fields) when locale switches.
+  const { i18n: i18nInstance } = useTranslation();
+
+  const [rawMeta, setRawMeta] = useState<RawChallengeMeta | null>(null);
+  const [rawQuestions, setRawQuestions] = useState<RawChallengeQuestion[]>([]);
   const [state, setState] = useState<ChallengeState | null>(null);
   const [progress, setProgress] = useState<Set<string>>(new Set());
   const [solvedAnswers, setSolvedAnswers] = useState<Map<string, string>>(new Map());
@@ -140,8 +175,8 @@ export function useChallenge({ challengeId, attendeeId }: UseChallengeOptions) {
           fetchSolvedAnswers(attendeeId),
         ]);
         if (!mounted) return;
-        setMeta(metaRow);
-        setQuestions(questionRows);
+        setRawMeta(metaRow);
+        setRawQuestions(questionRows);
         setState(attemptRow);
         setProgress(progressSet);
         setSolvedAnswers(answersMap);
@@ -210,6 +245,31 @@ export function useChallenge({ challengeId, attendeeId }: UseChallengeOptions) {
     },
     [],
   );
+
+  // Derive locale-resolved meta and questions from raw rows + current language.
+  // Re-computed on language change without a DB refetch.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const meta = useMemo<ChallengeMeta | null>(() => {
+    if (!rawMeta) return null;
+    return {
+      id: rawMeta.id,
+      slug: rawMeta.slug,
+      title: pickLocale(rawMeta.title, rawMeta.title_pt),
+      subtitle: pickLocaleNullable(rawMeta.subtitle, rawMeta.subtitle_pt),
+    };
+  // i18nInstance.language is the reactive signal; rawMeta identity is the data signal.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rawMeta, i18nInstance.language]);
+
+  const questions = useMemo<ChallengeQuestion[]>(() => {
+    return rawQuestions.map((q) => ({
+      id: q.id,
+      order_idx: q.order_idx,
+      hint_count: q.hint_count,
+      prompt: pickLocale(q.prompt, q.prompt_pt),
+    }));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rawQuestions, i18nInstance.language]);
 
   const totalQuestions = questions.length;
   const solvedCount = useMemo(
