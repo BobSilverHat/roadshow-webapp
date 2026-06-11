@@ -22,9 +22,11 @@ echo "[2/3] syncing to s3://$BUCKET/"
 aws s3 sync dist/public/ "s3://$BUCKET/" --delete
 
 echo "[3/3] invalidating CloudFront cache"
+# /locales/* are NOT hash-versioned (static public assets), so translation
+# edits need an explicit invalidation alongside the HTML.
 INVALIDATION=$(aws cloudfront create-invalidation \
   --distribution-id "$DIST_ID" \
-  --paths "/" "/index.html" \
+  --paths "/" "/index.html" "/locales/*" \
   --query 'Invalidation.Id' --output text)
 echo "  invalidation id: $INVALIDATION"
 

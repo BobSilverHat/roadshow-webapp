@@ -24,4 +24,15 @@ i18n
     react: { useSuspense: false },
   });
 
+// Keep <html lang> in sync with the active locale (correct hyphenation,
+// accessibility, and screen-reader pronunciation). Glyph coverage is fine
+// for both faces (see i18n/glossary.md) so no font fallback is keyed on this.
+function syncHtmlLang(lng: string) {
+  if (typeof document !== "undefined") {
+    document.documentElement.lang = lng?.startsWith("pt") ? "pt-BR" : "en";
+  }
+}
+syncHtmlLang(i18n.language);
+i18n.on("languageChanged", syncHtmlLang);
+
 export default i18n;
