@@ -1,0 +1,72 @@
+{
+  "sectionLabel": "Workshop Complete",
+  "tier": {
+    "champion": {
+      "word1": "Workshop",
+      "word2": "Champion"
+    },
+    "runnerUp": {
+      "word1": "Runner-",
+      "word2": "up"
+    },
+    "third": {
+      "word1": "Third",
+      "word2": "Place"
+    },
+    "completed": {
+      "word1": "Round",
+      "word2": "Complete"
+    },
+    "timedOut": {
+      "word1": "Time's",
+      "word2": "Up"
+    },
+    "fallback": {
+      "word1": "Workshop",
+      "word2": "Complete"
+    }
+  },
+  "card": {
+    "didNotFinish": "Did Not Finish",
+    "yourResult": "Your Result",
+    "rankOf": "Rank {{rank}} of {{total}}"
+  },
+  "stat": {
+    "solved": "Solved",
+    "finalScore": "Final Score",
+    "challenge1": "Challenge 1 done",
+    "challenge2": "Challenge 2 done",
+    "total": "Total"
+  },
+  "footer": {
+    "timedOut": "Workshop timer expired. {{solved}} of 10 questions solved",
+    "timedOutWrong": " · {{count}} wrong (+{{penalty}}s)",
+    "timedOutHints_one": " · {{count}} hint (+{{penalty}}m)",
+    "timedOutHints_other": " · {{count}} hints (+{{penalty}}m)",
+    "cleanRun": "Clean run — no wrong guesses.",
+    "wrongGuesses_one": "{{count}} wrong guess · +{{penalty}}s penalty baked into total",
+    "wrongGuesses_other": "{{count}} wrong guesses · +{{penalty}}s penalty baked into total",
+    "hints_one": " · {{count}} hint used (+{{penalty}}m penalty baked in)",
+    "hints_other": " · {{count}} hints used (+{{penalty}}m penalty baked in)"
+  },
+  "recapParagraph": "You walked the full agentic security stack including discovery, posture, and runtime, then hunted real flags inside the Salt platform.",
+  "scenarioCards": [
+    {
+      "number": "01",
+      "title": "Agentic Discovery",
+      "desc": "Full inventory of agents, MCP servers & APIs"
+    },
+    {
+      "number": "02",
+      "title": "Posture Management",
+      "desc": "Risk-contextualized findings by blast radius"
+    },
+    {
+      "number": "03",
+      "title": "Runtime Protection",
+      "desc": "Real-time behavioral detection & blocking"
+    }
+  ],
+  "viewLeaderboard": "View Full Leaderboard",
+  "backToIntro": "← Back to Introduction"
+}

@@ -10,6 +10,7 @@
 import { motion } from "framer-motion";
 import { useMemo } from "react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import BorderGlow from "@/components/BorderGlow";
 import WorkshopLayout from "@/components/WorkshopLayout";
 import { useAttendee } from "@/hooks/useAttendee";
@@ -78,6 +79,7 @@ function tierFor(rank: number, finishedNaturally: boolean): FinishTier {
 
 export default function Completed() {
   const [, navigate] = useLocation();
+  const { t } = useTranslation("completed");
   const { attendee } = useAttendee();
   const { rows } = useLeaderboard({ pollIntervalMs: 3000 });
 
@@ -117,7 +119,7 @@ export default function Completed() {
             custom={0}
             style={{ marginBottom: "0.75rem" }}
           >
-            <span className="section-label">Workshop Complete</span>
+            <span className="section-label">{t("sectionLabel")}</span>
           </motion.div>
 
           <motion.div
@@ -141,27 +143,27 @@ export default function Completed() {
             >
               {tier === "champion" && (
                 <>
-                  Workshop{" "}
+                  {t("tier.champion.word1")}{" "}
                   <span
                     style={{
                       color: rankAccent(1),
                       textShadow: `0 0 36px ${rankAccent(1)}`,
                     }}
                   >
-                    Champion
+                    {t("tier.champion.word2")}
                   </span>
                 </>
               )}
               {tier === "runner-up" && (
                 <>
-                  Runner-
+                  {t("tier.runnerUp.word1")}
                   <span
                     style={{
                       color: rankAccent(2),
                       textShadow: `0 0 30px ${rankAccent(2)}`,
                     }}
                   >
-                    up
+                    {t("tier.runnerUp.word2")}
                   </span>
                 </>
               )}
@@ -173,47 +175,47 @@ export default function Completed() {
                       textShadow: `0 0 30px ${rankAccent(3)}`,
                     }}
                   >
-                    Third
+                    {t("tier.third.word1")}
                   </span>{" "}
-                  Place
+                  {t("tier.third.word2")}
                 </>
               )}
               {tier === "completed" && (
                 <>
-                  Round{" "}
+                  {t("tier.completed.word1")}{" "}
                   <span
                     style={{
                       color: "var(--color-accent-text-bright)",
                       textShadow: "0 0 30px oklch(0.52 0.28 290 / 0.4)",
                     }}
                   >
-                    Complete
+                    {t("tier.completed.word2")}
                   </span>
                 </>
               )}
               {tier === "timed-out" && (
                 <>
-                  Time's{" "}
+                  {t("tier.timedOut.word1")}{" "}
                   <span
                     style={{
                       color: "oklch(0.7 0.2 25)",
                       textShadow: "0 0 30px oklch(0.5 0.2 25 / 0.4)",
                     }}
                   >
-                    Up
+                    {t("tier.timedOut.word2")}
                   </span>
                 </>
               )}
               {tier === null && (
                 <>
-                  Workshop{" "}
+                  {t("tier.fallback.word1")}{" "}
                   <span
                     style={{
                       color: "var(--color-accent-text-bright)",
                       textShadow: "0 0 30px oklch(0.52 0.28 290 / 0.4)",
                     }}
                   >
-                    Complete
+                    {t("tier.fallback.word2")}
                   </span>
                 </>
               )}
@@ -268,7 +270,7 @@ export default function Completed() {
                           : rankAccent(myRank),
                     }}
                   >
-                    {tier === "timed-out" ? "Did Not Finish" : "Your Result"}
+                    {tier === "timed-out" ? t("card.didNotFinish") : t("card.yourResult")}
                   </span>
                   <span
                     style={{
@@ -280,7 +282,7 @@ export default function Completed() {
                       color: "var(--muted-foreground)",
                     }}
                   >
-                    Rank {myRank.toString().padStart(2, "0")} of {rows.length}
+                    {t("card.rankOf", { rank: myRank.toString().padStart(2, "0"), total: rows.length })}
                   </span>
                 </div>
 
@@ -294,12 +296,12 @@ export default function Completed() {
                     }}
                   >
                     <Stat
-                      label="Solved"
+                      label={t("stat.solved")}
                       value={`${myRow.questions_complete} / 10`}
                       accent="oklch(0.7 0.2 25)"
                     />
                     <Stat
-                      label="Final Score"
+                      label={t("stat.finalScore")}
                       value={formatMs(myRow.total_ms)}
                     />
                   </div>
@@ -312,15 +314,15 @@ export default function Completed() {
                     }}
                   >
                     <Stat
-                      label="Challenge 1 done"
+                      label={t("stat.challenge1")}
                       value={formatMs(myRow.c1_elapsed_ms)}
                     />
                     <Stat
-                      label="Challenge 2 done"
+                      label={t("stat.challenge2")}
                       value={formatMs(myRow.c2_elapsed_ms)}
                     />
                     <Stat
-                      label="Total"
+                      label={t("stat.total")}
                       value={formatMs(myRow.total_ms)}
                       accent={rankAccent(myRank)}
                     />
@@ -338,18 +340,20 @@ export default function Completed() {
                   }}
                 >
                   {tier === "timed-out"
-                    ? `Workshop timer expired. ${myRow.questions_complete} of 10 questions solved${myRow.wrong_count > 0 ? ` · ${myRow.wrong_count} wrong (+${myRow.wrong_count * 15}s)` : ""}${myRow.hints_used > 0 ? ` · ${myRow.hints_used} hint${myRow.hints_used === 1 ? "" : "s"} (+${myRow.hints_used}m)` : ""}.`
+                    ? (
+                      <>
+                        {t("footer.timedOut", { solved: myRow.questions_complete })}
+                        {myRow.wrong_count > 0 && t("footer.timedOutWrong", { count: myRow.wrong_count, penalty: myRow.wrong_count * 15 })}
+                        {myRow.hints_used > 0 && t("footer.timedOutHints", { count: myRow.hints_used, penalty: myRow.hints_used })}
+                        {"."}
+                      </>
+                    )
                     : (
                       <>
                         {myRow.wrong_count > 0
-                          ? `${myRow.wrong_count} wrong guess${myRow.wrong_count === 1 ? "" : "es"} · +${myRow.wrong_count * 15}s penalty baked into total`
-                          : "Clean run — no wrong guesses."}
-                        {myRow.hints_used > 0 && (
-                          <>
-                            {" "}· {myRow.hints_used} hint
-                            {myRow.hints_used === 1 ? "" : "s"} used (+{myRow.hints_used}m penalty baked in)
-                          </>
-                        )}
+                          ? t("footer.wrongGuesses", { count: myRow.wrong_count, penalty: myRow.wrong_count * 15 })
+                          : t("footer.cleanRun")}
+                        {myRow.hints_used > 0 && t("footer.hints", { count: myRow.hints_used, penalty: myRow.hints_used })}
                       </>
                     )}
                 </div>
@@ -372,8 +376,7 @@ export default function Completed() {
                 textAlign: "center",
               }}
             >
-              You walked the full agentic security stack including discovery, posture, and runtime,
-              then hunted real flags inside the Salt platform.
+              {t("recapParagraph")}
             </p>
 
             <div
@@ -385,23 +388,7 @@ export default function Completed() {
                 textAlign: "left",
               }}
             >
-              {[
-                {
-                  number: "01",
-                  title: "Agentic Discovery",
-                  desc: "Full inventory of agents, MCP servers & APIs",
-                },
-                {
-                  number: "02",
-                  title: "Posture Management",
-                  desc: "Risk-contextualized findings by blast radius",
-                },
-                {
-                  number: "03",
-                  title: "Runtime Protection",
-                  desc: "Real-time behavioral detection & blocking",
-                },
-              ].map((card) => (
+              {(t("scenarioCards", { returnObjects: true }) as { number: string; title: string; desc: string }[]).map((card) => (
                 <div
                   key={card.number}
                   style={{
@@ -461,7 +448,7 @@ export default function Completed() {
               }}
               onClick={() => navigate("/leaderboard")}
             >
-              <span style={{ position: "relative", zIndex: 1 }}>View Full Leaderboard</span>
+              <span style={{ position: "relative", zIndex: 1 }}>{t("viewLeaderboard")}</span>
             </button>
 
             <button
@@ -488,7 +475,7 @@ export default function Completed() {
                 ((e.target as HTMLButtonElement).style.color = "rgba(150,130,200,0.55)")
               }
             >
-              ← Back to Introduction
+              {t("backToIntro")}
             </button>
           </motion.div>
         </section>
