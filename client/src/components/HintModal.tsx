@@ -9,6 +9,7 @@ import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "next-themes";
+import { useTranslation } from "react-i18next";
 import BorderGlow from "@/components/BorderGlow";
 import type { HintError, HintReveal } from "@/hooks/useHints";
 
@@ -34,18 +35,18 @@ function pad(n: number): string {
   return n.toString().padStart(2, "0");
 }
 
-function friendlyError(e: HintError | undefined): string {
+function friendlyError(e: HintError | undefined, t: (key: string) => string): string {
   switch (e) {
     case "already_solved":
-      return "You've already solved this question.";
+      return t("hint.error.already_solved");
     case "time_expired":
-      return "Workshop window closed.";
+      return t("hint.error.time_expired");
     case "challenge_not_begun":
-      return "Challenge hasn't started yet.";
+      return t("hint.error.challenge_not_begun");
     case "challenge_locked":
-      return "The challenge is locked.";
+      return t("hint.error.challenge_locked");
     default:
-      return "Couldn't reveal hint. Try again.";
+      return t("hint.error.default");
   }
 }
 
@@ -57,6 +58,7 @@ export default function HintModal({
   onRequestReveal,
   onClose,
 }: Props) {
+  const { t } = useTranslation("challenge");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<HintError | null>(null);
   const { resolvedTheme } = useTheme();
@@ -165,7 +167,7 @@ export default function HintModal({
                     className="section-label"
                     style={{ color: "var(--color-hint-bulb)" }}
                   >
-                    Question {questionLabel}
+                    {t("hint.questionLabel", { label: questionLabel })}
                   </span>
                   <span
                     style={{
@@ -177,7 +179,7 @@ export default function HintModal({
                       color: "var(--muted-foreground)",
                     }}
                   >
-                    Hint {revealedCount} / {hintCount}
+                    {t("hint.counter", { count: revealedCount, total: hintCount })}
                   </span>
                 </div>
 
@@ -195,16 +197,16 @@ export default function HintModal({
                         margin: 0,
                       }}
                     >
-                      Reveal a{" "}
+                      {t("hint.revealHeading")}{" "}
                       <span
                         style={{
                           color: "var(--color-hint-bulb)",
                           textShadow: "0 0 24px var(--color-hint-bulb-glow)",
                         }}
                       >
-                        Hint
+                        {t("hint.revealHeadingAccent")}
                       </span>
-                      ?
+                      {t("hint.revealHeadingPunct")}
                     </h3>
                     <p
                       style={{
@@ -215,7 +217,7 @@ export default function HintModal({
                         margin: 0,
                       }}
                     >
-                      +60 seconds will be added to your total time.
+                      {t("hint.penaltyWarning")}
                     </p>
                   </>
                 ) : (
@@ -247,7 +249,7 @@ export default function HintModal({
                             marginBottom: "0.4rem",
                           }}
                         >
-                          Hint {pad(r.idx + 1)}
+                          {t("hint.hintLabel", { n: pad(r.idx + 1) })}
                         </div>
                         <div
                           style={{
@@ -279,7 +281,7 @@ export default function HintModal({
                           marginTop: "0.25rem",
                         }}
                       >
-                        ⚠ Last hint — once you close, the hint won't be visible again.
+                        {t("hint.lastHintWarning")}
                       </div>
                     )}
                   </div>
@@ -293,7 +295,7 @@ export default function HintModal({
                       color: "var(--color-time-up)",
                     }}
                   >
-                    {friendlyError(error)}
+                    {friendlyError(error, t)}
                   </div>
                 )}
 
@@ -310,7 +312,7 @@ export default function HintModal({
                     onClick={onClose}
                     style={cancelButtonStyle}
                   >
-                    {showConfirm ? "Cancel" : "Close"}
+                    {showConfirm ? t("hint.buttonCancel") : t("hint.buttonClose")}
                   </button>
                   {(showConfirm || showNextReveal) && (
                     <button
@@ -326,8 +328,8 @@ export default function HintModal({
                       {submitting
                         ? "…"
                         : showConfirm
-                          ? "Reveal +60s"
-                          : `Reveal Hint ${pad(nextIdx + 1)} +60s`}
+                          ? t("hint.buttonRevealFirst")
+                          : t("hint.buttonRevealNext", { n: pad(nextIdx + 1) })}
                     </button>
                   )}
                 </div>
@@ -341,7 +343,7 @@ export default function HintModal({
                       textAlign: "center",
                     }}
                   >
-                    +60s per hint baked into your total time.
+                    {t("hint.penaltyFooter")}
                   </div>
                 )}
               </div>

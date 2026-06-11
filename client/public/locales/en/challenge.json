@@ -44,6 +44,28 @@
       "dotMatrixLabel": "Nexus standby pulse"
     }
   },
+  "hint": {
+    "questionLabel": "Question {{label}}",
+    "counter": "Hint {{count}} / {{total}}",
+    "revealHeading": "Reveal a",
+    "revealHeadingAccent": "Hint",
+    "revealHeadingPunct": "?",
+    "penaltyWarning": "+60 seconds will be added to your total time.",
+    "hintLabel": "Hint {{n}}",
+    "lastHintWarning": "⚠ Last hint — once you close, the hint won't be visible again.",
+    "penaltyFooter": "+60s per hint baked into your total time.",
+    "buttonCancel": "Cancel",
+    "buttonClose": "Close",
+    "buttonRevealFirst": "Reveal +60s",
+    "buttonRevealNext": "Reveal Hint {{n}} +60s",
+    "error": {
+      "already_solved": "You've already solved this question.",
+      "time_expired": "Workshop window closed.",
+      "challenge_not_begun": "Challenge hasn't started yet.",
+      "challenge_locked": "The challenge is locked.",
+      "default": "Couldn't reveal hint. Try again."
+    }
+  },
   "registration": {
     "sessionLoading": "Checking session…",
     "sectionLabel": "Registration",
