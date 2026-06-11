@@ -1,27 +1,27 @@
 {
-  "welcomeLabel": "Welcome",
-  "headline1": "Agentic AI Security Where it Matters",
-  "headline2": "In the Action.",
-  "overviewLabel": "Overview",
-  "p1": "Your agents are performing actions with APIs and MCP servers you don't know exist. Salt secures all of it, from code to runtime. An AI Agent is like a digital employee. And like any employee, what matters isn't what they think. <l1>It's what they do.</l1>",
-  "p2": "Visibility isn't enough, you need context. While most AI security stops at the model, attackers don't. Not every agent carries the same risk. Salt's Agentic Security platform contextualizes risk across your entire environment, <l1>separating the agents that can cause real damage from those that cannot.</l1>",
-  "p3": "In this hands-on workshop, you will walk through three scenarios following a simple progression: <l1>Agentic Discovery → Posture Management → Runtime Protection</l1>.",
+  "welcomeLabel": "Bem-vindo",
+  "headline1": "Agentic AI Security Onde Importa",
+  "headline2": "Na Prática.",
+  "overviewLabel": "Visão Geral",
+  "p1": "Seus agentes estão executando ações com APIs e servidores MCP que você nem sabe que existem. Salt protege tudo isso, do código ao runtime. Um agente de IA é como um funcionário digital. E como qualquer funcionário, o que importa não é o que ele pensa. <l1>É o que ele faz.</l1>",
+  "p2": "Visibilidade não basta — você precisa de contexto. Enquanto a maioria das soluções de segurança de IA para no modelo, os atacantes não param. Nem todo agente carrega o mesmo risco. A plataforma de Agentic Security da Salt contextualiza o risco em todo o seu ambiente, <l1>separando os agentes que podem causar dano real daqueles que não podem.</l1>",
+  "p3": "Neste Workshop prático, você vai percorrer três cenários seguindo uma progressão simples: <l1>Agentic Discovery → Posture Management → Runtime Protection</l1>.",
   "bullets": [
     {
       "label": "Agentic Discovery",
-      "body": "You can't secure what you can't see. Salt automatically discovers every agent, MCP server and API across your environment, including the shadow and zombie APIs nobody knows are there."
+      "body": "Você não pode proteger o que não consegue ver. Salt descobre automaticamente cada agente, servidor MCP e API no seu ambiente, incluindo as Shadow API e Zombie API que ninguém sabe que estão lá."
     },
     {
       "label": "Posture Management",
-      "body": "Knowing what exists is only the first step. Salt analyzes every component in your Agentic Security Graph for misconfigurations, excessive permissions, and exposed credentials, before an attacker finds them."
+      "body": "Saber o que existe é só o primeiro passo. Salt analisa cada componente do seu Agentic Security Graph em busca de configurações incorretas, permissões excessivas e credenciais expostas — antes que um atacante as encontre."
     },
     {
       "label": "Runtime Protection",
-      "body": "Agents move at machine speed. So does Salt. Real-time detection of abuse, anomalous behavior, and active attacks across the full graph, including the internal traffic your perimeter tools never see."
+      "body": "Agentes operam na velocidade de uma máquina. Salt também. Detecção em tempo real de abuso, comportamentos anômalos e ataques ativos em todo o grafo, incluindo o tráfego interno que suas ferramentas de perímetro nunca veem."
     }
   ],
   "saltAccessHeading1": "Salt ",
-  "saltAccessHeading2": "Access",
-  "launchButton": "Launch Salt Platform",
-  "beginButton": "Begin"
+  "saltAccessHeading2": "Acesso",
+  "launchButton": "Abrir a Plataforma Salt",
+  "beginButton": "Iniciar"
 }
