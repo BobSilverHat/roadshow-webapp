@@ -5,5 +5,16 @@
   "statusLive": "Live — last updated {{time}}",
   "statusError": "Connection error — retrying",
   "statusConnecting": "Connecting…",
-  "footnote": "Sort order: questions solved (desc), total time (asc), wrong guesses (asc). Wrong answers add 15 seconds to your total. Total time populates once both challenges are complete, or once the 35-minute workshop timer expires."
+  "footnote": "Sort order: questions solved (desc), total time (asc), wrong guesses (asc). Wrong answers add 15 seconds to your total. Total time populates once both challenges are complete, or once the 35-minute workshop timer expires.",
+  "table": {
+    "empty": "No competitors yet — be the first",
+    "colRank": "Rank",
+    "colName": "Name",
+    "colC1": "C1",
+    "colC2": "C2",
+    "colTotal": "Total",
+    "colWrong": "Wrong",
+    "colSolved": "Solved",
+    "youBadge": "YOU"
+  }
 }

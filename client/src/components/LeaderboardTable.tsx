@@ -4,6 +4,7 @@
  */
 
 import { AnimatePresence, motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import type { LeaderboardRow } from "@/hooks/useLeaderboard";
 
 interface Props {
@@ -34,6 +35,8 @@ const rankAccent = (rank: number): string => {
 };
 
 export default function LeaderboardTable({ rows, currentAttendeeId }: Props) {
+  const { t } = useTranslation("leaderboard");
+
   if (rows.length === 0) {
     return (
       <div
@@ -49,7 +52,7 @@ export default function LeaderboardTable({ rows, currentAttendeeId }: Props) {
           color: "var(--muted-foreground)",
         }}
       >
-        No competitors yet — be the first
+        {t("table.empty")}
       </div>
     );
   }
@@ -79,13 +82,13 @@ export default function LeaderboardTable({ rows, currentAttendeeId }: Props) {
           color: "var(--muted-foreground)",
         }}
       >
-        <span>Rank</span>
-        <span>Name</span>
-        <span style={numColStyle}>C1</span>
-        <span style={numColStyle}>C2</span>
-        <span style={numColStyle}>Total</span>
-        <span style={numColStyle}>Wrong</span>
-        <span style={numColStyle}>Solved</span>
+        <span>{t("table.colRank")}</span>
+        <span>{t("table.colName")}</span>
+        <span style={numColStyle}>{t("table.colC1")}</span>
+        <span style={numColStyle}>{t("table.colC2")}</span>
+        <span style={numColStyle}>{t("table.colTotal")}</span>
+        <span style={numColStyle}>{t("table.colWrong")}</span>
+        <span style={numColStyle}>{t("table.colSolved")}</span>
       </div>
 
       {/* Rows */}
@@ -143,7 +146,7 @@ export default function LeaderboardTable({ rows, currentAttendeeId }: Props) {
                       color: "var(--color-accent-text-bright)",
                     }}
                   >
-                    YOU
+                    {t("table.youBadge")}
                   </span>
                 )}
               </span>
