@@ -35,5 +35,9 @@
   "themeToggle": {
     "toLightMode": "Switch to light mode",
     "toDarkMode": "Switch to dark mode"
+  },
+  "errorBoundary": {
+    "heading": "An unexpected error occurred.",
+    "reloadButton": "Reload Page"
   }
 }
