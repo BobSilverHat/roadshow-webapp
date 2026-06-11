@@ -6,6 +6,7 @@
 
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
+import { useTranslation, Trans } from "react-i18next";
 import WorkshopLayout from "@/components/WorkshopLayout";
 import MagicRingsButton from "@/components/MagicRingsButton";
 
@@ -20,6 +21,7 @@ const fadeUp = {
 
 export default function Home() {
   const [, navigate] = useLocation();
+  const { t } = useTranslation("home");
 
   return (
     <WorkshopLayout activeId="introduction">
@@ -42,7 +44,7 @@ export default function Home() {
             custom={0}
             style={{ marginBottom: "1.5rem" }}
           >
-            <span className="section-label">Welcome</span>
+            <span className="section-label">{t("welcomeLabel")}</span>
           </motion.div>
 
           {/* Hero headline */}
@@ -65,7 +67,7 @@ export default function Home() {
                 margin: 0,
               }}
             >
-              Agentic AI Security Where it Matters
+              {t("headline1")}
             </h1>
             <h1
               style={{
@@ -81,7 +83,7 @@ export default function Home() {
                 textShadow: "0 0 40px oklch(0.52 0.28 290 / 0.5)",
               }}
             >
-              In the Action.
+              {t("headline2")}
             </h1>
           </motion.div>
 
@@ -93,7 +95,7 @@ export default function Home() {
             custom={2}
             style={{ marginBottom: "1.75rem" }}
           >
-            <span className="section-label">Overview</span>
+            <span className="section-label">{t("overviewLabel")}</span>
           </motion.div>
 
           {/* Body paragraphs */}
@@ -114,10 +116,9 @@ export default function Home() {
                 marginBottom: "1.75rem",
               }}
             >
-              Your agents are performing actions with APIs and MCP servers you don't know exist. Salt secures all of it, from code to runtime. An AI Agent is like a digital employee. And like any employee, what matters isn't what they think.{" "}
-              <a href="#" className="accent-link">
-                It's what they do.
-              </a>
+              <Trans i18nKey="p1" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
+                Your agents are performing actions with APIs and MCP servers you don't know exist. Salt secures all of it, from code to runtime. An AI Agent is like a digital employee. And like any employee, what matters isn't what they think. <l1>It's what they do.</l1>
+              </Trans>
             </p>
 
             <p
@@ -131,10 +132,9 @@ export default function Home() {
                 marginBottom: "1.75rem",
               }}
             >
-              Visibility isn't enough, you need context. While most AI security stops at the model, attackers don't. Not every agent carries the same risk. Salt's Agentic Security platform contextualizes risk across your entire environment,{" "}
-              <a href="#" className="accent-link">
-                separating the agents that can cause real damage from those that cannot.
-              </a>
+              <Trans i18nKey="p2" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
+                Visibility isn't enough, you need context. While most AI security stops at the model, attackers don't. Not every agent carries the same risk. Salt's Agentic Security platform contextualizes risk across your entire environment, <l1>separating the agents that can cause real damage from those that cannot.</l1>
+              </Trans>
             </p>
 
             <p
@@ -148,11 +148,9 @@ export default function Home() {
                 marginBottom: "2rem",
               }}
             >
-              In this hands-on workshop, you will walk through three scenarios following a simple progression:{" "}
-              <a href="#" className="accent-link">
-                Agentic Discovery → Posture Management → Runtime Protection
-              </a>
-              .
+              <Trans i18nKey="p3" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
+                In this hands-on workshop, you will walk through three scenarios following a simple progression: <l1>Agentic Discovery → Posture Management → Runtime Protection</l1>.
+              </Trans>
             </p>
 
             {/* Bullet list */}
@@ -164,20 +162,7 @@ export default function Home() {
                 textAlign: "left",
               }}
             >
-              {[
-                {
-                  label: "Agentic Discovery",
-                  body: "You can't secure what you can't see. Salt automatically discovers every agent, MCP server and API across your environment, including the shadow and zombie APIs nobody knows are there.",
-                },
-                {
-                  label: "Posture Management",
-                  body: "Knowing what exists is only the first step. Salt analyzes every component in your Agentic Security Graph for misconfigurations, excessive permissions, and exposed credentials, before an attacker finds them.",
-                },
-                {
-                  label: "Runtime Protection",
-                  body: "Agents move at machine speed. So does Salt. Real-time detection of abuse, anomalous behavior, and active attacks across the full graph, including the internal traffic your perimeter tools never see.",
-                },
-              ].map((item, i) => (
+              {(t("bullets", { returnObjects: true }) as { label: string; body: string }[]).map((item, i) => (
                 <li
                   key={i}
                   style={{
@@ -226,14 +211,14 @@ export default function Home() {
                 margin: "0 0 2rem",
               }}
             >
-              <span style={{ color: "var(--foreground)" }}>Salt </span>
+              <span style={{ color: "var(--foreground)" }}>{t("saltAccessHeading1")}</span>
               <span
                 style={{
                   color: "var(--color-accent-text-bright)",
                   textShadow: "0 0 30px oklch(0.52 0.28 290 / 0.5)",
                 }}
               >
-                Access
+                {t("saltAccessHeading2")}
               </span>
             </h2>
 
@@ -244,7 +229,7 @@ export default function Home() {
                 window.open("https://salt-labs.secured-api.com", "_blank", "noopener,noreferrer")
               }
             >
-              <span style={{ position: "relative", zIndex: 1 }}>Launch Salt Platform</span>
+              <span style={{ position: "relative", zIndex: 1 }}>{t("launchButton")}</span>
             </button>
           </motion.div>
         </section>
@@ -268,7 +253,7 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <MagicRingsButton label="Begin" onClick={() => navigate("/scenario/1")} />
+            <MagicRingsButton label={t("beginButton")} onClick={() => navigate("/scenario/1")} />
           </motion.div>
         </section>
       </div>
