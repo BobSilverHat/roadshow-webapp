@@ -44,6 +44,35 @@
       "dotMatrixLabel": "Nexus standby pulse"
     }
   },
+  "helpStepper": {
+    "back": "Back",
+    "next": "Next",
+    "step1": {
+      "label": "Step 01",
+      "heading": "Launch the Salt Platform",
+      "body": "Open the Salt platform in a new tab, submit each flag here as you find it. <l1>Launch Salt Platform →</l1>"
+    },
+    "step2": {
+      "label": "Step 02",
+      "heading": "How to find the answers",
+      "body": "Every question above maps to a screen Scenario 1 walked you through, the inventory dashboard, the agentic graph, the MCP and tool side-drawers, and the sortable capabilities table."
+    },
+    "step3": {
+      "label": "Step 03",
+      "heading": "The Agentic UI",
+      "body": "Salt surfaces every MCP server an agent touches, in a single agentic security view. Within this page, you can find the MCP servers SALT identified within your environment, relevant details for each, and filter for the specific capabilities of each tool connected."
+    },
+    "step4": {
+      "label": "Step 04",
+      "heading": "The Agentic Security Graph",
+      "body": "The Graph view gives you a comprehensive view of each MCP server, and there respective tools/capabilities, along with the technologies and applications involved for each. You'll also find an insight layer to overlay the risk, posture gaps, and sensitive data exposure."
+    },
+    "step5": {
+      "label": "Step 05",
+      "heading": "The Discovery Inventory",
+      "body": "The inventory dashboard is the high-level count of everything Salt finds across your API landscape. This includes each specific host, there respective api's, and any MCP related findings. Use the resources we just went over to answer the questions above. Happy hunting!"
+    }
+  },
   "hintBulb": {
     "ariaLabel": "Reveal a hint"
   },

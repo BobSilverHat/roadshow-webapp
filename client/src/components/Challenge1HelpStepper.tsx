@@ -17,6 +17,7 @@
 
 import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Trans, useTranslation } from "react-i18next";
 import Stepper, { Step } from "@/components/Stepper";
 
 const LAUNCH_URL = "https://salt-labs.secured-api.com/login";
@@ -70,6 +71,7 @@ export default function Challenge1HelpStepper({
   scrollOnOpen = true,
   onClose,
 }: Challenge1HelpStepperProps) {
+  const { t } = useTranslation("challenge");
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   // Capture scrollOnOpen at the moment of an open transition. Using a
   // ref instead of a dep avoids re-firing the scroll if the parent
@@ -137,70 +139,59 @@ export default function Challenge1HelpStepper({
         >
     <Stepper
       initialStep={1}
-      backButtonText="Back"
-      nextButtonText="Next"
+      backButtonText={t("helpStepper.back")}
+      nextButtonText={t("helpStepper.next")}
       onFinalStepCompleted={onClose}
       style={{ marginTop: "0.5rem", marginBottom: "3rem" }}
     >
       {/* ── Step 1 — Launch Salt ────────────────────────────────────── */}
       <Step>
-        <span style={labelStyle}>Step 01</span>
-        <h3 style={headingStyle}>Launch the Salt Platform</h3>
+        <span style={labelStyle}>{t("helpStepper.step1.label")}</span>
+        <h3 style={headingStyle}>{t("helpStepper.step1.heading")}</h3>
         <p style={bodyStyle}>
-          Open the Salt platform in a new tab, submit each flag here as
-          you find it.{" "}
-          <a
-            href={LAUNCH_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="accent-link"
-          >
-            Launch Salt Platform →
-          </a>
+          <Trans
+            i18nKey="helpStepper.step1.body"
+            ns="challenge"
+            components={{
+              l1: (
+                <a
+                  href={LAUNCH_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="accent-link"
+                />
+              ),
+            }}
+          />
         </p>
       </Step>
 
       {/* ── Step 2 — Methods ────────────────────────────────────────── */}
       <Step>
-        <span style={labelStyle}>Step 02</span>
-        <h3 style={headingStyle}>How to find the answers</h3>
-        <p style={bodyStyle}>
-          Every question above maps to a screen Scenario 1 walked you
-          through, the inventory dashboard, the agentic graph, the MCP
-          and tool side-drawers, and the sortable capabilities table.
-        </p>
+        <span style={labelStyle}>{t("helpStepper.step2.label")}</span>
+        <h3 style={headingStyle}>{t("helpStepper.step2.heading")}</h3>
+        <p style={bodyStyle}>{t("helpStepper.step2.body")}</p>
       </Step>
 
       {/* ── Step 3 — Agentic UI ─────────────────────────────────────── */}
       <Step>
-        <span style={labelStyle}>Step 03</span>
-        <h3 style={headingStyle}>The Agentic UI</h3>
-        <p style={bodyStyle}>
-          Salt surfaces every MCP server an agent touches, in a
-          single agentic security view. Within this page, you can find the MCP servers SALT identified within your environment, relevant details for each,
-          and filter for the specific capabilities of each tool connected.
-        </p>
+        <span style={labelStyle}>{t("helpStepper.step3.label")}</span>
+        <h3 style={headingStyle}>{t("helpStepper.step3.heading")}</h3>
+        <p style={bodyStyle}>{t("helpStepper.step3.body")}</p>
       </Step>
 
       {/* ── Step 4 — Agentic UI Graph ───────────────────────────────── */}
       <Step>
-        <span style={labelStyle}>Step 04</span>
-        <h3 style={headingStyle}>The Agentic Security Graph</h3>
-        <p style={bodyStyle}>
-          The Graph view gives you a comprehensive view of each MCP server, and there respective tools/capabilities, along with the technologies and applications involved for each. 
-          You'll also find an insight layer to overlay the risk, posture gaps, and sensitive data exposure.
-        </p>
+        <span style={labelStyle}>{t("helpStepper.step4.label")}</span>
+        <h3 style={headingStyle}>{t("helpStepper.step4.heading")}</h3>
+        <p style={bodyStyle}>{t("helpStepper.step4.body")}</p>
       </Step>
 
       {/* ── Step 5 — Discovery Inventory ────────────────────────────── */}
       <Step>
-        <span style={labelStyle}>Step 05</span>
-        <h3 style={headingStyle}>The Discovery Inventory</h3>
-        <p style={bodyStyle}>
-          The inventory dashboard is the high-level count of everything
-          Salt finds across your API landscape. This includes each specific host, there respective api's, and any MCP related findings. Use the resources we just went over to answer the questions above. Happy hunting!
-
-        </p>
+        <span style={labelStyle}>{t("helpStepper.step5.label")}</span>
+        <h3 style={headingStyle}>{t("helpStepper.step5.heading")}</h3>
+        <p style={bodyStyle}>{t("helpStepper.step5.body")}</p>
       </Step>
     </Stepper>
         </motion.div>
