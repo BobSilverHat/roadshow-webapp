@@ -8,7 +8,11 @@ export const NAMESPACES = [
   "completed", "saltNexus", "leaderboard", "challenge",
 ] as const;
 
-i18n
+// `init()` resolves once the initial language's namespaces are loaded.
+// main.tsx awaits this before the first render so components never render
+// against unloaded namespaces (which would flash raw keys and crash any
+// `t(key, { returnObjects: true })` .map call).
+export const i18nReady = i18n
   .use(HttpBackend)
   .use(LanguageDetector)
   .use(initReactI18next)
