@@ -7,6 +7,7 @@
  */
 
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import WorkshopLayout from "@/components/WorkshopLayout";
 import LeaderboardTable from "@/components/LeaderboardTable";
 import { useAttendee } from "@/hooks/useAttendee";
@@ -19,6 +20,7 @@ function formatClock(ts: number | null): string {
 }
 
 export default function Leaderboard() {
+  const { t } = useTranslation("leaderboard");
   const { attendee } = useAttendee();
   const { rows, status, lastUpdated } = useLeaderboard();
 
@@ -35,7 +37,7 @@ export default function Leaderboard() {
               className="section-label"
               style={{ display: "block", marginBottom: "0.75rem" }}
             >
-              Live
+              {t("sectionLabel")}
             </span>
             <h1
               style={{
@@ -49,14 +51,14 @@ export default function Leaderboard() {
                 margin: "0 0 1rem",
               }}
             >
-              Leader
+              {t("heading1")}
               <span
                 style={{
                   color: "var(--color-accent-text-bright)",
                   textShadow: "0 0 30px oklch(0.52 0.28 290 / 0.4)",
                 }}
               >
-                board
+                {t("heading2")}
               </span>
             </h1>
 
@@ -95,10 +97,10 @@ export default function Leaderboard() {
                 }}
               >
                 {status === "live"
-                  ? `Live — last updated ${formatClock(lastUpdated)}`
+                  ? t("statusLive", { time: formatClock(lastUpdated) })
                   : status === "error"
-                    ? "Connection error — retrying"
-                    : "Connecting…"}
+                    ? t("statusError")
+                    : t("statusConnecting")}
               </span>
             </div>
 
@@ -117,10 +119,7 @@ export default function Leaderboard() {
                 color: "var(--muted-foreground)",
               }}
             >
-              Sort order: questions solved (desc), total time (asc), wrong guesses
-              (asc). Wrong answers add 15 seconds to your total. Total time
-              populates once both challenges are complete, or once the 35-minute
-              workshop timer expires.
+              {t("footnote")}
             </p>
           </motion.div>
         </section>

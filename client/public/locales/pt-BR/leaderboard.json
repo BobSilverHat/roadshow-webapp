@@ -1,0 +1,9 @@
+{
+  "sectionLabel": "Live",
+  "heading1": "Leader",
+  "heading2": "board",
+  "statusLive": "Live — last updated {{time}}",
+  "statusError": "Connection error — retrying",
+  "statusConnecting": "Connecting…",
+  "footnote": "Sort order: questions solved (desc), total time (asc), wrong guesses (asc). Wrong answers add 15 seconds to your total. Total time populates once both challenges are complete, or once the 35-minute workshop timer expires."
+}
