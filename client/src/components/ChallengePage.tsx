@@ -7,6 +7,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import Challenge1HelpStepper from "@/components/Challenge1HelpStepper";
 import ChallengeHeader from "@/components/ChallengeHeader";
 import ChallengeIntro from "@/components/ChallengeIntro";
@@ -70,6 +71,7 @@ export default function ChallengePage({
   nextPath,
   nextLabel,
 }: Props) {
+  const { t } = useTranslation("challenge");
   const [, navigate] = useLocation();
   const workshop = useWorkshop({ attendeeId: attendee.id });
   // Per-clock expiry — independent of this user's completion state. Drives
@@ -234,7 +236,7 @@ export default function ChallengePage({
           color: "var(--muted-foreground)",
         }}
       >
-        Loading challenge…
+        {t("page.loading")}
       </div>
     );
   }
@@ -253,7 +255,7 @@ export default function ChallengePage({
           color: "var(--color-time-up)",
         }}
       >
-        Couldn't load the challenge: {error ?? workshop.error}
+        {t("page.errorPrefix")}{error ?? workshop.error}
       </div>
     );
   }
@@ -266,8 +268,8 @@ export default function ChallengePage({
     0,
   );
   const title = meta
-    ? `Challenge ${challengeNumber} — ${titleWithoutPrefix(meta.title)}`
-    : `Challenge ${challengeNumber}`;
+    ? t("page.headerTitle", { number: challengeNumber, name: titleWithoutPrefix(meta.title) })
+    : t("page.headerTitleFallback", { number: challengeNumber });
   const isLocked = workshop.status === "expired";
 
   // Pre-Begin: only Challenge 1 shows the intro/Begin gate. /challenge/2
@@ -453,7 +455,7 @@ export default function ChallengePage({
               className="section-label"
               style={{ display: "block", marginBottom: "0.75rem" }}
             >
-              Complete
+              {t("page.completeLabel")}
             </div>
             <h2
               style={{
@@ -466,7 +468,7 @@ export default function ChallengePage({
                 margin: "0 0 0.5rem",
               }}
             >
-              Challenge {challengeNumber} -{" "}
+              {t("page.completeTitlePrefix", { number: challengeNumber })}
               <span
                 style={{
                   color: "var(--color-accent-text-bright)",
@@ -485,14 +487,10 @@ export default function ChallengePage({
               }}
             >
               {wrongCount > 0
-                ? `${wrongCount} wrong guess${wrongCount === 1 ? "" : "es"} (+${wrongCount * 15}s penalty baked in).`
-                : "Clean run — no wrong guesses."}
-              {myHintCount > 0 && (
-                <>
-                  {" "}· Used {myHintCount} hint{myHintCount === 1 ? "" : "s"} (+{myHintCount}m penalty baked in).
-                </>
-              )}
-              {myRank !== null && <> · Current rank <strong style={{ color: "var(--color-accent-text-bright)" }}>#{myRank}</strong></>}
+                ? t("page.wrongGuesses", { count: wrongCount, penalty: wrongCount * 15 })
+                : t("page.cleanRun")}
+              {myHintCount > 0 && t("page.hintsUsed", { count: myHintCount, penalty: myHintCount })}
+              {myRank !== null && <>{t("page.currentRankPrefix")}<strong style={{ color: "var(--color-accent-text-bright)" }}>#{myRank}</strong></>}
             </p>
 
             {snapshot && snapshot.length > 0 && (
@@ -518,7 +516,7 @@ export default function ChallengePage({
                     marginBottom: "0.6rem",
                   }}
                 >
-                  Podium right now
+                  {t("page.podiumNow")}
                 </div>
                 {snapshot.map((row, i) => {
                   const isMe = row.attendee_id === attendee.id;
@@ -571,7 +569,7 @@ export default function ChallengePage({
                               color: "var(--color-accent-text-bright)",
                             }}
                           >
-                            YOU
+                            {t("page.you")}
                           </span>
                         )}
                       </span>
@@ -625,7 +623,7 @@ export default function ChallengePage({
                 className="section-label"
                 style={{ display: "block", marginBottom: "0.75rem" }}
               >
-                Workshop Closed
+                {t("page.timeUpLabel")}
               </span>
               <h2
                 style={{
@@ -638,14 +636,14 @@ export default function ChallengePage({
                   margin: "0 0 0.5rem",
                 }}
               >
-                Time's{" "}
+                {t("page.timeUpWord1")}{" "}
                 <span
                   style={{
                     color: "var(--color-time-up)",
                     textShadow: "0 0 24px var(--color-time-up-glow)",
                   }}
                 >
-                  Up
+                  {t("page.timeUpWord2")}
                 </span>
               </h2>
               <p
@@ -656,11 +654,11 @@ export default function ChallengePage({
                   margin: 0,
                 }}
               >
-                Locking submissions · routing to your results…
+                {t("page.timeUpBody")}
               </p>
               <DotMatrixLogo
                 color="var(--color-time-up)"
-                label="Time's up pulse"
+                label={t("page.timeUpDotMatrix")}
                 style={{ margin: "2.25rem auto 0" }}
               />
             </div>
