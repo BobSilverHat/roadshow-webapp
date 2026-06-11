@@ -9,6 +9,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useLocation } from 'wouter';
 import { useTheme } from 'next-themes';
+import { useTranslation } from 'react-i18next';
 import ThemeToggle from '@/components/ThemeToggle';
 import LanguageToggle from '@/components/LanguageToggle';
 import { useWorkshopClock } from '@/hooks/useWorkshopClock';
@@ -34,6 +35,7 @@ function formatRemaining(ms: number): string {
  */
 function WorkshopClockPill() {
   const clock = useWorkshopClock();
+  const { t } = useTranslation('common');
   if (clock.status === 'closed') return null;
 
   const isExpired = clock.status === 'expired';
@@ -74,7 +76,7 @@ function WorkshopClockPill() {
             color: 'var(--color-accent-text)',
           }}
         >
-          Review Mode
+          {t('clock.reviewMode')}
         </span>
       </div>
     );
@@ -105,7 +107,7 @@ function WorkshopClockPill() {
             textShadow: '0 0 10px var(--color-time-up-glow)',
           }}
         >
-          Complete
+          {t('clock.complete')}
         </span>
         <span
           style={{
@@ -173,7 +175,7 @@ function WorkshopClockPill() {
           color: 'oklch(0.88 0.2 145)',
         }}
       >
-        In Progress
+        {t('clock.inProgress')}
       </motion.span>
       <span
         style={{
@@ -203,36 +205,38 @@ function WorkshopClockPill() {
 
 interface SubItem {
   id: string;
-  label: string;
+  labelKey: string;
+  /** When present, use t('nav.sub.step', { n }) instead of t(labelKey). */
+  stepN?: string;
 }
 
 interface NavItem {
   id: string;
-  label: string;
+  labelKey: string;
   path: string;
   subItems?: SubItem[];
 }
 
 const SCENARIO_SUB_ITEMS: SubItem[] = [
-  { id: 'overview', label: 'Overview' },
-  { id: 'step-01', label: 'Step / 01' },
-  { id: 'step-02', label: 'Step / 02' },
-  { id: 'step-03', label: 'Step / 03' },
-  { id: 'step-04', label: 'Step / 04' },
-  { id: 'step-05', label: 'Step / 05' },
-  { id: 'summary', label: 'Summary' },
+  { id: 'overview', labelKey: 'nav.sub.overview' },
+  { id: 'step-01', labelKey: 'nav.sub.step', stepN: '01' },
+  { id: 'step-02', labelKey: 'nav.sub.step', stepN: '02' },
+  { id: 'step-03', labelKey: 'nav.sub.step', stepN: '03' },
+  { id: 'step-04', labelKey: 'nav.sub.step', stepN: '04' },
+  { id: 'step-05', labelKey: 'nav.sub.step', stepN: '05' },
+  { id: 'summary', labelKey: 'nav.sub.summary' },
 ];
 
 const NAV_ITEMS: NavItem[] = [
-  { id: 'introduction', label: 'Introduction', path: '/' },
-  { id: 'scenario-1', label: 'Scenario 1', path: '/scenario/1', subItems: SCENARIO_SUB_ITEMS },
-  { id: 'scenario-2', label: 'Scenario 2', path: '/scenario/2', subItems: SCENARIO_SUB_ITEMS },
-  { id: 'scenario-3', label: 'Scenario 3', path: '/scenario/3', subItems: SCENARIO_SUB_ITEMS },
-  { id: 'challenge-1', label: 'Challenge 1', path: '/challenge/1' },
-  { id: 'challenge-2', label: 'Challenge 2', path: '/challenge/2' },
-  { id: 'salt-nexus', label: 'Salt Nexus', path: '/salt-nexus' },
-  { id: 'leaderboard', label: 'Leaderboard', path: '/leaderboard' },
-  { id: 'completed', label: 'Completed!', path: '/completed' },
+  { id: 'introduction', labelKey: 'nav.introduction', path: '/' },
+  { id: 'scenario-1', labelKey: 'nav.scenario1', path: '/scenario/1', subItems: SCENARIO_SUB_ITEMS },
+  { id: 'scenario-2', labelKey: 'nav.scenario2', path: '/scenario/2', subItems: SCENARIO_SUB_ITEMS },
+  { id: 'scenario-3', labelKey: 'nav.scenario3', path: '/scenario/3', subItems: SCENARIO_SUB_ITEMS },
+  { id: 'challenge-1', labelKey: 'nav.challenge1', path: '/challenge/1' },
+  { id: 'challenge-2', labelKey: 'nav.challenge2', path: '/challenge/2' },
+  { id: 'salt-nexus', labelKey: 'nav.saltNexus', path: '/salt-nexus' },
+  { id: 'leaderboard', labelKey: 'nav.leaderboard', path: '/leaderboard' },
+  { id: 'completed', labelKey: 'nav.completed', path: '/completed' },
 ];
 
 interface WorkshopLayoutProps {
@@ -245,6 +249,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
   const [scrolled, setScrolled] = useState(false);
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme !== 'light';
+  const { t } = useTranslation('common');
 
   // The sidebar's right edge aligns just past the Salt logo's right edge,
   // so the sidebar column lines up vertically with the navbar branding.
@@ -531,7 +536,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
                       boxShadow: isActive ? '0 0 6px oklch(from var(--color-accent-text) l c h / 0.6)' : 'none',
                     }}
                   />
-                  {item.label}
+                  {t(item.labelKey)}
                 </button>
 
                 {/* Sub-items — render only for the currently active scenario.
@@ -574,7 +579,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
                             if (!isSubActive) (e.currentTarget as HTMLButtonElement).style.color = 'var(--muted-foreground)';
                           }}
                         >
-                          {sub.label}
+                          {sub.stepN ? t('nav.sub.step', { n: sub.stepN }) : t(sub.labelKey)}
                         </button>
                       );
                     })}
@@ -624,7 +629,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
                 color: 'var(--color-accent-text)',
               }}
             >
-              Workshop
+              {t('sidebar.workshopLabel')}
             </span>
           </div>
           <div
@@ -637,7 +642,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
               whiteSpace: 'nowrap',
             }}
           >
-            Agentic AI Security
+            {t('sidebar.workshopTitle')}
           </div>
         </div>
 

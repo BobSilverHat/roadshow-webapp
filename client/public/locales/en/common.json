@@ -6,5 +6,30 @@
     "bodyLine1": "Sorry, the page you are looking for doesn't exist.",
     "bodyLine2": "It may have been moved or deleted.",
     "goHome": "Go Home"
+  },
+  "nav": {
+    "introduction": "Introduction",
+    "scenario1": "Scenario 1",
+    "scenario2": "Scenario 2",
+    "scenario3": "Scenario 3",
+    "challenge1": "Challenge 1",
+    "challenge2": "Challenge 2",
+    "saltNexus": "Salt Nexus",
+    "leaderboard": "Leaderboard",
+    "completed": "Completed!",
+    "sub": {
+      "overview": "Overview",
+      "summary": "Summary",
+      "step": "Step / {{n}}"
+    }
+  },
+  "sidebar": {
+    "workshopLabel": "Workshop",
+    "workshopTitle": "Agentic AI Security"
+  },
+  "clock": {
+    "reviewMode": "Review Mode",
+    "complete": "Complete",
+    "inProgress": "In Progress"
   }
 }
