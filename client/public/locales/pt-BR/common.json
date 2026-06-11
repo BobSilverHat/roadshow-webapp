@@ -31,5 +31,9 @@
     "reviewMode": "Review Mode",
     "complete": "Complete",
     "inProgress": "In Progress"
+  },
+  "themeToggle": {
+    "toLightMode": "Switch to light mode",
+    "toDarkMode": "Switch to dark mode"
   }
 }

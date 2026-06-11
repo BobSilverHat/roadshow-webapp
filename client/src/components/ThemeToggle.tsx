@@ -9,10 +9,12 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const ICON_TRANSITION = { duration: 0.2, ease: [0.16, 1, 0.3, 1] as const };
 
 export default function ThemeToggle() {
+  const { t } = useTranslation("common");
   const { resolvedTheme, setTheme } = useTheme();
   // Avoid SSR/CSR mismatch flicker — render a fixed-size placeholder
   // until the client has hydrated and resolvedTheme is known.
@@ -30,7 +32,7 @@ export default function ThemeToggle() {
   return (
     <button
       type="button"
-      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      aria-label={isDark ? t("themeToggle.toLightMode") : t("themeToggle.toDarkMode")}
       onClick={() => setTheme(isDark ? "light" : "dark")}
       style={{
         background: "none",
