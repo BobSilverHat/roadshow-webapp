@@ -3,58 +3,58 @@
   "title1": "Posture",
   "title2": "Management",
   "overview": {
-    "p1": "Discovery gave you the map. Posture shows you where the cracks are. With your Agentic Security Graph established, Salt analyzes every MCP server, tool, and API inside it for misconfigurations, exposed secrets, missing authentication, and sensitive data leaking where it shouldn't, before an attacker turns any of it into a breach.",
-    "p2": "Not every agent carries the same blast radius. Salt's posture engine scores each finding by what the compromised tool can actually reach, which MCPs, which downstream APIs, which data categories, so your team spends its time on the <l1>handful of agents and tools that can cause real damage</l1>, not the entire backlog.",
-    "p3": "Posture runs continuously, not at scan time. Salt tracks <l1>compliance drift, unauthenticated MCPs, hardcoded credentials in tool configs, and sensitive data exposed by the capabilities behind every agent, </l1> as your graph evolves, so does the finding list. You see new risk the moment it appears, not at the next quarterly audit.",
+    "p1": "A descoberta te deu o mapa. Posture te mostra onde estão as rachaduras. Com o Agentic Security Graph estabelecido, Salt analisa cada servidor MCP, ferramenta e API dentro dele em busca de configurações incorretas, segredos expostos, autenticação ausente e dados sensíveis vazando onde não deveriam — antes que um atacante transforme qualquer disso em uma violação.",
+    "p2": "Nem todo agente carrega o mesmo blast radius. O motor de posture da Salt pontua cada finding pelo que a ferramenta comprometida pode realmente alcançar — quais MCPs, quais APIs downstream, quais categorias de dados — para que seu time concentre o tempo no <l1>punhado de agentes e ferramentas que podem causar dano real</l1>, não no backlog inteiro.",
+    "p3": "Posture roda continuamente, não no momento do scan. Salt rastreia <l1>compliance drift, MCPs sem autenticação, credenciais hardcoded em configurações de ferramentas e dados sensíveis expostos pelas capabilities por trás de cada agente, </l1> conforme o grafo evolui, a lista de findings também evolui. Você vê o novo risco no instante em que aparece, não na próxima auditoria trimestral.",
     "keyObjectivesLabel": "Key Objectives",
     "objectives": [
-      "Rank every posture finding across MCPs, tools, and APIs by severity and blast radius",
-      "Expose hardcoded secrets, unauthenticated MCPs, and sensitive data leaking through tool responses",
-      "Correlate findings to the attackers actively probing those same endpoints"
+      "Ranquear cada finding de posture em MCPs, ferramentas e APIs por severidade e blast radius",
+      "Expor segredos hardcoded, MCPs sem autenticação e dados sensíveis vazando pelas respostas das ferramentas",
+      "Correlacionar findings aos atacantes que já estão sondando esses mesmos endpoints"
     ]
   },
   "step01": {
     "title": "Posture Gaps Overview",
-    "body1": "Open the Posture Gaps dashboard to see every policy violation across your entire Agentic Security Graph, ranked by severity. <l1>{{gaps}} gaps</l1> detected here: shadow APIs, PII without authentication, strict-transport headers missing, MCPs exposed externally. The donut on the right breaks severity; the table below is the full, sortable worklist.",
-    "image1Alt": "Posture Gaps dashboard — severity breakdown and full gap list",
-    "body2": "Not sure where to start? Ask Pepper AI, <l1>\"What APIs have the highest risk score?\"</l1>, and Pepper surfaces a ranked list of the APIs contributing the most exposure, pulled live from the same graph data. Natural language in, prioritized triage out.",
-    "image2Alt": "Pepper AI answering which APIs have the highest risk score"
+    "body1": "Abra o painel Posture Gaps para ver cada violação de política em todo o seu Agentic Security Graph, ranqueada por severidade. <l1>{{gaps}} gaps</l1> detectados aqui: Shadow APIs, PII sem autenticação, strict-transport headers ausentes, MCPs expostos externamente. O donut à direita detalha a severidade; a tabela abaixo é o worklist completo e ordenável.",
+    "image1Alt": "Painel Posture Gaps — breakdown de severidade e lista completa de gaps",
+    "body2": "Não sabe por onde começar? Pergunte ao Pepper AI: <l1>\"What APIs have the highest risk score?\"</l1> — e o Pepper retorna uma lista ranqueada das APIs que contribuem com mais exposição, puxada ao vivo dos mesmos dados do grafo. Linguagem natural como entrada, triage priorizada como saída.",
+    "image2Alt": "Pepper AI respondendo quais APIs têm o maior risk score"
   },
   "step02": {
     "title": "Filter to What Matters",
-    "body": "{{total}} findings can be a lot to digest. Filter it. Here we narrow to <l1>MCP servers exposed externally returning sensitive data</l1> and <l2>exposed hardcoded secrets</l2>, two critical-only policies, collapsing the list to {{filtered}} items you can actually take action on this week. Every filter condition is a Salt policy primitive, so the filtered worklist is also a saved query you can re-run any time.",
-    "imageAlt": "Posture Gaps filtered to externally-exposed MCPs and hardcoded secrets"
+    "body": "{{total}} findings podem ser muito para digerir. Filtre. Aqui reduzimos para <l1>servidores MCP expostos externamente que retornam dados sensíveis</l1> e <l2>segredos hardcoded expostos</l2> — duas políticas somente de criticidade critical — colapsando a lista para {{filtered}} itens sobre os quais você pode agir esta semana. Cada condição de filtro é um primitivo de política Salt, então o worklist filtrado também é uma query salva que você pode re-executar a qualquer momento.",
+    "imageAlt": "Posture Gaps filtrado para MCPs expostos externamente e segredos hardcoded"
   },
   "step03": {
     "title": "The Posture Gap Drawer",
-    "body1": "Click any posture gap to open its side-drawer. The <l1>API Found</l1> tab pins the exact endpoint that triggered the finding, POST /mcp/tools/call/sfdc.cases.create on crm.sora-financial.com, alongside <l2>Evidence</l2> and parameter findings: the live response samples proving the violation, here an Account number and Email exposed in the response content.",
-    "image1Alt": "Posture gap side drawer — API Found tab with API details and parameter findings",
-    "body2": "Switch to the <l1>Policy</l1> tab to see why it fired. The <l2>Description</l2> explains the risk in plain language; <l3>General Remediation</l3> is a concrete action list, disable external access, apply authentication, sanitize responses. <l4>Policy Conditions</l4> shows the exact rule Salt matched: Technologies IS MCP AND Exposure IS External AND Response Content WITH Sensitive Parameter IS True.",
-    "image2Alt": "Posture gap side drawer — Policy tab with description, remediation, and policy conditions"
+    "body1": "Clique em qualquer posture gap para abrir o painel lateral. A aba <l1>API Found</l1> identifica o endpoint exato que disparou o finding — POST /mcp/tools/call/sfdc.cases.create em crm.sora-financial.com — junto com <l2>Evidence</l2> e parameter findings: as amostras de resposta ao vivo provando a violação, aqui um número de conta e e-mail expostos no conteúdo da resposta.",
+    "image1Alt": "Painel lateral do posture gap — aba API Found com detalhes da API e parameter findings",
+    "body2": "Mude para a aba <l1>Policy</l1> para ver por que foi disparado. A <l2>Description</l2> explica o risco em linguagem simples; <l3>General Remediation</l3> é uma lista de ações concretas — desabilitar acesso externo, aplicar autenticação, sanitizar respostas. <l4>Policy Conditions</l4> mostra a regra exata que Salt correspondeu: Technologies IS MCP AND Exposure IS External AND Response Content WITH Sensitive Parameter IS True.",
+    "image2Alt": "Painel lateral do posture gap — aba Policy com descrição, remediação e policy conditions"
   },
   "step04": {
     "title": "Investigate the API",
-    "body1": "Click the API link on any gap row to pivot from the posture finding into the full <l1>API investigation</l1>,  where Salt keeps everything it knows about that specific endpoint.",
-    "image1Alt": "Navigation arrow from the gap drawer into the API details",
-    "body2": "The API Overview opens on a radar plotting all five risk dimensions with a single <l1>composite score of 7.8 (HIGH)</l1>. Pepper AI auto-summarizes what the endpoint actually does: creates Salesforce support cases via an MCP tool, Bearer-authenticated, returning account numbers and emails. No spec hunting.",
-    "image2Alt": "API Overview — risk radar and Pepper AI summary",
-    "image3Alt": "Pepper AI summary of the API — purpose, data, protocol",
-    "body3": "<l1>Data & Structure → Sensitive Data</l1> lists every parameter carrying sensitive content, access tokens in request headers, account numbers and emails across request and response content, IP addresses forwarded, a phone number in the response headers, with data-type tags so you can see exactly what's leaking and where.",
-    "image4Alt": "Sensitive Data tab — parameters carrying sensitive content",
-    "body4": "The <l1>Details</l1> tab carries the full metadata: source, labels, auth type, content type, MCP technology tags, activity timeline, and extended metadata, all the context an investigator needs without leaving the view.",
-    "image5Alt": "API Details tab — full metadata and activity"
+    "body1": "Clique no link da API em qualquer linha de gap para pivotar do finding de posture para a <l1>investigação de API</l1> completa, onde Salt mantém tudo que sabe sobre aquele endpoint específico.",
+    "image1Alt": "Seta de navegação do painel do gap para os detalhes da API",
+    "body2": "O API Overview abre em um radar plotando as cinco dimensões de risco com um único <l1>composite score de 7.8 (HIGH)</l1>. Pepper AI resume automaticamente o que o endpoint realmente faz: cria casos de suporte no Salesforce via ferramenta MCP, autenticado por Bearer, retornando números de conta e e-mails. Sem caça a specs.",
+    "image2Alt": "API Overview — radar de risco e resumo do Pepper AI",
+    "image3Alt": "Resumo do Pepper AI sobre a API — finalidade, dados, protocolo",
+    "body3": "<l1>Data & Structure → Sensitive Data</l1> lista cada parâmetro carregando conteúdo sensível — access tokens nos headers da requisição, números de conta e e-mails nos conteúdos de requisição e resposta, endereços IP encaminhados, um número de telefone nos headers da resposta — com tags de tipo de dado para que você veja exatamente o que está vazando e onde.",
+    "image4Alt": "Aba Sensitive Data — parâmetros com conteúdo sensível",
+    "body4": "A aba <l1>Details</l1> carrega os metadados completos: fonte, labels, tipo de auth, tipo de conteúdo, tags de tecnologia MCP, timeline de atividade e metadados estendidos — todo o contexto que um investigador precisa sem sair da visão.",
+    "image5Alt": "Aba API Details — metadados completos e atividade"
   },
   "step05": {
     "title": "Attacker Correlation",
-    "body1": "Posture tells you what's exposed. <l1>Attackers</l1> tells you who's already probing it. The Attackers tab on the API drawer correlates every adversary that has touched this exact endpoint, with severity, risk type (Broken User Auth, Parameter Tampering, Security Misconfig, Injection), status, and detection time.",
-    "image1Alt": "Attackers tab — correlated adversaries against this API",
-    "body2": "Click through to Protect for the full attacker profile: categorized <l1>risk types</l1>, most-attacked APIs, server-response distribution, and a timeline of every attempt. This is where posture management hands off to runtime protection, the subject of the next scenario.",
-    "image2Alt": "Attacker detail inside Protect — full adversary profile"
+    "body1": "Posture te diz o que está exposto. <l1>Attackers</l1> te diz quem já está sondando. A aba Attackers no painel da API correlaciona cada adversário que tocou esse endpoint exato — com severidade, risk type (Broken User Auth, Parameter Tampering, Security Misconfig, Injection), status e horário de detecção.",
+    "image1Alt": "Aba Attackers — adversários correlacionados contra esta API",
+    "body2": "Clique para acessar o Protect e ver o perfil completo do atacante: <l1>risk types</l1> categorizados, APIs mais atacadas, distribuição de respostas do servidor e uma timeline de cada tentativa. É aqui que o posture management passa o bastão para o runtime protection — tema do próximo cenário.",
+    "image2Alt": "Detalhe do atacante dentro do Protect — perfil completo do adversário"
   },
   "summary": {
     "label": "Summary",
-    "heading": "From {{gaps}} gaps to a named adversary.",
-    "body": "You walked the triage path: overview the full gap list, filter to criticals, open a gap drawer for its conditions and evidence, pivot into the offending API to see its risk radar and sensitive-data exposure, and correlate it to active attackers. Posture stopped being a static scan, it became a <l1>live bridge into runtime protection</l1>, which is Scenario 3."
+    "heading": "De {{gaps}} gaps a um adversário identificado.",
+    "body": "Você percorreu o caminho de triage: visão geral da lista completa de gaps, filtro para criticals, abertura de um painel de gap para ver condições e evidências, pivot para a API infratora para ver o radar de risco e a exposição de dados sensíveis, e correlação com atacantes ativos. Posture deixou de ser um scan estático e se tornou uma <l1>ponte viva para o runtime protection</l1> — que é o Scenario 3."
   },
-  "nextButton": "Next"
+  "nextButton": "Próximo"
 }
