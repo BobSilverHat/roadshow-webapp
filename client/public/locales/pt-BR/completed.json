@@ -1,72 +1,72 @@
 {
-  "sectionLabel": "Workshop Complete",
+  "sectionLabel": "Workshop Concluído",
   "tier": {
     "champion": {
       "word1": "Workshop",
-      "word2": "Champion"
+      "word2": "Campeão"
     },
     "runnerUp": {
-      "word1": "Runner-",
-      "word2": "up"
+      "word1": "Vice-",
+      "word2": "campeão"
     },
     "third": {
-      "word1": "Third",
-      "word2": "Place"
+      "word1": "Terceiro",
+      "word2": "Lugar"
     },
     "completed": {
       "word1": "Round",
-      "word2": "Complete"
+      "word2": "Concluído"
     },
     "timedOut": {
-      "word1": "Time's",
-      "word2": "Up"
+      "word1": "Tempo",
+      "word2": "Esgotado"
     },
     "fallback": {
       "word1": "Workshop",
-      "word2": "Complete"
+      "word2": "Concluído"
     }
   },
   "card": {
-    "didNotFinish": "Did Not Finish",
-    "yourResult": "Your Result",
-    "rankOf": "Rank {{rank}} of {{total}}"
+    "didNotFinish": "Não Finalizado",
+    "yourResult": "Seu Resultado",
+    "rankOf": "Posição {{rank}} de {{total}}"
   },
   "stat": {
-    "solved": "Solved",
-    "finalScore": "Final Score",
-    "challenge1": "Challenge 1 done",
-    "challenge2": "Challenge 2 done",
+    "solved": "Resolvidas",
+    "finalScore": "Pontuação Final",
+    "challenge1": "Challenge 1 concluído",
+    "challenge2": "Challenge 2 concluído",
     "total": "Total"
   },
   "footer": {
-    "timedOut": "Workshop timer expired. {{solved}} of 10 questions solved",
-    "timedOutWrong": " · {{count}} wrong (+{{penalty}}s)",
-    "timedOutHints_one": " · {{count}} hint (+{{penalty}}m)",
-    "timedOutHints_other": " · {{count}} hints (+{{penalty}}m)",
-    "cleanRun": "Clean run — no wrong guesses.",
-    "wrongGuesses_one": "{{count}} wrong guess · +{{penalty}}s penalty baked into total",
-    "wrongGuesses_other": "{{count}} wrong guesses · +{{penalty}}s penalty baked into total",
-    "hints_one": " · {{count}} hint used (+{{penalty}}m penalty baked in)",
-    "hints_other": " · {{count}} hints used (+{{penalty}}m penalty baked in)"
+    "timedOut": "Tempo do Workshop esgotado. {{solved}} de 10 questões resolvidas",
+    "timedOutWrong": " · {{count}} errado(s) (+{{penalty}}s)",
+    "timedOutHints_one": " · {{count}} dica (+{{penalty}}m)",
+    "timedOutHints_other": " · {{count}} dicas (+{{penalty}}m)",
+    "cleanRun": "Sem erros — nenhum palpite incorreto.",
+    "wrongGuesses_one": "{{count}} palpite errado · +{{penalty}}s de penalidade incluídos no total",
+    "wrongGuesses_other": "{{count}} palpites errados · +{{penalty}}s de penalidade incluídos no total",
+    "hints_one": " · {{count}} dica usada (+{{penalty}}m de penalidade incluídos)",
+    "hints_other": " · {{count}} dicas usadas (+{{penalty}}m de penalidade incluídos)"
   },
-  "recapParagraph": "You walked the full agentic security stack including discovery, posture, and runtime, then hunted real flags inside the Salt platform.",
+  "recapParagraph": "Você percorreu a stack completa de agentic security — discovery, posture e runtime — e caçou flags reais dentro da plataforma Salt.",
   "scenarioCards": [
     {
       "number": "01",
       "title": "Agentic Discovery",
-      "desc": "Full inventory of agents, MCP servers & APIs"
+      "desc": "Inventário completo de agentes, servidores MCP e APIs"
     },
     {
       "number": "02",
       "title": "Posture Management",
-      "desc": "Risk-contextualized findings by blast radius"
+      "desc": "Findings contextualizados por risco e blast radius"
     },
     {
       "number": "03",
       "title": "Runtime Protection",
-      "desc": "Real-time behavioral detection & blocking"
+      "desc": "Detecção comportamental em tempo real e bloqueio"
     }
   ],
-  "viewLeaderboard": "View Full Leaderboard",
-  "backToIntro": "← Back to Introduction"
+  "viewLeaderboard": "Ver Leaderboard Completo",
+  "backToIntro": "← Voltar à Introdução"
 }
