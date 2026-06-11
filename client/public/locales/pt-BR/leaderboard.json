@@ -1,20 +1,20 @@
 {
-  "sectionLabel": "Live",
-  "heading1": "Leader",
-  "heading2": "board",
-  "statusLive": "Live — last updated {{time}}",
-  "statusError": "Connection error — retrying",
-  "statusConnecting": "Connecting…",
-  "footnote": "Sort order: questions solved (desc), total time (asc), wrong guesses (asc). Wrong answers add 15 seconds to your total. Total time populates once both challenges are complete, or once the 35-minute workshop timer expires.",
+  "sectionLabel": "Ao Vivo",
+  "heading1": "Pla",
+  "heading2": "car",
+  "statusLive": "Ao vivo — atualizado {{time}}",
+  "statusError": "Erro de conexão — reconectando",
+  "statusConnecting": "Conectando…",
+  "footnote": "Critério de ordenação: questões resolvidas (desc), tempo total (asc), palpites errados (asc). Respostas erradas somam 15 segundos ao total. O tempo total é preenchido quando ambos os desafios são concluídos ou quando o timer de 35 minutos do Workshop expira.",
   "table": {
-    "empty": "No competitors yet — be the first",
-    "colRank": "Rank",
-    "colName": "Name",
+    "empty": "Nenhum competidor ainda — seja o primeiro",
+    "colRank": "Posição",
+    "colName": "Nome",
     "colC1": "C1",
     "colC2": "C2",
     "colTotal": "Total",
-    "colWrong": "Wrong",
-    "colSolved": "Solved",
-    "youBadge": "YOU"
+    "colWrong": "Erros",
+    "colSolved": "Concluídas",
+    "youBadge": "VOCÊ"
   }
 }
