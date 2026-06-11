@@ -44,6 +44,28 @@
       "dotMatrixLabel": "Nexus standby pulse"
     }
   },
+  "registration": {
+    "sessionLoading": "Checking session…",
+    "sectionLabel": "Registration",
+    "heading": "Enter the Arena",
+    "body": "Your name and email lock you to this session. One registration per email, no second chances, no do-overs.",
+    "labelName": "Name",
+    "labelEmail": "Email",
+    "fieldRequired": "Both fields are required.",
+    "buttonSubmitting": "Registering…",
+    "buttonBegin": "Begin",
+    "error": {
+      "email_claimed": "That email is already competing. Use a different one.",
+      "missing_fields": "Both name and email are required.",
+      "not_authenticated": "Session failed to start. Refresh and try again.",
+      "anonymous_signin_failed": "Couldn't start a session. Anonymous auth may be disabled on the project.",
+      "attendee_fetch_failed": "Registered, but couldn't load your profile. Refresh.",
+      "session_lost": "Your session expired. Refresh and try again.",
+      "stale_session": "Your previous session is no longer valid. Refresh the page and try again.",
+      "registration_failed": "Registration failed. Try again.",
+      "unknown": "Unknown error"
+    }
+  },
   "page": {
     "loading": "Loading challenge…",
     "errorPrefix": "Couldn't load the challenge: ",

@@ -1,24 +1,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { useAttendee } from "@/hooks/useAttendee";
 
 interface RegistrationGateProps {
   children: (attendee: { id: string; name: string; email: string }) => ReactNode;
 }
-
-const ERROR_COPY: Record<string, string> = {
-  email_claimed: "That email is already competing. Use a different one.",
-  missing_fields: "Both name and email are required.",
-  not_authenticated: "Session failed to start. Refresh and try again.",
-  anonymous_signin_failed:
-    "Couldn't start a session. Anonymous auth may be disabled on the project.",
-  attendee_fetch_failed: "Registered, but couldn't load your profile. Refresh.",
-  session_lost: "Your session expired. Refresh and try again.",
-  stale_session:
-    "Your previous session is no longer valid. Refresh the page and try again.",
-  registration_failed: "Registration failed. Try again.",
-};
 
 const labelStyle = {
   display: "block",
@@ -45,6 +33,7 @@ const inputStyle = {
 };
 
 export default function RegistrationGate({ children }: RegistrationGateProps) {
+  const { t } = useTranslation("challenge");
   const { status, attendee, error, register } = useAttendee();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -66,7 +55,7 @@ export default function RegistrationGate({ children }: RegistrationGateProps) {
           color: "var(--muted-foreground)",
         }}
       >
-        Checking session…
+        {t("registration.sessionLoading")}
       </div>
     );
   }
@@ -75,22 +64,30 @@ export default function RegistrationGate({ children }: RegistrationGateProps) {
     return <>{children(attendee)}</>;
   }
 
+  function resolveError(code: string): string {
+    const key = `registration.error.${code}` as const;
+    const resolved = t(key);
+    // If the key was not found, i18next returns the key itself — fall back to
+    // the raw code so novel server errors still surface instead of silently swallowing.
+    return resolved === key ? code : resolved;
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLocalError(null);
     if (!name.trim() || !email.trim()) {
-      setLocalError("Both fields are required.");
+      setLocalError(t("registration.fieldRequired"));
       return;
     }
     setSubmitting(true);
     const result = await register(name.trim(), email.trim());
     setSubmitting(false);
     if (!result.ok) {
-      setLocalError(ERROR_COPY[result.error ?? ""] ?? result.error ?? "Unknown error");
+      setLocalError(resolveError(result.error ?? "unknown"));
     }
   }
 
-  const visibleError = localError ?? (error ? ERROR_COPY[error] ?? error : null);
+  const visibleError = localError ?? (error ? resolveError(error) : null);
 
   return (
     <motion.div
@@ -111,7 +108,7 @@ export default function RegistrationGate({ children }: RegistrationGateProps) {
         className="section-label"
         style={{ display: "block", marginBottom: "1rem" }}
       >
-        Registration
+        {t("registration.sectionLabel")}
       </span>
       <h2
         style={{
@@ -124,7 +121,7 @@ export default function RegistrationGate({ children }: RegistrationGateProps) {
           margin: "0 0 0.75rem",
         }}
       >
-        Enter the Arena
+        {t("registration.heading")}
       </h2>
       <p
         style={{
@@ -136,14 +133,13 @@ export default function RegistrationGate({ children }: RegistrationGateProps) {
           marginBottom: "1.75rem",
         }}
       >
-        Your name and email lock you to this session. One registration per email, no
-        second chances, no do-overs.
+        {t("registration.body")}
       </p>
 
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
         <div>
           <label htmlFor="reg-name" style={labelStyle}>
-            Name
+            {t("registration.labelName")}
           </label>
           <input
             id="reg-name"
@@ -159,7 +155,7 @@ export default function RegistrationGate({ children }: RegistrationGateProps) {
         </div>
         <div>
           <label htmlFor="reg-email" style={labelStyle}>
-            Email
+            {t("registration.labelEmail")}
           </label>
           <input
             id="reg-email"
@@ -200,7 +196,7 @@ export default function RegistrationGate({ children }: RegistrationGateProps) {
           }}
         >
           <span style={{ position: "relative", zIndex: 1 }}>
-            {submitting ? "Registering…" : "Begin"}
+            {submitting ? t("registration.buttonSubmitting") : t("registration.buttonBegin")}
           </span>
         </button>
       </form>
