@@ -31,6 +31,9 @@ export interface WorkshopClock {
    *  expire, status never flips to "expired", and clients should render
    *  "REVIEW MODE" in place of the countdown. */
   reviewMode: boolean;
+  /** Per-event default locale from workshop_config. Falls back to "en"
+   *  if the column is null or the row hasn't loaded yet. */
+  defaultLocale: string;
 }
 
 const POLL_INTERVAL_MS = 3000;
@@ -40,12 +43,13 @@ export function useWorkshopClock(): WorkshopClock {
   const [challengeOpen, setChallengeOpen] = useState<boolean>(false);
   const [nexusOpen, setNexusOpen] = useState<boolean>(false);
   const [reviewMode, setReviewMode] = useState<boolean>(false);
+  const [defaultLocale, setDefaultLocale] = useState<string>("en");
   const [now, setNow] = useState<number>(() => Date.now());
 
   const fetchConfig = useCallback(async () => {
     const { data, error } = await supabase
       .from("workshop_config")
-      .select("challenge_open, opened_at, nexus_open, review_mode")
+      .select("challenge_open, opened_at, nexus_open, review_mode, default_locale")
       .eq("id", 1)
       .maybeSingle();
     if (error) return;
@@ -53,6 +57,7 @@ export function useWorkshopClock(): WorkshopClock {
     setChallengeOpen(!!data?.challenge_open);
     setNexusOpen(!!data?.nexus_open);
     setReviewMode(!!data?.review_mode);
+    setDefaultLocale(data?.default_locale ?? "en");
   }, []);
 
   // Initial fetch + poll
@@ -90,5 +95,5 @@ export function useWorkshopClock(): WorkshopClock {
     return () => window.clearInterval(id);
   }, [status]);
 
-  return { openedAt, expiresAt, status, remainingMs, nexusOpen, reviewMode };
+  return { openedAt, expiresAt, status, remainingMs, nexusOpen, reviewMode, defaultLocale };
 }

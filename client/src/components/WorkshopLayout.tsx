@@ -6,6 +6,7 @@
  * - Scrollable main content area
  */
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import i18n from '@/i18n';
 import { motion } from 'framer-motion';
 import { useLocation } from 'wouter';
 import { useTheme } from 'next-themes';
@@ -250,6 +251,23 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme !== 'light';
   const { t } = useTranslation('common');
+  const { defaultLocale } = useWorkshopClock();
+
+  // Apply per-event default locale once at startup — fires when defaultLocale
+  // first resolves from the DB. Skipped if the user has already made an
+  // explicit choice (localStorage key "salt-locale" is set by i18next
+  // LanguageDetector). A ref guard ensures we only call changeLanguage once
+  // even if this component re-renders before the effect cleanup.
+  const defaultLocaleApplied = useRef(false);
+  useEffect(() => {
+    if (defaultLocaleApplied.current) return;
+    if (defaultLocale === 'en') return; // no-op: "en" is already the fallback
+    if (localStorage.getItem('salt-locale') !== null) return; // user chose explicitly
+    if (defaultLocale !== i18n.language) {
+      i18n.changeLanguage(defaultLocale);
+    }
+    defaultLocaleApplied.current = true;
+  }, [defaultLocale]);
 
   // The sidebar's right edge aligns just past the Salt logo's right edge,
   // so the sidebar column lines up vertically with the navbar branding.
