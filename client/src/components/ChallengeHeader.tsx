@@ -10,6 +10,7 @@
  */
 
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { useWorkshopClock } from "@/hooks/useWorkshopClock";
 
 interface Props {
@@ -41,6 +42,7 @@ export default function ChallengeHeader({
   helpOpen,
   onToggleHelp,
 }: Props) {
+  const { t } = useTranslation("challenge");
   const clock = useWorkshopClock();
   // During the initial fetch (openedAt unknown), useWorkshopClock returns
   // remainingMs = 0. Without this guard the < 60_000 branch fires and the
@@ -51,7 +53,7 @@ export default function ChallengeHeader({
   const remainingLabel = !clockLoaded
     ? "--:--"
     : reviewMode
-      ? "REVIEW MODE"
+      ? t("header.reviewMode")
       : formatMs(clock.remainingMs);
   const isExpired = clock.status === "expired";
 
@@ -154,7 +156,7 @@ export default function ChallengeHeader({
             whiteSpace: "nowrap",
           }}
         >
-          {solvedCount} / {totalQuestions} solved
+          {t("header.solved", { solved: solvedCount, total: totalQuestions })}
         </span>
       </div>
 
@@ -195,7 +197,7 @@ export default function ChallengeHeader({
               // Open state — static low-opacity white, indicates "click
               // to close." No animation so the eye isn't pulled back to
               // it while the user reads the open stepper below.
-              <span style={{ color: "var(--muted-foreground)" }}>Help</span>
+              <span style={{ color: "var(--muted-foreground)" }}>{t("header.help")}</span>
             ) : (
               // Closed state — pulsing pale neon green, same cadence
               // as the WaitingOverlay headlines + sidebar pill, drawing
@@ -219,7 +221,7 @@ export default function ChallengeHeader({
                   color: "oklch(0.88 0.2 145)",
                 }}
               >
-                Help
+                {t("header.help")}
               </motion.span>
             )}
           </button>
