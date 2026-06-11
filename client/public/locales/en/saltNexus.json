@@ -1,0 +1,20 @@
+{
+  "sectionLabel": "Live Attack Simulation",
+  "incidentLabel": "The Lilli Incident · March 2026",
+  "incidentHeading": "McKinsey's AI Wasn't Hacked. Its APIs Were.",
+  "lede": "You've discovered the API surface. You've governed it. You've protected it. Now watch what happens when those defenses aren't in place, on a target that lives on the public web.",
+  "incidentP1": "In March 2026, security researchers disclosed a significant breach of <l1>Lilli</l1>, McKinsey & Company's internal generative AI platform. An autonomous AI agent built by startup CodeWall compromised the system in roughly two hours.",
+  "incidentP2": "The attack didn't target the model. It targeted the API surface beneath it, inadequately secured endpoints and over-privileged access. The agent enumerated 22 unauthorized endpoints, leveraged a SQL injection to gain read/write on the production database, and walked away with the corpus the model was trained to query.",
+  "stats": {
+    "documentChunks": "Document chunks",
+    "userAccounts": "User accounts",
+    "chatMessages": "Chat messages",
+    "unauthorizedEndpoints": "Unauthorized endpoints"
+  },
+  "whyMattersLabel": "Why This Matters",
+  "whyMattersHeading": "An API Incident Dressed as an AI Incident.",
+  "whyMattersP1": "The model behaved exactly as designed. The walls behind it didn't. That's the gap Salt sits in, <l1>discovery</l1>, <l2>posture</l2>, and <l3>runtime</l3> for every interface an autonomous agent can reach, including the ones the platform team didn't know existed.",
+  "whyMattersP2": "In the next few minutes you'll see this play out live, against a sandboxed target. Watch the agent move, watch the endpoints light up, and watch what Salt catches.",
+  "launchCta": "Launch Salt Nexus →",
+  "sourceLink": "Read the full breakdown · salt.security/blog/mckinsey-hack-exposed-apis →"
+}

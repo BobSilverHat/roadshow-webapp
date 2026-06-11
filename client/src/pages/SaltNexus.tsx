@@ -13,6 +13,7 @@
  */
 
 import { AnimatePresence, motion } from "framer-motion";
+import { useTranslation, Trans } from "react-i18next";
 import WorkshopLayout from "@/components/WorkshopLayout";
 import WaitingOverlay from "@/components/WaitingOverlay";
 import { useWorkshopClock } from "@/hooks/useWorkshopClock";
@@ -46,13 +47,14 @@ const headingSerif = {
 };
 
 const STATS = [
-  { value: "3.6M", label: "Document chunks" },
-  { value: "57K+", label: "User accounts" },
-  { value: "46M+", label: "Chat messages" },
-  { value: "22", label: "Unauthorized endpoints" },
+  { value: "3.6M", labelKey: "stats.documentChunks" },
+  { value: "57K+", labelKey: "stats.userAccounts" },
+  { value: "46M+", labelKey: "stats.chatMessages" },
+  { value: "22", labelKey: "stats.unauthorizedEndpoints" },
 ];
 
 export default function SaltNexus() {
+  const { t } = useTranslation("saltNexus");
   const clock = useWorkshopClock();
   const locked = !clock.nexusOpen;
 
@@ -68,7 +70,7 @@ export default function SaltNexus() {
             custom={0}
             style={{ marginBottom: "0.85rem" }}
           >
-            <span className="section-label">Live Attack Simulation</span>
+            <span className="section-label">{t("sectionLabel")}</span>
           </motion.div>
 
           {/* Hero headline: Salt [Nexus] */}
@@ -112,9 +114,7 @@ export default function SaltNexus() {
             custom={2}
             style={{ ...bodyParagraph, marginBottom: "2.5rem" }}
           >
-            You've discovered the API surface. You've governed it. You've protected it.
-            Now watch what happens when those defenses aren't in place, on a target that
-            lives on the public web.
+            {t("lede")}
           </motion.p>
 
           <hr className="section-divider" style={{ marginBottom: "2.5rem" }} />
@@ -131,7 +131,7 @@ export default function SaltNexus() {
               className="section-label"
               style={{ display: "block", marginBottom: "0.85rem" }}
             >
-              The Lilli Incident · March 2026
+              {t("incidentLabel")}
             </span>
             <h2
               style={{
@@ -140,20 +140,18 @@ export default function SaltNexus() {
                 margin: "0 0 1rem",
               }}
             >
-              McKinsey's AI Wasn't Hacked. Its APIs Were.
+              {t("incidentHeading")}
             </h2>
             <p style={bodyParagraph}>
-              In March 2026, security researchers disclosed a significant breach of{" "}
-              <span className="accent-link">Lilli</span>, McKinsey & Company's internal
-              generative AI platform. An autonomous AI agent built by startup CodeWall
-              compromised the system in roughly two hours.
+              <Trans i18nKey="incidentP1" t={t} components={{ l1: <span className="accent-link" /> }}>
+                In March 2026, security researchers disclosed a significant breach of{" "}
+                <l1>Lilli</l1>, McKinsey & Company's internal
+                generative AI platform. An autonomous AI agent built by startup CodeWall
+                compromised the system in roughly two hours.
+              </Trans>
             </p>
             <p style={bodyParagraph}>
-              The attack didn't target the model. It targeted the API surface beneath
-              it, inadequately secured endpoints and over-privileged access. The agent
-              enumerated 22 unauthorized endpoints, leveraged a SQL injection to gain
-              read/write on the production database, and walked away with the corpus
-              the model was trained to query.
+              {t("incidentP2")}
             </p>
           </motion.div>
 
@@ -172,7 +170,7 @@ export default function SaltNexus() {
           >
             {STATS.map((s) => (
               <div
-                key={s.label}
+                key={s.labelKey}
                 style={{
                   padding: "1.1rem 0.85rem",
                   border: "1px solid oklch(from var(--color-accent-text) l c h / 0.22)",
@@ -207,7 +205,7 @@ export default function SaltNexus() {
                     lineHeight: 1.25,
                   }}
                 >
-                  {s.label}
+                  {t(s.labelKey)}
                 </div>
               </div>
             ))}
@@ -227,7 +225,7 @@ export default function SaltNexus() {
               className="section-label"
               style={{ display: "block", marginBottom: "0.85rem" }}
             >
-              Why This Matters
+              {t("whyMattersLabel")}
             </span>
             <h2
               style={{
@@ -236,20 +234,20 @@ export default function SaltNexus() {
                 margin: "0 0 1rem",
               }}
             >
-              An API Incident Dressed as an AI Incident.
+              {t("whyMattersHeading")}
             </h2>
             <p style={bodyParagraph}>
-              The model behaved exactly as designed. The walls behind it didn't. That's
-              the gap Salt sits in, <span className="accent-link">discovery</span>,{" "}
-              <span className="accent-link">posture</span>, and{" "}
-              <span className="accent-link">runtime</span> for every interface an
-              autonomous agent can reach, including the ones the platform team didn't
-              know existed.
+              <Trans i18nKey="whyMattersP1" t={t} components={{ l1: <span className="accent-link" />, l2: <span className="accent-link" />, l3: <span className="accent-link" /> }}>
+                The model behaved exactly as designed. The walls behind it didn't. That's
+                the gap Salt sits in, <l1>discovery</l1>,{" "}
+                <l2>posture</l2>, and{" "}
+                <l3>runtime</l3> for every interface an
+                autonomous agent can reach, including the ones the platform team didn't
+                know existed.
+              </Trans>
             </p>
             <p style={bodyParagraph}>
-              In the next few minutes you'll see this play out live, against a sandboxed
-              target. Watch the agent move, watch the endpoints light up, and watch
-              what Salt catches.
+              {t("whyMattersP2")}
             </p>
           </motion.div>
 
@@ -274,7 +272,7 @@ export default function SaltNexus() {
               }}
             >
               <span style={{ position: "relative", zIndex: 1 }}>
-                Launch Salt Nexus →
+                {t("launchCta")}
               </span>
             </a>
           </motion.div>
@@ -297,7 +295,7 @@ export default function SaltNexus() {
                 fontSize: "0.75rem",
               }}
             >
-              Read the full breakdown · salt.security/blog/mckinsey-hack-exposed-apis →
+              {t("sourceLink")}
             </a>
           </motion.div>
         </section>
