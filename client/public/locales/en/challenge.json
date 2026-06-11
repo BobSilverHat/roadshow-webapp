@@ -1,0 +1,66 @@
+{
+  "intro": {
+    "sectionLabel": "Challenge {{number}}",
+    "p1": "You have <l1>35 minutes</l1> total to complete both challenges. Starting Challenge 1 unlocks Challenge 2 — work them in any order, and switch between them at will. When the timer hits zero, submissions lock and you'll be taken to your results.",
+    "p2": "Every answer lives inside the Salt platform. Open it in another tab, hunt through the UI, submit each flag here. Wrong guesses add <l1>+15 seconds</l1> each, so take the time to get it right.",
+    "p3": "<l1>Answers with multiple values:</l1> separate each with a comma + space. Order doesn't matter — `A, B` and `B, A` both land. Answers are case-insensitive and whitespace-tolerant.",
+    "launchLink": "Launch the Salt Platform →",
+    "errorStart": "Couldn't start the timer. Refresh and try again.",
+    "buttonStarting": "Starting…",
+    "buttonBegin": "Begin Workshop"
+  },
+  "header": {
+    "reviewMode": "REVIEW MODE",
+    "solved": "{{solved}} / {{total}} solved",
+    "help": "Help"
+  },
+  "question": {
+    "label": "Question {{n}}",
+    "complete": "COMPLETE",
+    "locked": "LOCKED",
+    "placeholder": "Enter flag (comma + space for multiple)",
+    "submit": "Submit",
+    "error": {
+      "timeExpired": "Time's up — answer not submitted.",
+      "notBegun": "Couldn't submit. Refresh and try again.",
+      "alreadyAnswered": "Already solved on another tab.",
+      "notRegistered": "Registration expired. Refresh to re-register.",
+      "default": "Submission failed. Try again."
+    }
+  },
+  "waiting": {
+    "workshop": {
+      "label": "Standby",
+      "headlineLead": "The Workshop",
+      "headlineAccent": "Begins Soon",
+      "body": "Your admin will open the challenge shortly. Sit tight, keep this tab open. When the gate lifts, you'll see the Begin button — and the 35-minute clock starts the moment you click.",
+      "dotMatrixLabel": "Standby pulse"
+    },
+    "nexus": {
+      "label": "Standby",
+      "headlineLead": "Salt",
+      "headlineAccent": "Nexus Opens Soon",
+      "body": "Nexus unlocks once the challenge phase wraps up. Your admin will release it when the 35-minute timer ends, stay in this tab and we'll route you to the live attack simulation the moment it opens.",
+      "dotMatrixLabel": "Nexus standby pulse"
+    }
+  },
+  "page": {
+    "loading": "Loading challenge…",
+    "errorPrefix": "Couldn't load the challenge: ",
+    "completeLabel": "Complete",
+    "completeTitle": "Challenge {{number}} - {{time}}",
+    "cleanRun": "Clean run — no wrong guesses.",
+    "wrongGuesses_one": "{{count}} wrong guess (+{{penalty}}s penalty baked in).",
+    "wrongGuesses_other": "{{count}} wrong guesses (+{{penalty}}s penalty baked in).",
+    "hintsUsed_one": " · Used {{count}} hint (+{{penalty}}m penalty baked in).",
+    "hintsUsed_other": " · Used {{count}} hints (+{{penalty}}m penalty baked in).",
+    "currentRank": " · Current rank #{{rank}}",
+    "podiumNow": "Podium right now",
+    "you": "YOU",
+    "timeUpLabel": "Workshop Closed",
+    "timeUpWord1": "Time's",
+    "timeUpWord2": "Up",
+    "timeUpBody": "Locking submissions · routing to your results…",
+    "timeUpDotMatrix": "Time's up pulse"
+  }
+}

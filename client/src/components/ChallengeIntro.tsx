@@ -8,6 +8,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslation, Trans } from "react-i18next";
 
 interface Props {
   number: string;
@@ -19,6 +20,7 @@ interface Props {
 const LAUNCH_URL = "https://salt-labs.secured-api.com";
 
 export default function ChallengeIntro({ number, title, subtitle, onBegin }: Props) {
+  const { t } = useTranslation("challenge");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,7 +29,7 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
     setSubmitting(true);
     const ok = await onBegin();
     setSubmitting(false);
-    if (!ok) setError("Couldn't start the timer. Refresh and try again.");
+    if (!ok) setError(t("intro.errorStart"));
   }
 
   return (
@@ -38,7 +40,7 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
       style={{ paddingTop: "3rem", maxWidth: "880px", margin: "0 auto" }}
     >
       <span className="section-label" style={{ display: "block", marginBottom: "0.75rem" }}>
-        Challenge {number}
+        {t("intro.sectionLabel", { number })}
       </span>
       <h1
         style={{
@@ -80,10 +82,12 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
           marginBottom: "1rem",
         }}
       >
-        You have <span className="accent-link">35 minutes</span> total to complete both
-        challenges. Starting Challenge 1 unlocks Challenge 2 — work them in any order, and
-        switch between them at will. When the timer hits zero, submissions lock and you'll
-        be taken to your results.
+        <Trans i18nKey="intro.p1" t={t} components={{ l1: <span className="accent-link" /> }}>
+          You have <l1>35 minutes</l1> total to complete both challenges. Starting
+          Challenge 1 unlocks Challenge 2 — work them in any order, and switch between them
+          at will. When the timer hits zero, submissions lock and you'll be taken to your
+          results.
+        </Trans>
       </p>
       <p
         style={{
@@ -95,10 +99,11 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
           marginBottom: "1rem",
         }}
       >
-        Every answer lives inside the Salt platform. Open it in another tab, hunt through
-        the UI, submit each flag here. Wrong guesses add{" "}
-        <span className="accent-link">+15 seconds</span> each, so take the time to get it
-        right.
+        <Trans i18nKey="intro.p2" t={t} components={{ l1: <span className="accent-link" /> }}>
+          Every answer lives inside the Salt platform. Open it in another tab, hunt through
+          the UI, submit each flag here. Wrong guesses add{" "}
+          <l1>+15 seconds</l1> each, so take the time to get it right.
+        </Trans>
       </p>
       <p
         style={{
@@ -110,9 +115,11 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
           marginBottom: "1.5rem",
         }}
       >
-        <span className="accent-link">Answers with multiple values:</span> separate each
-        with a comma + space. Order doesn't matter — `A, B` and `B, A` both land.
-        Answers are case-insensitive and whitespace-tolerant.
+        <Trans i18nKey="intro.p3" t={t} components={{ l1: <span className="accent-link" /> }}>
+          <l1>Answers with multiple values:</l1> separate each with a comma + space.
+          Order doesn't matter — `A, B` and `B, A` both land. Answers are case-insensitive
+          and whitespace-tolerant.
+        </Trans>
       </p>
 
       <p
@@ -131,7 +138,7 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
           rel="noopener noreferrer"
           className="accent-link"
         >
-          Launch the Salt Platform →
+          {t("intro.launchLink")}
         </a>
       </p>
 
@@ -163,7 +170,7 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
         }}
       >
         <span style={{ position: "relative", zIndex: 1 }}>
-          {submitting ? "Starting…" : "Begin Workshop"}
+          {submitting ? t("intro.buttonStarting") : t("intro.buttonBegin")}
         </span>
       </button>
     </motion.section>
