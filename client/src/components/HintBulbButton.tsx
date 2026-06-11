@@ -5,6 +5,7 @@
  */
 
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   onClick: () => void;
@@ -14,11 +15,12 @@ interface Props {
 }
 
 export default function HintBulbButton({ onClick, partiallyUsed }: Props) {
+  const { t } = useTranslation("challenge");
   return (
     <button
       type="button"
       onClick={onClick}
-      aria-label="Reveal a hint"
+      aria-label={t("hintBulb.ariaLabel")}
       style={{
         position: "absolute",
         top: "0.85rem",
