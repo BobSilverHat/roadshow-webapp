@@ -4,7 +4,7 @@
   "headline2": "Na Prática.",
   "overviewLabel": "Visão Geral",
   "p1": "Seus agentes estão executando ações com APIs e servidores MCP que você nem sabe que existem. Salt protege tudo isso, do código ao runtime. Um agente de IA é como um funcionário digital. E como qualquer funcionário, o que importa não é o que ele pensa. <l1>É o que ele faz.</l1>",
-  "p2": "Visibilidade não basta — você precisa de contexto. Enquanto a maioria das soluções de segurança de IA para no modelo, os atacantes não param. Nem todo agente carrega o mesmo risco. A plataforma de Agentic Security da Salt contextualiza o risco em todo o seu ambiente, <l1>separando os agentes que podem causar dano real daqueles que não podem.</l1>",
+  "p2": "Visibilidade não basta, você precisa de contexto. Enquanto a maioria das soluções de segurança de IA para no modelo, os atacantes não param. Nem todo agente carrega o mesmo risco. A plataforma de Agentic Security da Salt contextualiza o risco em todo o seu ambiente, <l1>separando os agentes que podem causar dano real daqueles que não podem.</l1>",
   "p3": "Neste Workshop prático, você vai percorrer três cenários seguindo uma progressão simples: <l1>Agentic Discovery → Posture Management → Runtime Protection</l1>.",
   "bullets": [
     {
@@ -13,7 +13,7 @@
     },
     {
       "label": "Posture Management",
-      "body": "Saber o que existe é só o primeiro passo. Salt analisa cada componente do seu Agentic Security Graph em busca de configurações incorretas, permissões excessivas e credenciais expostas — antes que um atacante as encontre."
+      "body": "Saber o que existe é só o primeiro passo. Salt analisa cada componente do seu Agentic Security Graph em busca de configurações incorretas, permissões excessivas e credenciais expostas, antes que um atacante as encontre."
     },
     {
       "label": "Runtime Protection",

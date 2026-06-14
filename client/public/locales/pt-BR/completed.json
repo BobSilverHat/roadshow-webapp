@@ -43,13 +43,13 @@
     "timedOutWrong": " · {{count}} errado(s) (+{{penalty}}s)",
     "timedOutHints_one": " · {{count}} dica (+{{penalty}}m)",
     "timedOutHints_other": " · {{count}} dicas (+{{penalty}}m)",
-    "cleanRun": "Sem erros — nenhum palpite incorreto.",
+    "cleanRun": "Sem erros, nenhum palpite incorreto.",
     "wrongGuesses_one": "{{count}} palpite errado · +{{penalty}}s de penalidade incluídos no total",
     "wrongGuesses_other": "{{count}} palpites errados · +{{penalty}}s de penalidade incluídos no total",
     "hints_one": " · {{count}} dica usada (+{{penalty}}m de penalidade incluídos)",
     "hints_other": " · {{count}} dicas usadas (+{{penalty}}m de penalidade incluídos)"
   },
-  "recapParagraph": "Você percorreu a stack completa de agentic security — discovery, posture e runtime — e caçou flags reais dentro da plataforma Salt.",
+  "recapParagraph": "Você percorreu a stack completa de agentic security, discovery, posture e runtime, e caçou flags reais dentro da plataforma Salt.",
   "scenarioCards": [
     {
       "number": "01",

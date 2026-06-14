@@ -2,9 +2,9 @@
   "sectionLabel": "Simulação de Ataque ao Vivo",
   "incidentLabel": "O Incidente Lilli · Março de 2026",
   "incidentHeading": "A IA da McKinsey Não Foi Hackeada. Suas APIs Foram.",
-  "lede": "Você descobriu a superfície de API. Você a governou. Você a protegeu. Agora veja o que acontece quando essas defesas não estão em vigor — em um alvo que vive na web pública.",
+  "lede": "Você descobriu a superfície de API. Você a governou. Você a protegeu. Agora veja o que acontece quando essas defesas não estão em vigor, em um alvo que vive na web pública.",
   "incidentP1": "Em março de 2026, pesquisadores de segurança divulgaram uma violação significativa da <l1>Lilli</l1>, a plataforma interna de IA generativa da McKinsey & Company. Um agente autônomo de IA construído pela startup CodeWall comprometeu o sistema em aproximadamente duas horas.",
-  "incidentP2": "O ataque não mirrou o modelo. Ele mirou a superfície de API por baixo dele — endpoints inadequadamente protegidos e acesso com privilégios excessivos. O agente enumerou 22 endpoints não autorizados, aproveitou uma SQL injection para obter leitura/escrita no banco de dados de produção e saiu com o corpus que o modelo foi treinado para consultar.",
+  "incidentP2": "O ataque não mirrou o modelo. Ele mirou a superfície de API por baixo dele, endpoints inadequadamente protegidos e acesso com privilégios excessivos. O agente enumerou 22 endpoints não autorizados, aproveitou uma SQL injection para obter leitura/escrita no banco de dados de produção e saiu com o corpus que o modelo foi treinado para consultar.",
   "stats": {
     "documentChunks": "Chunks de documentos",
     "userAccounts": "Contas de usuários",
@@ -13,7 +13,7 @@
   },
   "whyMattersLabel": "Por Que Isso Importa",
   "whyMattersHeading": "Um Incidente de API Disfarçado de Incidente de IA.",
-  "whyMattersP1": "O modelo se comportou exatamente como projetado. As paredes atrás dele não. É essa lacuna onde Salt atua — <l1>discovery</l1>, <l2>posture</l2> e <l3>runtime</l3> para cada interface que um agente autônomo pode alcançar, incluindo as que a equipe de plataforma não sabia que existiam.",
+  "whyMattersP1": "O modelo se comportou exatamente como projetado. As paredes atrás dele não. É essa lacuna onde Salt atua, <l1>discovery</l1>, <l2>posture</l2> e <l3>runtime</l3> para cada interface que um agente autônomo pode alcançar, incluindo as que a equipe de plataforma não sabia que existiam.",
   "whyMattersP2": "Nos próximos minutos você vai ver isso se desenrolar ao vivo, contra um alvo em sandbox. Observe o agente se mover, os endpoints acenderem e o que Salt captura.",
   "launchCta": "Abrir Salt Nexus →",
   "sourceLink": "Leia a análise completa · salt.security/blog/mckinsey-hack-exposed-apis →"

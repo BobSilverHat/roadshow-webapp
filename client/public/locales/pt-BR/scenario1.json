@@ -26,28 +26,28 @@
   "step03": {
     "title": "The MCP Side Drawer",
     "body1": "Clique em qualquer nó MCP para abrir o painel lateral. A aba <l1>Overview</l1> explica o que o MCP faz, quem o hospeda e em quais technologies roda, além de um grafo local de cada ferramenta que expõe.",
-    "image1Alt": "Painel lateral do MCP — aba Overview",
-    "body2": "A aba <l1>Capabilities</l1> lista cada ferramenta que o MCP expõe — snowflake.query.execute, dbt.model.run, github.pr.merge — com seus próprios risk scores por ferramenta, para que você identifique qual capability introduz mais exposição.",
-    "image2Alt": "Painel lateral do MCP — aba Capabilities"
+    "image1Alt": "Painel lateral do MCP, aba Overview",
+    "body2": "A aba <l1>Capabilities</l1> lista cada ferramenta que o MCP expõe, snowflake.query.execute, dbt.model.run, github.pr.merge, com seus próprios risk scores por ferramenta, para que você identifique qual capability introduz mais exposição.",
+    "image2Alt": "Painel lateral do MCP, aba Capabilities"
   },
   "step04": {
     "title": "The Capabilities Page",
     "body": "Achate o grafo em uma tabela única de capabilities. Cada ferramenta de cada MCP em uma só visão, ordenável por <l1>risk score</l1>. É aqui que você faz o triage: ordene os de maior risco para o topo, filtre por tipo de fonte e priorize o trabalho de remediação. É assim que o posture management vira um backlog com ação imediata.",
-    "imageAlt": "Página de Capabilities — visão agregada de ferramentas"
+    "imageAlt": "Página de Capabilities, visão agregada de ferramentas"
   },
   "step05": {
     "title": "Tool Capabilities",
-    "body1": "Aprofunde em qualquer ferramenta para entender por que Salt a pontuou assim. O radar de <l1>Risk Factors</l1> plota cinco eixos — Posture, Sensitive Data, Exposure, Authenticated, Protocol — dando uma leitura visual de onde está a exposição.",
-    "image1Alt": "Painel da ferramenta — gráfico radar de Risk Factors",
-    "body2": "<l1>Posture Gaps</l1> lista as violações de política específicas — MCP exposto externamente, PII sem auth, strict-transport headers ausentes — com severidade e status para você priorizar a remediação diretamente.",
-    "image2Alt": "Painel da ferramenta — aba Posture Gaps",
-    "body3": "<l1>Attackers</l1> revela correlações de adversários — quais agentes de ameaça tocaram exatamente esta ferramenta em ambiente real — transformando um risk score genérico em uma leitura de ameaça concreta.",
-    "image3Alt": "Painel da ferramenta — aba Attackers"
+    "body1": "Aprofunde em qualquer ferramenta para entender por que Salt a pontuou assim. O radar de <l1>Risk Factors</l1> plota cinco eixos, Posture, Sensitive Data, Exposure, Authenticated, Protocol, dando uma leitura visual de onde está a exposição.",
+    "image1Alt": "Painel da ferramenta, gráfico radar de Risk Factors",
+    "body2": "<l1>Posture Gaps</l1> lista as violações de política específicas, MCP exposto externamente, PII sem auth, strict-transport headers ausentes, com severidade e status para você priorizar a remediação diretamente.",
+    "image2Alt": "Painel da ferramenta, aba Posture Gaps",
+    "body3": "<l1>Attackers</l1> revela correlações de adversários, quais agentes de ameaça tocaram exatamente esta ferramenta em ambiente real, transformando um risk score genérico em uma leitura de ameaça concreta.",
+    "image3Alt": "Painel da ferramenta, aba Attackers"
   },
   "summary": {
     "label": "Summary",
     "heading": "Visibilidade de ponta a ponta, estabelecida.",
-    "body": "Você percorreu a progressão de descoberta: contagem no inventory, graph view, drilldown em MCP, um backlog plano de capabilities e a superfície de risco por ferramenta. Agora você tem visibilidade de ponta a ponta de cada agente, MCP e API no seu ambiente — a base sobre a qual o <l1>posture management</l1> vai construir no próximo cenário."
+    "body": "Você percorreu a progressão de descoberta: contagem no inventory, graph view, drilldown em MCP, um backlog plano de capabilities e a superfície de risco por ferramenta. Agora você tem visibilidade de ponta a ponta de cada agente, MCP e API no seu ambiente, a base sobre a qual o <l1>posture management</l1> vai construir no próximo cenário."
   },
   "nextButton": "Próximo"
 }

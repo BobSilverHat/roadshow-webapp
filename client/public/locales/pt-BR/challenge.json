@@ -1,9 +1,9 @@
 {
   "intro": {
     "sectionLabel": "Challenge {{number}}",
-    "p1": "Você tem <l1>35 minutos</l1> no total para concluir os dois desafios. Iniciar o Challenge 1 desbloqueia o Challenge 2 — resolva-os em qualquer ordem e alterne entre eles à vontade. Quando o timer chegar a zero, as submissões serão bloqueadas e você será levado aos seus resultados.",
-    "p2": "Todas as respostas estão dentro da plataforma Salt. Abra-a em outra aba, explore a interface e submeta cada flag aqui. Palpites errados somam <l1>+15 segundos</l1> cada — vá com calma e acerte.",
-    "p3": "<l1>Respostas com múltiplos valores:</l1> separe cada um com vírgula + espaço. A ordem não importa — `A, B` e `B, A` são equivalentes. As respostas não diferenciam maiúsculas/minúsculas e tolerem espaços extras.",
+    "p1": "Você tem <l1>35 minutos</l1> no total para concluir os dois desafios. Iniciar o Challenge 1 desbloqueia o Challenge 2, resolva-os em qualquer ordem e alterne entre eles à vontade. Quando o timer chegar a zero, as submissões serão bloqueadas e você será levado aos seus resultados.",
+    "p2": "Todas as respostas estão dentro da plataforma Salt. Abra-a em outra aba, explore a interface e submeta cada flag aqui. Palpites errados somam <l1>+15 segundos</l1> cada, vá com calma e acerte.",
+    "p3": "<l1>Respostas com múltiplos valores:</l1> separe cada um com vírgula + espaço. A ordem não importa, `A, B` e `B, A` são equivalentes. As respostas não diferenciam maiúsculas/minúsculas e tolerem espaços extras.",
     "launchLink": "Abrir a Plataforma Salt →",
     "errorStart": "Não foi possível iniciar o timer. Recarregue a página e tente novamente.",
     "buttonStarting": "Iniciando…",
@@ -21,7 +21,7 @@
     "placeholder": "Digite a flag (vírgula + espaço para múltiplos)",
     "submit": "Enviar",
     "error": {
-      "timeExpired": "Tempo esgotado — resposta não enviada.",
+      "timeExpired": "Tempo esgotado, resposta não enviada.",
       "notBegun": "Não foi possível enviar. Recarregue e tente novamente.",
       "alreadyAnswered": "Já resolvida em outra aba.",
       "notRegistered": "Registro expirado. Recarregue para se registrar novamente.",
@@ -33,14 +33,14 @@
       "label": "Aguarde",
       "headlineLead": "O Workshop",
       "headlineAccent": "Começa em Breve",
-      "body": "Seu administrador abrirá o desafio em instantes. Fique aqui com esta aba aberta. Quando a largada for dada, o botão Iniciar aparecerá — e o cronômetro de 35 minutos começa assim que você clicar.",
+      "body": "Seu administrador abrirá o desafio em instantes. Fique aqui com esta aba aberta. Quando a largada for dada, o botão Iniciar aparecerá, e o cronômetro de 35 minutos começa assim que você clicar.",
       "dotMatrixLabel": "Pulso de standby"
     },
     "nexus": {
       "label": "Aguarde",
       "headlineLead": "Salt",
       "headlineAccent": "Nexus Abre em Breve",
-      "body": "Nexus é liberado quando a fase de desafios termina. Seu administrador vai abrir após o timer de 35 minutos expirar — fique nesta aba e você será redirecionado para a simulação de ataque ao vivo assim que abrir.",
+      "body": "Nexus é liberado quando a fase de desafios termina. Seu administrador vai abrir após o timer de 35 minutos expirar, fique nesta aba e você será redirecionado para a simulação de ataque ao vivo assim que abrir.",
       "dotMatrixLabel": "Pulso de standby do Nexus"
     }
   },
@@ -84,7 +84,7 @@
     "revealHeadingPunct": "?",
     "penaltyWarning": "+60 segundos serão adicionados ao seu tempo total.",
     "hintLabel": "Dica {{n}}",
-    "lastHintWarning": "⚠ Última dica — após fechar, ela não estará mais visível.",
+    "lastHintWarning": "⚠ Última dica, após fechar, ela não estará mais visível.",
     "penaltyFooter": "+60s por dica já incluídos no seu tempo total.",
     "buttonCancel": "Cancelar",
     "buttonClose": "Fechar",
@@ -123,11 +123,11 @@
   "page": {
     "loading": "Carregando desafio…",
     "errorPrefix": "Não foi possível carregar o desafio: ",
-    "headerTitle": "Challenge {{number}} — {{name}}",
+    "headerTitle": "Challenge {{number}}, {{name}}",
     "headerTitleFallback": "Challenge {{number}}",
     "completeLabel": "Concluído",
     "completeTitlePrefix": "Challenge {{number}} - ",
-    "cleanRun": "Sem erros — nenhum palpite incorreto.",
+    "cleanRun": "Sem erros, nenhum palpite incorreto.",
     "wrongGuesses_one": "{{count}} palpite errado (+{{penalty}}s de penalidade incluídos).",
     "wrongGuesses_other": "{{count}} palpites errados (+{{penalty}}s de penalidade incluídos).",
     "hintsUsed_one": " · Usou {{count}} dica (+{{penalty}}m de penalidade incluídos).",
