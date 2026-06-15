@@ -58,16 +58,6 @@ function resultsGlow(
   return { colors: ["#c084fc", "#a855f7", "#7c3aed"], glowColor: "290 80 70" };
 }
 
-function rankLabel(rank: number): string {
-  if (rank === 1) return "Champion";
-  if (rank === 2) return "Runner-up";
-  if (rank === 3) return "Third Place";
-  const suffix = ["th", "st", "nd", "rd"][
-    rank % 100 > 10 && rank % 100 < 14 ? 0 : Math.min(rank % 10, 3)
-  ];
-  return `${rank}${suffix} Place`;
-}
-
 type FinishTier = "champion" | "runner-up" | "third" | "completed" | "timed-out";
 
 function tierFor(rank: number, finishedNaturally: boolean): FinishTier {

@@ -253,11 +253,11 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
   const { t } = useTranslation('common');
   const { defaultLocale } = useWorkshopClock();
 
-  // Apply per-event default locale once at startup — fires when defaultLocale
-  // first resolves from the DB. Skipped if the user has already made an
-  // explicit choice (localStorage key "salt-locale" is set by i18next
-  // LanguageDetector). A ref guard ensures we only call changeLanguage once
-  // even if this component re-renders before the effect cleanup.
+  // Apply per-event default locale once at startup, firing when defaultLocale
+  // first resolves from the DB. Skipped only if the user made an explicit
+  // choice: LanguageToggle writes "salt-locale" on click and the detector no
+  // longer auto-caches it, so a non-null key reliably means a real choice.
+  // A ref guard ensures we only call changeLanguage once.
   const defaultLocaleApplied = useRef(false);
   useEffect(() => {
     if (defaultLocaleApplied.current) return;

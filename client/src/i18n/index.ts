@@ -20,10 +20,17 @@ export const i18nReady = i18n
     fallbackLng: "en",
     supportedLngs: ["en", "pt-BR"],
     load: "currentOnly",
-    ns: NAMESPACES as unknown as string[],
+    ns: [...NAMESPACES],
     defaultNS: "common",
     backend: { loadPath: "/locales/{{lng}}/{{ns}}.json" },
-    detection: { order: ["localStorage"], caches: ["localStorage"], lookupLocalStorage: "salt-locale" },
+    // Detector READS salt-locale but must NOT auto-cache it. NOTE: the
+    // detector's default `caches` is ["localStorage"], so we set it to []
+    // EXPLICITLY (omitting it keeps the default and still writes). If it
+    // wrote, a fresh visitor would get salt-locale on first paint, making
+    // WorkshopLayout's "user chose explicitly" guard always true and
+    // defeating the per-event default_locale. LanguageToggle persists the
+    // key explicitly on an actual user click instead.
+    detection: { order: ["localStorage"], caches: [], lookupLocalStorage: "salt-locale" },
     interpolation: { escapeValue: false },
     react: { useSuspense: false },
   });

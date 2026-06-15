@@ -22,7 +22,12 @@ export default function LanguageToggle() {
       {LANGS.map(({ code, label }) => (
         <button
           key={code}
-          onClick={() => i18n.changeLanguage(code)}
+          onClick={() => {
+            // Persist the explicit choice ourselves (the detector no longer
+            // caches), so a stored salt-locale always means a real user pick.
+            localStorage.setItem("salt-locale", code);
+            i18n.changeLanguage(code);
+          }}
           style={{
             background: "none",
             border: "none",
