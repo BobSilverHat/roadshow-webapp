@@ -13,6 +13,7 @@ import { useTheme } from 'next-themes';
 import { useTranslation } from 'react-i18next';
 import ThemeToggle from '@/components/ThemeToggle';
 import LanguageToggle from '@/components/LanguageToggle';
+import AdminLink from '@/components/AdminLink';
 import { useWorkshopClock } from '@/hooks/useWorkshopClock';
 
 const SALT_LOGO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663485309764/9Qvd9Kw2BJuzG4W4rxnhxw/salt-logo_4799bb3b.png";
@@ -666,6 +667,9 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
 
         {/* Live workshop countdown — pinned to the bottom under Salt Access. */}
         <WorkshopClockPill />
+
+        {/* Discreet operator admin entry — opens the PIN-gated admin panel. */}
+        <AdminLink />
       </aside>
 
       {/* ============================================================
