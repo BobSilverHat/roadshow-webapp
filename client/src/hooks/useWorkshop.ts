@@ -15,7 +15,6 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { WORKSHOP_DURATION_MS } from "@shared/const";
 
 export type WorkshopStatus =
   | "loading"
@@ -55,6 +54,7 @@ export function useWorkshop({ attendeeId }: Options): WorkshopState {
   const [c2Completed, setC2Completed] = useState(false);
   const [challengeOpen, setChallengeOpen] = useState<boolean>(false);
   const [openedAt, setOpenedAt] = useState<string | null>(null);
+  const [durationMinutes, setDurationMinutes] = useState<number>(35);
   const [now, setNow] = useState<number>(() => Date.now());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -67,7 +67,7 @@ export function useWorkshop({ attendeeId }: Options): WorkshopState {
   const fetchGate = useCallback(async () => {
     const { data, error: gateError } = await supabase
       .from("workshop_config")
-      .select("challenge_open, opened_at")
+      .select("challenge_open, opened_at, duration_minutes")
       .eq("id", 1)
       .maybeSingle();
     if (gateError) {
@@ -77,6 +77,7 @@ export function useWorkshop({ attendeeId }: Options): WorkshopState {
     }
     setChallengeOpen(!!data?.challenge_open);
     setOpenedAt(data?.opened_at ?? null);
+    setDurationMinutes(data?.duration_minutes ?? 35);
   }, []);
 
   const refresh = useCallback(async () => {
@@ -116,11 +117,12 @@ export function useWorkshop({ attendeeId }: Options): WorkshopState {
     };
   }, [attendeeId, refresh]);
 
-  // Derived values — GLOBAL expiry. The 35-minute window is anchored on
+  // Derived values — GLOBAL expiry. The window is anchored on
   // workshop_config.opened_at (set when the admin opens the gate), not the
   // user's individual started_at. Late joiners get a shortened window.
+  const durationMs = (durationMinutes ?? 35) * 60_000;
   const expiresAt = openedAt
-    ? new Date(new Date(openedAt).getTime() + WORKSHOP_DURATION_MS).toISOString()
+    ? new Date(new Date(openedAt).getTime() + durationMs).toISOString()
     : null;
   const expiresAtMs = expiresAt ? new Date(expiresAt).getTime() : 0;
   const isExpired = expiresAt ? now > expiresAtMs : false;

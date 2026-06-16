@@ -5,4 +5,5 @@ export const ONE_YEAR_MS = 1000 * 60 * 60 * 24 * 365;
 // Source of truth for expiry lives server-side (begin_workshop,
 // submit_answer, leaderboard view all use interval '35 minutes').
 // This constant is for client display only — the server is authoritative.
+// Fallback default only; the live window length is workshop_config.duration_minutes.
 export const WORKSHOP_DURATION_MS = 35 * 60 * 1000;

@@ -16,7 +16,6 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { WORKSHOP_DURATION_MS } from "@shared/const";
 
 export type WorkshopClockStatus = "closed" | "in_progress" | "expired";
 
@@ -34,6 +33,9 @@ export interface WorkshopClock {
   /** Per-event default locale from workshop_config. Falls back to "en"
    *  if the column is null or the row hasn't loaded yet. */
   defaultLocale: string;
+  /** Workshop window length in minutes from workshop_config.duration_minutes.
+   *  Falls back to 35 if the column is null or the row hasn't loaded yet. */
+  durationMinutes: number;
 }
 
 const POLL_INTERVAL_MS = 3000;
@@ -44,12 +46,13 @@ export function useWorkshopClock(): WorkshopClock {
   const [nexusOpen, setNexusOpen] = useState<boolean>(false);
   const [reviewMode, setReviewMode] = useState<boolean>(false);
   const [defaultLocale, setDefaultLocale] = useState<string>("en");
+  const [durationMinutes, setDurationMinutes] = useState<number>(35);
   const [now, setNow] = useState<number>(() => Date.now());
 
   const fetchConfig = useCallback(async () => {
     const { data, error } = await supabase
       .from("workshop_config")
-      .select("challenge_open, opened_at, nexus_open, review_mode, default_locale")
+      .select("challenge_open, opened_at, nexus_open, review_mode, default_locale, duration_minutes")
       .eq("id", 1)
       .maybeSingle();
     if (error) return;
@@ -58,6 +61,7 @@ export function useWorkshopClock(): WorkshopClock {
     setNexusOpen(!!data?.nexus_open);
     setReviewMode(!!data?.review_mode);
     setDefaultLocale(data?.default_locale ?? "en");
+    setDurationMinutes(data?.duration_minutes ?? 35);
   }, []);
 
   // Initial fetch + poll
@@ -75,7 +79,8 @@ export function useWorkshopClock(): WorkshopClock {
 
   // Derived values
   const openedAtMs = openedAt ? new Date(openedAt).getTime() : 0;
-  const expiresAtMs = openedAt ? openedAtMs + WORKSHOP_DURATION_MS : 0;
+  const durationMs = (durationMinutes ?? 35) * 60_000;
+  const expiresAtMs = openedAt ? openedAtMs + durationMs : 0;
   const expiresAt = openedAt
     ? new Date(expiresAtMs).toISOString()
     : null;
@@ -95,5 +100,5 @@ export function useWorkshopClock(): WorkshopClock {
     return () => window.clearInterval(id);
   }, [status]);
 
-  return { openedAt, expiresAt, status, remainingMs, nexusOpen, reviewMode, defaultLocale };
+  return { openedAt, expiresAt, status, remainingMs, nexusOpen, reviewMode, defaultLocale, durationMinutes };
 }
