@@ -1,7 +1,7 @@
 {
   "intro": {
     "sectionLabel": "Challenge {{number}}",
-    "p1": "Você tem <l1>35 minutos</l1> no total para concluir os dois desafios. Iniciar o Challenge 1 desbloqueia o Challenge 2, resolva-os em qualquer ordem e alterne entre eles à vontade. Quando o timer chegar a zero, as submissões serão bloqueadas e você será levado aos seus resultados.",
+    "p1": "Você tem <l1>{{minutes}} minutos</l1> no total para concluir os dois desafios. Iniciar o Challenge 1 desbloqueia o Challenge 2, resolva-os em qualquer ordem e alterne entre eles à vontade. Quando o timer chegar a zero, as submissões serão bloqueadas e você será levado aos seus resultados.",
     "p2": "Todas as respostas estão dentro da plataforma Salt. Abra-a em outra aba, explore a interface e submeta cada flag aqui. Palpites errados somam <l1>+15 segundos</l1> cada, vá com calma e acerte.",
     "p3": "<l1>Respostas com múltiplos valores:</l1> separe cada um com vírgula + espaço. A ordem não importa, `A, B` e `B, A` são equivalentes. As respostas não diferenciam maiúsculas/minúsculas e tolerem espaços extras.",
     "launchLink": "Abrir a Plataforma Salt →",

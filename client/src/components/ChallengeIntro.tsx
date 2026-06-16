@@ -9,6 +9,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslation, Trans } from "react-i18next";
+import { useWorkshopClock } from "@/hooks/useWorkshopClock";
 
 interface Props {
   number: string;
@@ -21,6 +22,8 @@ const LAUNCH_URL = "https://salt-labs.secured-api.com";
 
 export default function ChallengeIntro({ number, title, subtitle, onBegin }: Props) {
   const { t } = useTranslation("challenge");
+  const { durationMinutes } = useWorkshopClock();
+  const minutes = durationMinutes ?? 35;
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -82,8 +85,8 @@ export default function ChallengeIntro({ number, title, subtitle, onBegin }: Pro
           marginBottom: "1rem",
         }}
       >
-        <Trans i18nKey="intro.p1" t={t} components={{ l1: <span className="accent-link" /> }}>
-          You have <l1>35 minutes</l1> total to complete both challenges. Starting
+        <Trans i18nKey="intro.p1" t={t} components={{ l1: <span className="accent-link" /> }} values={{ minutes }}>
+          You have <l1>{minutes} minutes</l1> total to complete both challenges. Starting
           Challenge 1 unlocks Challenge 2 — work them in any order, and switch between them
           at will. When the timer hits zero, submissions lock and you'll be taken to your
           results.

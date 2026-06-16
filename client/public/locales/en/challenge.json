@@ -1,7 +1,7 @@
 {
   "intro": {
     "sectionLabel": "Challenge {{number}}",
-    "p1": "You have <l1>35 minutes</l1> total to complete both challenges. Starting Challenge 1 unlocks Challenge 2 — work them in any order, and switch between them at will. When the timer hits zero, submissions lock and you'll be taken to your results.",
+    "p1": "You have <l1>{{minutes}} minutes</l1> total to complete both challenges. Starting Challenge 1 unlocks Challenge 2 — work them in any order, and switch between them at will. When the timer hits zero, submissions lock and you'll be taken to your results.",
     "p2": "Every answer lives inside the Salt platform. Open it in another tab, hunt through the UI, submit each flag here. Wrong guesses add <l1>+15 seconds</l1> each, so take the time to get it right.",
     "p3": "<l1>Answers with multiple values:</l1> separate each with a comma + space. Order doesn't matter — `A, B` and `B, A` both land. Answers are case-insensitive and whitespace-tolerant.",
     "launchLink": "Launch the Salt Platform →",
