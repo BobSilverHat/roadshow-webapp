@@ -62,6 +62,7 @@ export function useAdmin(open: boolean) {
     unlocked: !!pin, status, stale, unlock, lock, refresh: fetchStatus,
     openChallenge: () => act("admin_open_challenge"),
     closeChallenge: () => act("admin_close_challenge"),
+    endWorkshop: () => act("admin_end_workshop"),
     setReviewMode: (on: boolean) => act("admin_set_review_mode", { p_on: on }),
     setNexusOpen: (on: boolean) => act("admin_set_nexus_open", { p_on: on }),
     setDefaultLocale: (loc: string) => act("admin_set_default_locale", { p_locale: loc }),

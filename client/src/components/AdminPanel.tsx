@@ -19,9 +19,11 @@ import { toast } from "sonner";
 
 import { useAdmin } from "@/hooks/useAdmin";
 import { useWorkshopClock } from "@/hooks/useWorkshopClock";
+import BorderGlow from "@/components/BorderGlow";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -86,12 +88,12 @@ const labelStyle: React.CSSProperties = {
 };
 
 const sectionStyle: React.CSSProperties = {
-  borderTop: "1px solid var(--border)",
-  paddingTop: "0.9rem",
-  marginTop: "0.9rem",
+  borderTop: "1px solid oklch(from var(--admin-accent) l c h / 0.16)",
+  paddingTop: "1.1rem",
+  marginTop: "1.1rem",
   display: "flex",
   flexDirection: "column",
-  gap: "0.6rem",
+  gap: "0.7rem",
 };
 
 const monoStyle: React.CSSProperties = {
@@ -108,6 +110,7 @@ const chipBase: React.CSSProperties = {
   letterSpacing: "0.08em",
   padding: "0.2rem 0.5rem",
   borderRadius: "4px",
+  background: "oklch(from var(--card) l c h / 0.4)",
   whiteSpace: "nowrap",
 };
 
@@ -128,32 +131,81 @@ export default function AdminPanel({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="bg-background"
+        className="border-0 bg-transparent p-0 shadow-none focus:outline-none focus-visible:outline-none"
         style={{
-          width: "420px",
+          width: "440px",
           maxWidth: "calc(100% - 2rem)",
-          maxHeight: "85vh",
-          overflowY: "auto",
+          overflow: "visible",
+          outline: "none",
         }}
       >
-        <DialogHeader>
-          <DialogTitle
-            style={{
-              fontFamily: "'Barlow Condensed', sans-serif",
-              letterSpacing: "0.3em",
-              textTransform: "uppercase",
-              fontWeight: 700,
-            }}
-          >
-            Admin
-          </DialogTitle>
-        </DialogHeader>
+        {/* Same red-glow chrome the champion card uses (Completed.tsx),
+            swapped to the app's "timed-out" red tier so the operator panel
+            reads as part of the same design language. loop keeps the halo
+            alive in a modal where the cursor won't trace the edges. */}
+        <BorderGlow
+          loop
+          fillOpacity={0}
+          outerGlowOnly
+          backgroundColor="var(--card)"
+          borderRadius={12}
+          glowRadius={40}
+          glowIntensity={0.9}
+          edgeSensitivity={22}
+          coneSpread={26}
+          colors={["#f87171", "#ef4444", "#b91c1c"]}
+          glowColor="358 82 58"
+        >
+          <div style={{ padding: "1.85rem 1.7rem", maxHeight: "84vh", overflowY: "auto" }}>
+            <DialogHeader
+              style={{ marginBottom: "1.6rem", gap: "0.3rem", textAlign: "left" }}
+            >
+              <span
+                style={{
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontSize: "0.68rem",
+                  fontWeight: 700,
+                  letterSpacing: "0.28em",
+                  textTransform: "uppercase",
+                  color: "var(--admin-accent)",
+                }}
+              >
+                Workshop Control
+              </span>
+              <DialogTitle
+                style={{
+                  fontFamily: "'Nostalgic Whispers', 'Barlow Condensed', serif",
+                  fontSize: "1.85rem",
+                  letterSpacing: "0.04em",
+                  textTransform: "uppercase",
+                  fontWeight: 800,
+                  lineHeight: 1.05,
+                  margin: 0,
+                  color: "var(--foreground)",
+                }}
+              >
+                Admin
+                <span
+                  style={{
+                    color: "var(--admin-accent)",
+                    textShadow: "0 0 30px var(--admin-accent-glow)",
+                  }}
+                >
+                  .
+                </span>
+              </DialogTitle>
+              <DialogDescription className="sr-only">
+                Operator controls for the live workshop.
+              </DialogDescription>
+            </DialogHeader>
 
-        {admin.unlocked ? (
-          <Dashboard admin={admin} clock={clock} />
-        ) : (
-          <PinGate admin={admin} />
-        )}
+            {admin.unlocked ? (
+              <Dashboard admin={admin} clock={clock} />
+            ) : (
+              <PinGate admin={admin} />
+            )}
+          </div>
+        </BorderGlow>
       </DialogContent>
     </Dialog>
   );
@@ -192,9 +244,22 @@ function PinGate({ admin }: { admin: ReturnType<typeof useAdmin> }) {
         e.preventDefault();
         submit();
       }}
-      style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}
+      style={{ display: "flex", flexDirection: "column", gap: "1.1rem", paddingTop: "0.5rem" }}
     >
-      <span style={labelStyle}>Operator PIN</span>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+          gap: "0.4rem",
+        }}
+      >
+        <span style={{ ...labelStyle, color: "var(--admin-accent)" }}>◆ Restricted</span>
+        <span style={{ ...monoStyle, fontSize: "0.82rem", color: "var(--muted-foreground)" }}>
+          Enter the operator PIN to manage the live workshop.
+        </span>
+      </div>
       <Input
         ref={inputRef}
         type="password"
@@ -257,8 +322,8 @@ function Dashboard({ admin, clock }: { admin: Admin; clock: Clock }) {
       <GateAndTimer clock={clock} admin={admin} run={run} isPending={isPending} />
       <Phases clock={clock} admin={admin} run={run} isPending={isPending} />
       <LanguageSection clock={clock} admin={admin} run={run} isPending={isPending} />
-      <DangerZone admin={admin} run={run} isPending={isPending} />
       <ChangePin admin={admin} setPending={setPending} pending={pending} />
+      <DangerZone admin={admin} run={run} isPending={isPending} />
     </div>
   );
 }
@@ -289,7 +354,8 @@ function LiveStatus({ admin, clock }: { admin: Admin; clock: Clock }) {
   const attendees = admin.status?.attendees;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "0.7rem" }}>
+      <span style={labelStyle}>Live status</span>
       {/* Badges row */}
       <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
         <span
@@ -297,7 +363,6 @@ function LiveStatus({ admin, clock }: { admin: Admin; clock: Clock }) {
             ...chipBase,
             color: phaseColor,
             border: `1px solid ${phaseColor}`,
-            background: "oklch(from var(--card) l c h / 0.4)",
           }}
         >
           {phaseLabel}
@@ -361,7 +426,7 @@ function LiveStatus({ admin, clock }: { admin: Admin; clock: Clock }) {
         </div>
       ) : attendees && attendees.length > 0 ? (
         <div style={{ overflowX: "auto" }}>
-          <table style={{ ...monoStyle, fontSize: "0.72rem", width: "100%", borderCollapse: "collapse" }}>
+          <table style={{ ...monoStyle, fontSize: "0.74rem", width: "100%", borderCollapse: "collapse" }}>
             <thead>
               <tr style={{ color: "var(--muted-foreground)", textAlign: "left" }}>
                 <th style={thStyle}>#</th>
@@ -374,7 +439,13 @@ function LiveStatus({ admin, clock }: { admin: Admin; clock: Clock }) {
             </thead>
             <tbody>
               {attendees.map((a, i) => (
-                <tr key={a.id} style={{ borderTop: "1px solid var(--border)" }}>
+                <tr
+                  key={a.id}
+                  style={{
+                    background:
+                      i % 2 === 1 ? "oklch(from var(--card) l c h / 0.5)" : "transparent",
+                  }}
+                >
                   <td style={tdStyle}>{i + 1}</td>
                   <td style={tdStyle}>{a.name}</td>
                   <td style={tdStyle}>{a.questions_complete}/10</td>
@@ -396,12 +467,13 @@ function LiveStatus({ admin, clock }: { admin: Admin; clock: Clock }) {
 }
 
 const thStyle: React.CSSProperties = {
-  padding: "0.25rem 0.4rem",
+  padding: "0.3rem 0.5rem",
   fontWeight: 600,
   whiteSpace: "nowrap",
+  borderBottom: "1px solid oklch(from var(--admin-accent) l c h / 0.32)",
 };
 const tdStyle: React.CSSProperties = {
-  padding: "0.3rem 0.4rem",
+  padding: "0.4rem 0.5rem",
   whiteSpace: "nowrap",
 };
 
@@ -428,6 +500,9 @@ function GateAndTimer({
 }) {
   // When review mode is on, opening the gate needs a 3-way decision first.
   const [confirmOpen, setConfirmOpen] = useState(false);
+  // "End workshop now" is reversible but locks everyone out, so it gets a
+  // small two-step confirm to guard against a misclick mid-event.
+  const [confirmEnd, setConfirmEnd] = useState(false);
   const [duration, setDurationLocal] = useState<number>(clock.durationMinutes);
 
   // Keep the local duration field in sync with the persisted value while the
@@ -521,6 +596,15 @@ function GateAndTimer({
         <Button
           size="sm"
           variant="outline"
+          disabled={isPending("end")}
+          onClick={() => setConfirmEnd(true)}
+          style={{ color: "var(--admin-accent)", borderColor: "oklch(from var(--admin-accent) l c h / 0.55)" }}
+        >
+          End workshop now
+        </Button>
+        <Button
+          size="sm"
+          variant="outline"
           disabled={isPending("restart")}
           onClick={() => run("restart", () => admin.restartTimer(), "Timer restarted")}
         >
@@ -543,6 +627,40 @@ function GateAndTimer({
           −5 min
         </Button>
       </div>
+
+      {confirmEnd && (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.5rem",
+            border: "1px solid oklch(from var(--admin-accent) l c h / 0.6)",
+            borderRadius: "6px",
+            padding: "0.7rem",
+          }}
+        >
+          <span style={{ ...monoStyle, fontSize: "0.78rem" }}>
+            End the workshop now? Every challenge page shows the Time&apos;s Up
+            lockout. Reversible with Restart timer / Open challenge.
+          </span>
+          <div style={{ display: "flex", gap: "0.5rem" }}>
+            <Button
+              size="sm"
+              variant="destructive"
+              disabled={isPending("end")}
+              onClick={async () => {
+                setConfirmEnd(false);
+                await run("end", () => admin.endWorkshop(), "Workshop ended — Time's Up");
+              }}
+            >
+              End now
+            </Button>
+            <Button size="sm" variant="ghost" onClick={() => setConfirmEnd(false)}>
+              Cancel
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* Duration */}
       <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
@@ -616,7 +734,11 @@ function Phases({
           checked={clock.reviewMode}
           disabled={isPending("review")}
           onCheckedChange={(on) =>
-            run("review", () => admin.setReviewMode(on), on ? "Review mode on" : "Review mode off")
+            run(
+              "review",
+              () => admin.setReviewMode(on),
+              on ? "Review mode on — challenge opened" : "Review mode off",
+            )
           }
         />
       </div>
@@ -628,7 +750,7 @@ function Phases({
             color: "oklch(0.78 0.16 85)",
           }}
         >
-          ⚠ Timer OFF — submissions never expire
+          ⚠ Challenge open, timer OFF — submissions never expire
         </span>
       )}
 
@@ -748,7 +870,7 @@ function DangerZone({
     <div
       style={{
         ...sectionStyle,
-        borderTop: "1px solid var(--destructive)",
+        borderTop: "1px solid oklch(from var(--admin-accent) l c h / 0.5)",
       }}
     >
       <span style={{ ...labelStyle, color: "var(--destructive)" }}>Danger zone</span>

@@ -55,6 +55,7 @@ export function useWorkshop({ attendeeId }: Options): WorkshopState {
   const [challengeOpen, setChallengeOpen] = useState<boolean>(false);
   const [openedAt, setOpenedAt] = useState<string | null>(null);
   const [durationMinutes, setDurationMinutes] = useState<number>(35);
+  const [reviewMode, setReviewMode] = useState<boolean>(false);
   const [now, setNow] = useState<number>(() => Date.now());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -67,7 +68,7 @@ export function useWorkshop({ attendeeId }: Options): WorkshopState {
   const fetchGate = useCallback(async () => {
     const { data, error: gateError } = await supabase
       .from("workshop_config")
-      .select("challenge_open, opened_at, duration_minutes")
+      .select("challenge_open, opened_at, duration_minutes, review_mode")
       .eq("id", 1)
       .maybeSingle();
     if (gateError) {
@@ -78,6 +79,7 @@ export function useWorkshop({ attendeeId }: Options): WorkshopState {
     setChallengeOpen(!!data?.challenge_open);
     setOpenedAt(data?.opened_at ?? null);
     setDurationMinutes(data?.duration_minutes ?? 35);
+    setReviewMode(!!data?.review_mode);
   }, []);
 
   const refresh = useCallback(async () => {
@@ -125,7 +127,10 @@ export function useWorkshop({ attendeeId }: Options): WorkshopState {
     ? new Date(new Date(openedAt).getTime() + durationMs).toISOString()
     : null;
   const expiresAtMs = expiresAt ? new Date(expiresAt).getTime() : 0;
-  const isExpired = expiresAt ? now > expiresAtMs : false;
+  // Review mode disables the timer entirely — submissions never expire and the
+  // attendee gate must never flip to "expired" (mirrors useWorkshopClock and
+  // the submit_answer / request_hint review-mode bypass on the server).
+  const isExpired = !reviewMode && expiresAt ? now > expiresAtMs : false;
   const isComplete = c1Completed && c2Completed;
 
   // Status precedence: loading > complete > expired > locked > ready > in_progress.
