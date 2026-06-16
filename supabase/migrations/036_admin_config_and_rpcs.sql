@@ -117,3 +117,61 @@ grant execute on function public.admin_open_challenge(text), public.admin_close_
   public.admin_set_review_mode(text,boolean), public.admin_set_nexus_open(text,boolean),
   public.admin_set_default_locale(text,text), public.admin_set_duration(text,int),
   public.admin_restart_timer(text), public.admin_adjust_timer(text,int) to anon, authenticated;
+
+-- ── destructive: wipe ALL anonymous users (cascades attendees + child tables)
+--    and reset the gate to a coherent pre-start (preserves review_mode/default_locale).
+create or replace function public.admin_clear_data(p_pin text)
+returns json language plpgsql security definer set search_path = public, extensions, pg_temp as $$
+declare v_deleted int;
+begin
+  if not public.admin_check_pin(p_pin) then return json_build_object('ok',false,'error','unauthorized'); end if;
+  perform 1 from public.workshop_config where id = 1 for update;
+  with d as (delete from auth.users where is_anonymous = true returning 1)
+  select count(*) into v_deleted from d;
+  update public.workshop_config
+    set challenge_open = false, opened_at = null, nexus_open = false
+    where id = 1;
+  return json_build_object('ok', true, 'users_deleted', v_deleted);
+end; $$;
+
+create or replace function public.admin_change_pin(p_old_pin text, p_new_pin text)
+returns json language plpgsql security definer set search_path = public, extensions, pg_temp as $$
+begin
+  if not public.admin_check_pin(p_old_pin) then return json_build_object('ok',false,'error','unauthorized'); end if;
+  if p_new_pin is null or length(p_new_pin) < 10 then return json_build_object('ok',false,'error','weak_pin'); end if;
+  update public.admin_config set pin_hash = extensions.crypt(p_new_pin, extensions.gen_salt('bf', 12)) where id = 1;
+  return json_build_object('ok', true);
+end; $$;
+
+create or replace function public.admin_get_status(p_pin text)
+returns json language plpgsql security definer set search_path = public, extensions, pg_temp as $$
+declare v_review boolean; v_counts json; v_attendees json;
+begin
+  if not public.admin_check_pin(p_pin) then return json_build_object('ok',false,'error','unauthorized'); end if;
+  select review_mode into v_review from public.workshop_config where id = 1;
+  select json_build_object(
+    'registered', (select count(*) from public.attendees),
+    'begun', (select count(distinct attendee_id) from public.challenge_attempts where started_at is not null),
+    'finished_both', (
+      select count(*) from public.attendees a
+      where exists (select 1 from public.challenge_attempts c1 where c1.attendee_id=a.id and c1.challenge_id=1 and c1.completed_at is not null)
+        and exists (select 1 from public.challenge_attempts c2 where c2.attendee_id=a.id and c2.challenge_id=2 and c2.completed_at is not null))
+  ) into v_counts;
+  select coalesce(json_agg(row_to_json(t) order by t.questions_complete desc, t.total_ms asc nulls last, t.wrong_count asc), '[]'::json)
+    into v_attendees
+  from (
+    select a.id, a.name, a.email, a.created_at,
+           exists (select 1 from public.challenge_attempts c where c.attendee_id=a.id and c.started_at is not null) as begun,
+           coalesce(lb.questions_complete,0) as questions_complete,
+           lb.total_ms, lb.wrong_count, lb.hints_used
+    from public.attendees a
+    left join public.leaderboard lb on lb.attendee_id = a.id
+  ) t;
+  return json_build_object('ok', true, 'review_mode', coalesce(v_review,false),
+    'counts', v_counts, 'attendees', v_attendees);
+end; $$;
+
+revoke execute on function public.admin_clear_data(text), public.admin_change_pin(text,text),
+  public.admin_get_status(text) from public;
+grant execute on function public.admin_clear_data(text), public.admin_change_pin(text,text),
+  public.admin_get_status(text) to anon, authenticated;
