@@ -60,12 +60,12 @@
     "step3": {
       "label": "Etapa 03",
       "heading": "A Interface Agentic",
-      "body": "Salt exibe todos os servidores MCP que um agente acessa em uma única visão de segurança agentic. Nessa página, você encontra os servidores MCP identificados pela Salt no seu ambiente, detalhes relevantes de cada um e pode filtrar pelas capabilities específicas de cada ferramenta conectada."
+      "body": "Salt exibe todos os servidores MCP que um agente acessa em uma única visão de segurança agentic. Nessa página, você encontra os servidores MCP identificados pela Salt no seu ambiente, descobertos no tráfego ao vivo ou puxados de connectors como AWS Bedrock AgentCore, Azure Foundry, GitHub e Databricks, com detalhes relevantes de cada um e filtros para isolar as capabilities específicas de cada ferramenta conectada."
     },
     "step4": {
       "label": "Etapa 04",
       "heading": "O Agentic Security Graph",
-      "body": "A visualização em Graph oferece uma visão completa de cada servidor MCP e suas respectivas ferramentas/capabilities, além das tecnologias e aplicações envolvidas. Você também encontrará um Insight Layers para sobrepor o risco, Posture Gaps e exposição de dados sensíveis."
+      "body": "A visualização em Graph oferece uma visão completa de cada agente e servidor MCP, suas respectivas ferramentas e capabilities, além das tecnologias e aplicações por trás de cada um. Você também encontrará os Insight Layers para sobrepor o risco, Posture Gaps e exposição de dados sensíveis."
     },
     "step5": {
       "label": "Etapa 05",

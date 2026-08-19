@@ -16,7 +16,7 @@
   "step01": {
     "title": "Posture Gaps Overview",
     "body1": "Open the Posture Gaps dashboard to see every policy violation across your entire Agentic Security Graph, ranked by severity. <l1>{{gaps}} gaps</l1> detected here: shadow APIs, PII without authentication, strict-transport headers missing, MCPs exposed externally. The donut on the right breaks severity; the table below is the full, sortable worklist.",
-    "image1Alt": "Posture Gaps dashboard — severity breakdown and full gap list",
+    "image1Alt": "Posture Gaps dashboard, severity breakdown and full gap list",
     "body2": "Not sure where to start? Ask Pepper AI, <l1>\"What APIs have the highest risk score?\"</l1>, and Pepper surfaces a ranked list of the APIs contributing the most exposure, pulled live from the same graph data. Natural language in, prioritized triage out.",
     "image2Alt": "Pepper AI answering which APIs have the highest risk score"
   },
@@ -28,28 +28,28 @@
   "step03": {
     "title": "The Posture Gap Drawer",
     "body1": "Click any posture gap to open its side-drawer. The <l1>API Found</l1> tab pins the exact endpoint that triggered the finding, POST /mcp/tools/call/sfdc.cases.create on crm.sora-financial.com, alongside <l2>Evidence</l2> and parameter findings: the live response samples proving the violation, here an Account number and Email exposed in the response content.",
-    "image1Alt": "Posture gap side drawer — API Found tab with API details and parameter findings",
+    "image1Alt": "Posture gap side drawer, API Found tab with API details and parameter findings",
     "body2": "Switch to the <l1>Policy</l1> tab to see why it fired. The <l2>Description</l2> explains the risk in plain language; <l3>General Remediation</l3> is a concrete action list, disable external access, apply authentication, sanitize responses. <l4>Policy Conditions</l4> shows the exact rule Salt matched: Technologies IS MCP AND Exposure IS External AND Response Content WITH Sensitive Parameter IS True.",
-    "image2Alt": "Posture gap side drawer — Policy tab with description, remediation, and policy conditions"
+    "image2Alt": "Posture gap side drawer, Policy tab with description, remediation, and policy conditions"
   },
   "step04": {
     "title": "Investigate the API",
     "body1": "Click the API link on any gap row to pivot from the posture finding into the full <l1>API investigation</l1>,  where Salt keeps everything it knows about that specific endpoint.",
     "image1Alt": "Navigation arrow from the gap drawer into the API details",
     "body2": "The API Overview opens on a radar plotting all five risk dimensions with a single <l1>composite score of 7.8 (HIGH)</l1>. Pepper AI auto-summarizes what the endpoint actually does: creates Salesforce support cases via an MCP tool, Bearer-authenticated, returning account numbers and emails. No spec hunting.",
-    "image2Alt": "API Overview — risk radar and Pepper AI summary",
-    "image3Alt": "Pepper AI summary of the API — purpose, data, protocol",
+    "image2Alt": "API Overview, risk radar and Pepper AI summary",
+    "image3Alt": "Pepper AI summary of the API; purpose, data, protocol",
     "body3": "<l1>Data & Structure → Sensitive Data</l1> lists every parameter carrying sensitive content, access tokens in request headers, account numbers and emails across request and response content, IP addresses forwarded, a phone number in the response headers, with data-type tags so you can see exactly what's leaking and where.",
-    "image4Alt": "Sensitive Data tab — parameters carrying sensitive content",
+    "image4Alt": "Sensitive Data tab, parameters carrying sensitive content",
     "body4": "The <l1>Details</l1> tab carries the full metadata: source, labels, auth type, content type, MCP technology tags, activity timeline, and extended metadata, all the context an investigator needs without leaving the view.",
-    "image5Alt": "API Details tab — full metadata and activity"
+    "image5Alt": "API Details tab, full metadata and activity"
   },
   "step05": {
     "title": "Attacker Correlation",
     "body1": "Posture tells you what's exposed. <l1>Attackers</l1> tells you who's already probing it. The Attackers tab on the API drawer correlates every adversary that has touched this exact endpoint, with severity, risk type (Broken User Auth, Parameter Tampering, Security Misconfig, Injection), status, and detection time.",
-    "image1Alt": "Attackers tab — correlated adversaries against this API",
+    "image1Alt": "Attackers tab, correlated adversaries against this API",
     "body2": "Click through to Protect for the full attacker profile: categorized <l1>risk types</l1>, most-attacked APIs, server-response distribution, and a timeline of every attempt. This is where posture management hands off to runtime protection, the subject of the next scenario.",
-    "image2Alt": "Attacker detail inside Protect — full adversary profile"
+    "image2Alt": "Attacker detail inside Protect, full adversary profile"
   },
   "summary": {
     "label": "Summary",

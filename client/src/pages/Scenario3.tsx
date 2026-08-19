@@ -155,7 +155,7 @@ export default function Scenario3() {
         <StepSection stepNumber="01" title={t("step01.title")} id="step-01">
           <p style={bodyParagraphStyle}>
             <Trans i18nKey="step01.body1" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
-              Open the Protect tab to see every adversary your environment has detected, ranked. <l1>61 active attackers</l1> right now, 2 critical, 16 high, 44 medium. The most common risk types — Parameter Tampering (61), Security Misconfiguration (41), Broken User Auth (14), MCP (13), Injection (7), are exactly the techniques agentic systems get hit with first. Highest-risk IPs and most-attacked APIs are pinned on the right.
+              Open the Protect tab to see every adversary your environment has detected, ranked. <l1>175 detected attackers</l1> right now, 7 critical, 103 high, 64 medium, 1 low. The most common risk types, Security Misconfiguration (175), Parameter Tampering (171), MCP (70), Excessive Data Exposure (68), are exactly the techniques agentic systems get hit with first. Highest-risk IPs, scored and flagged for VPN or proxy use, are pinned on the right.
             </Trans>
           </p>
           <ZoomableImage
@@ -181,9 +181,13 @@ export default function Scenario3() {
             <Trans
               i18nKey="step02.body1"
               t={t}
-              components={{ l1: <a href="#" className="accent-link" />, l2: <a href="#" className="accent-link" /> }}
+              components={{
+                l1: <a href="#" className="accent-link" />,
+                l2: <a href="#" className="accent-link" />,
+                l3: <a href="#" className="accent-link" />,
+              }}
             >
-              Click any row to open the attacker profile. This one — <l1>HASHED:b50549…</l1> , is critical with 71 attempts in two minutes against <l2>billing.sora-financial.com</l2>. Salt rolls every observed risk type up by count: Security Misconfig 67, Parameter Tampering 66, Rate Limiting 15, Broken User Auth 7, Injection / MCP / LLM 4 each, Mass Assignment 3. The MCP block shows "MCP Server is Exposed (4)" and "Attempt to Find Exposed MCP Server (2)". The LLM block shows 4 prompt injections. One adversary, the full TTP map.
+              Click any row to open the attacker profile. This one, <l1>HASHED:b50549…</l1>, is Critical at High confidence: 71 attempts against <l2>billing.sora-financial.com</l2>. Before you read a single event, <l3>Pepper AI</l3> has already written the case. The Attack Summary narrates the whole intrusion in plain language: mass assignment and privilege escalation against /mcp/tools/call/stripe.orders.get and /v1/refunds, exception mishandling and server-version exposure, bad authorization and unsecured JWTs, up to 14 accesses per minute on /v1/refunds, then SQL injection, XSS, and code injection across /v1/orders/search, /agent/chat, and the Zendesk endpoints. It even pins the window, three minutes of UTC wall clock, and ends on the line that matters: most responses came back HTTP 200. These attempts landed.
             </Trans>
           </p>
           <ZoomableImage
@@ -201,12 +205,30 @@ export default function Scenario3() {
                 l3: <a href="#" className="accent-link" />,
               }}
             >
-              The <l1>Sources</l1> tab proves it's the same actor wearing different hats. Single IP (10.0.1.197), single x-user-id, but two distinct user-agents — <l2>Sora-BillingAgent/1.0 MCPClient</l2> for 60 of the calls, <l3>python-httpx/0.28.1</l3> for 11. The python-httpx calls are where they stopped going through the agent and started calling the MCPs themselves.
+              Under the summary, Salt rolls every observed risk type up by count, and every count drills into its sub-types. <l1>Security Misconfiguration</l1> 15, server version exposed in a response header 15 and exception mishandling 2. <l2>Parameter Tampering</l2> 10, missing field 6, unexpected unknown parameter 4, invalid enumeration 4. Then Broken User Authentication 7, Injection 6, Large Language Model 4, Mass Assignment 3, MCP 2, Excessive Data Exposure 1. <l3>Most Attacked APIs</l3> ranks the targets, POST /agent/chat took 5 attempts, POST /mcp/tools/call/stripe.orders.get and POST /v1/refunds 3 each, POST /mcp/tools/call/plaid.identity.verify 1. Server Responses is the punchline: of the responses Salt logged here, every one came back 200 OK. Nothing stopped this.
             </Trans>
           </p>
           <ZoomableImage
             src="/steps/scenario3/step02-attacker-profile-b.png"
             alt={t("step02.image2Alt")}
+            style={stepImageStyle}
+          />
+          <p style={bodyParagraphStyle}>
+            <Trans
+              i18nKey="step02.body3"
+              t={t}
+              components={{
+                l1: <a href="#" className="accent-link" />,
+                l2: <a href="#" className="accent-link" />,
+                l3: <a href="#" className="accent-link" />,
+              }}
+            >
+              The <l1>Sources</l1> tab proves it's the same actor wearing different hats. Single IP (10.0.1.197), single x-user-id, but two distinct user-agents, <l2>Sora-BillingAgent/1.0 MCPClient</l2> for 60 of the calls, <l3>python-httpx/0.28.1</l3> for 11. The python-httpx calls are where they stopped going through the agent and started calling the MCPs themselves.
+            </Trans>
+          </p>
+          <ZoomableImage
+            src="/steps/scenario3/step02-attacker-profile-c.png"
+            alt={t("step02.image3Alt")}
             style={stepImageStyle}
           />
         </StepSection>
@@ -309,7 +331,7 @@ export default function Scenario3() {
                 l2: <a href="#" className="accent-link" />,
               }}
             >
-              Then they escalate. They forge a JWT with <s1>alg: none</s1> and <s2>scope: billing:admin billing:refund:unlimited</s2> — classic <l1>CVE-2015-9235</l1>, and throw it at all three endpoints in sequence. Salt flags <l2>Broken User Authentication → Unsecured JWT</l2> plus Parameter Tampering on the bogus alg/scope, every time, within seconds.
+              Then they escalate. They forge a JWT with <s1>alg: none</s1> and <s2>scope: billing:admin billing:refund:unlimited</s2>, classic <l1>CVE-2015-9235</l1>, and throw it at all three endpoints in sequence. Salt flags <l2>Broken User Authentication → Unsecured JWT</l2> plus Parameter Tampering on the bogus alg/scope, every time, within seconds.
             </Trans>
           </p>
           <ZoomableImage

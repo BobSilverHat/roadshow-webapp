@@ -104,7 +104,7 @@ export default function Scenario1() {
 
             <p style={{ ...bodyParagraphStyle, marginBottom: "2rem" }}>
               <Trans i18nKey="overview.p3" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
-                You can identify <l1>shadow APIs, zombie endpoints, unauthenticated MCP servers, and sensitive data exposure</l1> across your entire agentic landscape, building the foundation for a complete security posture.
+                You can identify <l1>shadow APIs, zombie endpoints, unauthenticated MCP servers, and sensitive data exposure</l1> across your entire agentic landscape, whether Salt saw them in live traffic or pulled them agentlessly from the platforms that host them, building the foundation for a complete security posture.
               </Trans>
             </p>
 
@@ -153,7 +153,7 @@ export default function Scenario1() {
         <StepSection stepNumber="01" title={t("step01.title")} id="step-01">
           <p style={bodyParagraphStyle}>
             <Trans i18nKey="step01.body" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
-              Start with the high-level view. The Inventory dashboard surfaces how many <l1>MCPs, capabilities, and connected APIs</l1> exist in your environment, plus live request volume. You'll immediately see posture gaps detected across capabilities and capabilities touching sensitive data like PII, emails, addresses, without opening a single API spec.
+              Start with the high-level view. The Inventory dashboard counts the agents, MCPs, capabilities, and connected APIs in your environment, then breaks them down row by row. Salt discovers on three paths, <l1>Traffic, Connect, and Surface</l1>: observed live off the wire; pulled agentlessly from the platforms hosting your agents and MCPs, AWS Bedrock AgentCore, Azure Foundry, GitHub, Databricks; or scanned from the outside, the same way an attacker would find them. Connect surfaces shadow MCPs before they ever serve a request; Surface catches the ones already exposed to the internet. The table lays out discovery source, risk, auth status, and last activity for the whole estate, without opening a single API spec.
             </Trans>
           </p>
           <ZoomableImage src="/steps/scenario1/step01-inventory.png" alt={t("step01.imageAlt")} style={stepImageStyle} />
@@ -165,7 +165,7 @@ export default function Scenario1() {
         <StepSection stepNumber="02" title={t("step02.title")} id="step-02">
           <p style={bodyParagraphStyle}>
             <Trans i18nKey="step02.body" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
-              Switch to the Graph view to see how everything connects. The graph reads left to right across four linked columns: your MCPs, the Technologies they run on, the third-party Applications they reach, and the Capabilities each one exposes. Hover any node to highlight its connections and preview its risk score, top posture gap, and sensitive data; click to open its full side drawer. Turn on <l1>Insight Layers</l1> to recolor the whole graph by risk score, posture gaps, or sensitive data, so the highest-value targets stand out at a glance. Filters and layer toggles trim the view to what matters, and they persist across both Table and Graph.
+              Switch to the Graph view to see how everything connects. The graph reads left to right across five linked columns: the Agents driving the activity, the MCPs and toolkit they invoke, the Technologies those run on, the third-party Applications they reach, and the Capabilities each one exposes. Start at the agent, discovered straight from AWS Bedrock AgentCore, and everything it can touch lights up downstream. Hover any node to highlight its connections and preview its risk score, top posture gap, and sensitive data; click to open its full side drawer. Turn on <l1>Insight Layers</l1> to recolor the whole graph by risk score, posture gaps, or sensitive data, so the highest-value targets stand out at a glance. Filters and layer toggles trim the view to what matters, and they persist across both Table and Graph.
             </Trans>
           </p>
           <ZoomableImage src="/steps/scenario1/step02-graph.png" alt={t("step02.imageAlt")} style={stepImageStyle} />
@@ -203,7 +203,7 @@ export default function Scenario1() {
         <StepSection stepNumber="04" title={t("step04.title")} id="step-04">
           <p style={bodyParagraphStyle}>
             <Trans i18nKey="step04.body" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
-              Flatten the graph into a single capabilities table. Every tool across every MCP in one view, sortable by <l1>risk score</l1>. This is where you triage, sort highest-risk to top, filter by source type, and stack-rank remediation work. It's how posture management turns into an actionable backlog.
+              Flatten the graph into a single capabilities table. Every tool across every MCP in one view, sortable by <l1>risk score</l1>. This is where you triage, sort highest-risk to top, filter by source type, traffic-observed or connector-sourced, and stack-rank remediation work. It's how posture management turns into an actionable backlog.
             </Trans>
           </p>
           <ZoomableImage
@@ -283,7 +283,7 @@ export default function Scenario1() {
             </h2>
             <p style={bodyParagraphStyle}>
               <Trans i18nKey="summary.body" t={t} components={{ l1: <a href="#" className="accent-link" /> }}>
-                You walked the discovery progression: inventory count, graph view, MCP drilldown, a flat capabilities backlog, and the per-tool risk surface. You now have end-to-end visibility into every agent, MCP, and API in your environment — the foundation <l1>posture management</l1> will build on in the next scenario.
+                You walked the discovery progression: inventory count, agent-to-capability graph, MCP drilldown, a flat capabilities backlog, and the per-tool risk surface. You now have end-to-end visibility into every agent, MCP, and API in your environment, the foundation <l1>posture management</l1> will build on in the next scenario.
               </Trans>
             </p>
           </div>

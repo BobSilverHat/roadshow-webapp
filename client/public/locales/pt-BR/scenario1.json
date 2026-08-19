@@ -5,7 +5,7 @@
   "overview": {
     "p1": "Você não pode proteger o que não consegue ver. Este cenário é uma investigação de cima para baixo: comece no Agentic Security Graph, depois aprofunde nos servidores MCP, ferramentas e APIs abaixo dele, chegando à visibilidade completa da sua superfície de ataque agentic. Oito anos de pesquisa em segurança de APIs, agora aplicados a cada agente, pelo entendimento das ferramentas e APIs que eles acessam, do deploy ao runtime.",
     "p2": "Salt mapeia automaticamente o <l1>Agentic Security Graph</l1> completo, mostrando cada agente, as ferramentas que eles chamam, as APIs que alcançam e os dados que tocam. Isso te dá uma visão completa da sua superfície de ataque agentic antes que os atacantes encontrem as brechas.",
-    "p3": "Você pode identificar <l1>Shadow APIs, zombie endpoints, servidores MCP sem autenticação e exposição de dados sensíveis</l1> em todo o seu ambiente agentic, construindo a base para uma postura de segurança completa.",
+    "p3": "Você pode identificar <l1>Shadow APIs, zombie endpoints, servidores MCP sem autenticação e exposição de dados sensíveis</l1> em todo o seu ambiente agentic, sejam vistos no tráfego ao vivo ou puxados de forma agentless das plataformas que os hospedam, construindo a base para uma postura de segurança completa.",
     "keyObjectivesLabel": "Key Objectives",
     "objectives": [
       "Mapear cada agente, servidor MCP, ferramenta e API em todo o seu Agentic Security Graph",
@@ -15,13 +15,13 @@
   },
   "step01": {
     "title": "The Agentic Inventory",
-    "body": "Comece pela visão de alto nível. O painel de Inventory mostra quantos <l1>MCPs, capabilities e APIs conectadas</l1> existem no seu ambiente, além do volume de requisições em tempo real. Você verá imediatamente posture gaps detectados em capabilities e capabilities que tocam dados sensíveis como PII, e-mails e endereços, sem abrir uma única spec de API.",
-    "imageAlt": "Painel do Agentic Inventory"
+    "body": "Comece pela visão de alto nível. O painel de Inventory conta os agentes, MCPs, capabilities e APIs conectadas do seu ambiente e depois os detalha linha a linha. Salt descobre por três caminhos, <l1>Traffic, Connect e Surface</l1>: observando ao vivo no tráfego; puxando de forma agentless das plataformas que hospedam seus agentes e MCPs, AWS Bedrock AgentCore, Azure Foundry, GitHub, Databricks; ou escaneando de fora, do mesmo jeito que um atacante os encontraria. O Connect revela Shadow MCPs antes mesmo de atenderem a uma única requisição; o Surface captura os que já estão expostos à internet. A tabela apresenta fonte de descoberta, risco, status de autenticação e última atividade de todo o ambiente, sem abrir uma única spec de API.",
+    "imageAlt": "Painel do Agentic Inventory, agentes, MCPs e fontes de descoberta"
   },
   "step02": {
     "title": "The Agentic Security Graph",
-    "body": "Mude para o Graph view e veja como tudo se conecta. O grafo é lido da esquerda para a direita em quatro colunas ligadas: seus MCPs, as Technologies em que rodam, as Applications de terceiros que acessam e as Capabilities que cada um expõe. Passe o cursor sobre qualquer nó para destacar suas conexões e visualizar seu risk score, principal posture gap e dados sensíveis; clique para abrir o painel lateral completo. Ative <l1>Insight Layers</l1> para recolorir o grafo inteiro por risk score, posture gaps ou dados sensíveis, deixando os alvos de maior valor visíveis de relance. Filtros e toggles de layer recortam a visão ao que importa e persistem em Table e Graph.",
-    "imageAlt": "Visão do Agentic Security Graph"
+    "body": "Mude para o Graph view e veja como tudo se conecta. O grafo é lido da esquerda para a direita em cinco colunas ligadas: os Agents que conduzem a atividade, os MCPs e o toolkit que eles invocam, as Technologies em que rodam, as Applications de terceiros que alcançam e as Capabilities que cada um expõe. Comece pelo agente, descoberto direto do AWS Bedrock AgentCore, e tudo que ele pode tocar se acende na sequência. Passe o cursor sobre qualquer nó para destacar suas conexões e visualizar seu risk score, principal posture gap e dados sensíveis; clique para abrir o painel lateral completo. Ative <l1>Insight Layers</l1> para recolorir o grafo inteiro por risk score, posture gaps ou dados sensíveis, deixando os alvos de maior valor visíveis de relance. Filtros e toggles de layer recortam a visão ao que importa e persistem em Table e Graph.",
+    "imageAlt": "O Agentic Security Graph, de agentes a capabilities"
   },
   "step03": {
     "title": "The MCP Side Drawer",
@@ -32,7 +32,7 @@
   },
   "step04": {
     "title": "The Capabilities Page",
-    "body": "Achate o grafo em uma tabela única de capabilities. Cada ferramenta de cada MCP em uma só visão, ordenável por <l1>risk score</l1>. É aqui que você faz o triage: ordene os de maior risco para o topo, filtre por tipo de fonte e priorize o trabalho de remediação. É assim que o posture management vira um backlog com ação imediata.",
+    "body": "Achate o grafo em uma tabela única de capabilities. Cada ferramenta de cada MCP em uma só visão, ordenável por <l1>risk score</l1>. É aqui que você faz o triage: ordene os de maior risco para o topo, filtre por tipo de fonte, observada no tráfego ou vinda de connector, e priorize o trabalho de remediação. É assim que o posture management vira um backlog com ação imediata.",
     "imageAlt": "Página de Capabilities, visão agregada de ferramentas"
   },
   "step05": {
@@ -47,7 +47,7 @@
   "summary": {
     "label": "Summary",
     "heading": "Visibilidade de ponta a ponta, estabelecida.",
-    "body": "Você percorreu a progressão de descoberta: contagem no inventory, graph view, drilldown em MCP, um backlog plano de capabilities e a superfície de risco por ferramenta. Agora você tem visibilidade de ponta a ponta de cada agente, MCP e API no seu ambiente, a base sobre a qual o <l1>posture management</l1> vai construir no próximo cenário."
+    "body": "Você percorreu a progressão de descoberta: contagem no inventory, o grafo de agente a capability, drilldown em MCP, um backlog plano de capabilities e a superfície de risco por ferramenta. Agora você tem visibilidade de ponta a ponta de cada agente, MCP e API no seu ambiente, a base sobre a qual o <l1>posture management</l1> vai construir no próximo cenário."
   },
   "nextButton": "Próximo"
 }

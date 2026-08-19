@@ -60,17 +60,17 @@
     "step3": {
       "label": "Step 03",
       "heading": "The Agentic UI",
-      "body": "Salt surfaces every MCP server an agent touches, in a single agentic security view. Within this page, you can find the MCP servers SALT identified within your environment, relevant details for each, and filter for the specific capabilities of each tool connected."
+      "body": "Salt surfaces every MCP server an agent touches, in a single agentic security view. On this page you'll find the MCP servers Salt identified in your environment, discovered from live traffic or pulled from connectors like AWS Bedrock AgentCore, Azure Foundry, GitHub, and Databricks, with relevant details for each, and filters to isolate the specific capabilities of every connected tool."
     },
     "step4": {
       "label": "Step 04",
       "heading": "The Agentic Security Graph",
-      "body": "The Graph view gives you a comprehensive view of each MCP server, and there respective tools/capabilities, along with the technologies and applications involved for each. You'll also find an insight layer to overlay the risk, posture gaps, and sensitive data exposure."
+      "body": "The Graph view gives you a comprehensive read of each agent and MCP server, their respective tools and capabilities, and the technologies and applications behind each. You'll also find an insight layer to overlay risk, posture gaps, and sensitive data exposure."
     },
     "step5": {
       "label": "Step 05",
       "heading": "The Discovery Inventory",
-      "body": "The inventory dashboard is the high-level count of everything Salt finds across your API landscape. This includes each specific host, there respective api's, and any MCP related findings. Use the resources we just went over to answer the questions above. Happy hunting!"
+      "body": "The inventory dashboard is the high-level count of everything Salt finds across your API landscape. This includes each specific host, its respective APIs, and any MCP-related findings. Use the resources we just went over to answer the questions above. Happy hunting!"
     }
   },
   "hintBulb": {
