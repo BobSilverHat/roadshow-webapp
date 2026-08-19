@@ -3,7 +3,7 @@
   CTF ANSWER KEY  ***  FACILITATOR COPY - DO NOT SHARE WITH ATTENDEES  ***
 ===============================================================================
 
-  Generated : 2026-08-18  (rebalanced for beginners - migrations 041, 042)
+  Generated : 2026-08-18  (rebalanced for beginners - migrations 041-043)
   Verified  : Every answer below was re-hashed and compared against the live
               answer_hash in Supabase project cttpfrwphcqpjwmwothb. These are
               the strings the grader accepts today.
@@ -46,9 +46,8 @@
 
 -------------------------------------------------------------------------------
 
-  Q3. In the Agentic Inventory, switch the "View by MCPs" dropdown to "View by
-      Capabilities" and sort the table by Risk Score, highest first. Exactly one
-      capability has a Risk Score of 8.0. What is its Capability name?
+  Q3. In the Agentic Inventory, exactly one capability has a Risk Score of 8.0.
+      What is its name?
 
       ANSWER  ->  notifications.webhook
       ALSO OK :  notification.webhook / notifications webhook /
@@ -58,14 +57,13 @@
                  Score descending. Everything above is 8.4 or 9.4; below, 7.8.
       HINT 1  :  Switch the view dropdown from "View by MCPs" to "View by
                  Capabilities", then click Risk Score to sort highest first.
-      HINT 2  :  Work down from the 9.4 and 8.4 rows. Exactly one capability
-                 sits at 8.0, and its name ends in .webhook.
+      HINT 2  :  Everything above it scores 8.4 or 9.4 and everything below is
+                 7.8. The name ends in .webhook.
 
 -------------------------------------------------------------------------------
 
-  Q4. Back on "View by MCPs", click the row for dataops.sora-financial.com/mcp
-      to open its side drawer, then open the "Capabilities" tab. Of the six
-      tools listed, which one has the highest Risk Score?
+  Q4. On the MCP dataops.sora-financial.com/mcp, which tool has the highest
+      Risk Score?
 
       ANSWER  ->  snowflake.query.execute
       ALSO OK :  snowflake query execute / snowflake.query.execute.
