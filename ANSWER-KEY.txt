@@ -1,0 +1,239 @@
+===============================================================================
+  SALT x GUIDEPOINT - AGENTIC AI SECURITY WORKSHOP
+  CTF ANSWER KEY  ***  FACILITATOR COPY - DO NOT SHARE WITH ATTENDEES  ***
+===============================================================================
+
+  Generated : 2026-08-18  (rebalanced for beginners - migrations 041, 042)
+  Verified  : Every answer below was re-hashed and compared against the live
+              answer_hash in Supabase project cttpfrwphcqpjwmwothb. These are
+              the strings the grader accepts today.
+
+  SCORING RULES
+    - Answers are lowercased and trimmed before hashing, so CASE and extra
+      WHITESPACE do not matter.
+    - Comma-separated answers are sorted alphabetically before hashing, so
+      ORDER DOES NOT MATTER.
+    - Wrong guess = +15 seconds. Hint reveal = +60 seconds each.
+    - Both challenges share ONE global timer. CHECK duration_minutes BEFORE
+      THE SESSION - it defaults to 35, not 60.
+    - Answers are identical in English and Portuguese.
+
+
+===============================================================================
+  CHALLENGE 1 - DISCOVER & GOVERN
+===============================================================================
+
+  Q1. How many MCPs does Salt currently surface in the Agentic Inventory?
+
+      ANSWER  ->  10
+      DIFF    :  1 of 5  (confidence builder)
+      WHERE   :  Agentic > Inventory > Table view. Read the "MCPs" stat tile.
+      HINT 1  :  Stay on the Table view and read the "MCPs" stat tile at the
+                 top. In the Graph view the "Other / Toolkit" node is not an
+                 MCP, so don't count it.
+
+-------------------------------------------------------------------------------
+
+  Q2. What technology powers crm.sora-financial.com?
+
+      ANSWER  ->  cloudflare
+      DIFF    :  2 of 5
+      WHERE   :  crm row in the Inventory, MCP side drawer, or Graph.
+      HINT 1  :  Open crm.sora-financial.com in the Agentic Inventory, MCP side
+                 drawer, or Agentic Graph and look for the "technology" icon.
+      NOTE    :  The technology renders as an ICON. The typable text
+                 "cloudflare" also appears as a Source chip on the crm row.
+
+-------------------------------------------------------------------------------
+
+  Q3. In the Agentic Inventory, switch the "View by MCPs" dropdown to "View by
+      Capabilities" and sort the table by Risk Score, highest first. Exactly one
+      capability has a Risk Score of 8.0. What is its Capability name?
+
+      ANSWER  ->  notifications.webhook
+      ALSO OK :  notification.webhook / notifications webhook /
+                 notifications.webhook.
+      DIFF    :  2 of 5          [NEW in migration 041]
+      WHERE   :  Agentic > Inventory > View by Capabilities, sorted by Risk
+                 Score descending. Everything above is 8.4 or 9.4; below, 7.8.
+      HINT 1  :  Switch the view dropdown from "View by MCPs" to "View by
+                 Capabilities", then click Risk Score to sort highest first.
+      HINT 2  :  Work down from the 9.4 and 8.4 rows. Exactly one capability
+                 sits at 8.0, and its name ends in .webhook.
+
+-------------------------------------------------------------------------------
+
+  Q4. Back on "View by MCPs", click the row for dataops.sora-financial.com/mcp
+      to open its side drawer, then open the "Capabilities" tab. Of the six
+      tools listed, which one has the highest Risk Score?
+
+      ANSWER  ->  snowflake.query.execute
+      ALSO OK :  snowflake query execute / snowflake.query.execute.
+      DIFF    :  3 of 5          [NEW in migration 041]
+      WHERE   :  dataops MCP side drawer > Capabilities tab (badge shows 6).
+                 7.1 is unique; the next highest is 5.7.
+      HINT 1  :  Click the dataops.sora-financial.com/mcp row to open its side
+                 drawer, then open the "Capabilities" tab.
+      HINT 2  :  The tab badge shows 6 tools. Five score 5.7 or lower; only one
+                 is higher.
+
+-------------------------------------------------------------------------------
+
+  Q5. On tool plaid.identity.verify, which posture gap related to GDPR has the
+      highest severity?
+
+      ANSWER  ->  Prohibition of social security numbers in api responses
+      ALSO OK :  ...in API responses. (trailing period) / ...in responses
+      DIFF    :  4 of 5          [MOVED from Q3 - now the hardest/last]
+      WHERE   :  Find the tool > side drawer > "Posture Gaps" tab > scan the
+                 Policy Categories column for GDPR.
+      HINT 1  :  Find plaid.identity.verify in the Agentic Inventory, Discovery
+                 Inventory, or Agentic Graph. Open its side drawer and navigate
+                 to the "Posture Gaps" tab.
+      HINT 2  :  Scan the Policy Categories column for GDPR, then take the
+                 highest-severity row among those. Copy the gap name exactly.
+      NOTE    :  Longest answer in the set (54 chars). Alt hashes cover the
+                 trailing period and the shortened form.
+
+  RETIRED: the old Q5 ("How many distinct MCP methods does
+  ai.sora-financial.com call?" -> 6) is gone. It routed beginners to Discovery
+  Inventory, a screen no scenario walks through, and the on-screen "20
+  capabilities" was a guaranteed wrong-answer trap.
+
+
+===============================================================================
+  CHALLENGE 2 - PROTECT
+  Attacker is now named:  llm-mass-refund@sora-financial.com
+  (was HASHED:b5054931dd19c11e05ca180bd8bc3981)
+===============================================================================
+
+  Q1. Open Protect and find the Critical attacker
+      'llm-mass-refund@sora-financial.com'. Which host was this attacker
+      targeting?
+
+      ANSWER  ->  billing.sora-financial.com
+      ALSO OK :  billing.sora-financial.com/mcp /
+                 https://billing.sora-financial.com / billing.sora-financial
+      DIFF    :  1 of 5          [NEW in migration 042 - confidence builder]
+      WHERE   :  Protect > Detected Attackers > open the attacker. Host sits in
+                 the Attacker Details header row, next to Severity, Confidence
+                 and Attempts.
+      HINT 1  :  The Detected Attackers list is long. If you have re-sorted it,
+                 sort by Severity so the Critical attackers come first, then
+                 look for llm-mass-refund@sora-financial.com.
+      HINT 2  :  Open the attacker. The Host is in the Attacker Details header
+                 row, alongside Severity, Confidence and Attempts.
+
+  RETIRED: the old Q1 (count of distinct risk type detections -> 9) is gone.
+  It showed 8 risk types with "Display Suspicious Attempts" OFF (the default),
+  so attendees who never touched the toggle counted 8 and were marked wrong -
+  and Scenario 3 teaches the 8-type view, so the walkthrough disagreed with
+  the grader.
+
+-------------------------------------------------------------------------------
+
+  Q2. Attacker 'llm-mass-refund@sora-financial.com': what sub-risk type under
+      the parent risk type "Large Language Model" was flagged?
+
+      ANSWER  ->  Prompt Injection
+      DIFF    :  2 of 5
+      WHERE   :  Attacker profile > Risk Types > Large Language Model (4).
+      HINT 1  :  Open the attacker profile and locate the "Large Language
+                 Model" risk type - opening it reveals the sub-risk type.
+
+-------------------------------------------------------------------------------
+
+  Q3. On the "Sources" tab for attacker 'llm-mass-refund@sora-financial.com',
+      Salt shows 2 distinct user-agents. One is the Sora billing agent. What is
+      the other, exactly as listed?
+
+      ANSWER  ->  python-httpx/0.28.1
+      ALSO OK :  python-httpx / httpx/0.28.1 / python-httpx 0.28.1
+      DIFF    :  2 of 5          [REWORDED in migration 041]
+      WHERE   :  Attacker profile > Sources tab > Distinct User-Agent panel
+                 (donut = 2; Sora agent 60 calls, python-httpx 11 calls).
+      HINT 1  :  Go to the "Sources" tab with "Display Suspicious Attempts"
+                 turned on. Every user-agent seen is listed there.
+      NOTE    :  Reworded because the UI CLIPS the Sora user-agent to
+                 "Sora-BillingAgent/1.0 MCP..." - the old answer forced
+                 attendees to type a string they could not fully read.
+
+-------------------------------------------------------------------------------
+
+  Q4. Within the attack chain for llm-mass-refund@sora-financial.com, the
+      CrowdStrike Falcon AIDR header was seen missing from this request
+      POST /mcp/tools/call/plaid.identity.verify; what risk type detection
+      caught this?
+
+      ANSWER  ->  Parameter Tampering
+      ALSO OK :  parameter tampering detection
+      DIFF    :  3 of 5          [NEW in migration 041]
+      WHERE   :  Attacker Timeline > the plaid.identity.verify attempt > risk
+                 types listed on that event.
+      HINT 1  :  Open the attacker's Timeline, turn on "Display Suspicious
+                 Attempts", and find the POST
+                 /mcp/tools/call/plaid.identity.verify attempt.
+      HINT 2  :  Salt files every missing required header under a risk type.
+                 The one you want is about tampering with request parameters.
+
+-------------------------------------------------------------------------------
+
+  Q5. At the end of the attack chain, we see the user successfully perform mass
+      refunds to a card in their possession. What body field is flagged
+      Unexpected Unknown Parameter?
+
+      ANSWER  ->  refund_to_card
+      ALSO OK :  body.refund_to_card / refund-to-card / refund to card
+      DIFF    :  4 of 5          [NEW in migration 041]
+      WHERE   :  Timeline > last event (POST /v1/refunds, rate-limiting flag) >
+                 API DETAILS > Request > Body.
+      HINT 1  :  Turn on "Display Suspicious Attempts" and open the last event
+                 in the Timeline, a POST /v1/refunds attempt flagged for rate
+                 limiting.
+      HINT 2  :  In that event open API DETAILS, then Request, then Body. One
+                 field is highlighted and badged "Unexpected Unknown
+                 Parameter".
+      HINT 3  :  The body has two fields. One is currency. The other is
+                 snake_case and names where the refund is being sent.
+      *** The target event is classified SUSPICIOUS and is hidden by default.
+          With the toggle OFF, attendees find a MALICIOUS /v1/refunds decoy
+          that has no Body section at all. ***
+
+  RETIRED: the old Q5 (Singapore double-BOLA -> "id") is gone.
+
+
+===============================================================================
+  QUICK REFERENCE - ALL TEN ANSWERS
+===============================================================================
+
+  CHALLENGE 1                          CHALLENGE 2
+  -----------                          -----------
+  1.  10                               1.  billing.sora-financial.com
+  2.  cloudflare                       2.  Prompt Injection
+  3.  notifications.webhook            3.  python-httpx/0.28.1
+  4.  snowflake.query.execute          4.  Parameter Tampering
+  5.  Prohibition of social security   5.  refund_to_card
+      numbers in api responses
+
+
+===============================================================================
+  PRE-FLIGHT (5 minutes in the live tenant, morning of)
+===============================================================================
+
+  [ ] Attacker is named llm-mass-refund@sora-financial.com in Protect
+      (all four C2 prompts reference it by that name).
+  [ ] notifications.webhook is still the ONLY 8.0 in View by Capabilities
+      (this is the one answer that is a live-computed risk score).
+  [ ] snowflake.query.execute is still 7.1 and still the dataops maximum.
+  [ ] plaid.identity.verify still has the GDPR posture gap, unchanged wording.
+  [ ] The plaid.identity.verify Timeline event still shows Parameter Tampering.
+  [ ] "Display Suspicious Attempts" still defaults OFF (Q4 and Q5 depend on
+      it; Q1 no longer does).
+  [ ] Timer: select duration_minutes from public.workshop_config where id = 1;
+      Recommend 70 minutes if you want the whole room finishing.
+  [ ] Gate state: select challenge_open, opened_at, nexus_open, review_mode
+      from public.workshop_config where id = 1;
+
+===============================================================================
+  END OF ANSWER KEY
+===============================================================================
