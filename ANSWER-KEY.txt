@@ -3,7 +3,7 @@
   CTF ANSWER KEY  ***  FACILITATOR COPY - DO NOT SHARE WITH ATTENDEES  ***
 ===============================================================================
 
-  Generated : 2026-08-18  (rebalanced for beginners - migrations 041-043)
+  Generated : 2026-08-20  (rebalanced for beginners - migrations 041-044)
   Verified  : Every answer below was re-hashed and compared against the live
               answer_hash in Supabase project cttpfrwphcqpjwmwothb. These are
               the strings the grader accepts today.
@@ -145,11 +145,12 @@
       Salt shows 2 distinct user-agents. One is the Sora billing agent. What is
       the other, exactly as listed?
 
-      ANSWER  ->  python-httpx/0.28.1
-      ALSO OK :  python-httpx / httpx/0.28.1 / python-httpx 0.28.1
+      ANSWER  ->  PostmanRuntime/7.50.0
+      ALSO OK :  PostmanRuntime / PostmanRuntime 7.50.0 / PostmanRuntime/7.50 /
+                 Postman
       DIFF    :  2 of 5          [REWORDED in migration 041]
       WHERE   :  Attacker profile > Sources tab > Distinct User-Agent panel
-                 (donut = 2; Sora agent 60 calls, python-httpx 11 calls).
+                 (donut = 2; Sora billing agent plus PostmanRuntime).
       HINT 1  :  Go to the "Sources" tab with "Display Suspicious Attempts"
                  turned on. Every user-agent seen is listed there.
       NOTE    :  Reworded because the UI CLIPS the Sora user-agent to
@@ -208,7 +209,7 @@
   -----------                          -----------
   1.  10                               1.  billing.sora-financial.com
   2.  cloudflare                       2.  Prompt Injection
-  3.  notifications.webhook            3.  python-httpx/0.28.1
+  3.  notifications.webhook            3.  PostmanRuntime/7.50.0
   4.  snowflake.query.execute          4.  Parameter Tampering
   5.  Prohibition of social security   5.  refund_to_card
       numbers in api responses

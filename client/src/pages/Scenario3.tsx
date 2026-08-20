@@ -223,7 +223,7 @@ export default function Scenario3() {
                 l3: <a href="#" className="accent-link" />,
               }}
             >
-              The <l1>Sources</l1> tab proves it's the same actor wearing different hats. Single IP (10.0.1.197), single x-user-id, but two distinct user-agents, <l2>Sora-BillingAgent/1.0 MCPClient</l2> for 60 of the calls, <l3>python-httpx/0.28.1</l3> for 11. The python-httpx calls are where they stopped going through the agent and started calling the MCPs themselves.
+              The <l1>Sources</l1> tab proves it's the same actor wearing different hats. Single IP (10.0.1.197), single x-user-id, but two distinct user-agents, <l2>Sora-BillingAgent/1.0 MCPClient</l2> for most of the calls and <l3>PostmanRuntime/7.50.0</l3> for the rest. The PostmanRuntime calls are where they stopped going through the agent and started calling the MCPs themselves.
             </Trans>
           </p>
           <ZoomableImage
