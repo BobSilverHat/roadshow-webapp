@@ -21,33 +21,30 @@ echo "[1/3] building…"
 pnpm build
 
 echo "[2/3] syncing to s3://$BUCKET/"
-# Two passes, because Cache-Control differs by URL stability. Without an
-# explicit header S3 sends none, and browsers then apply *heuristic* caching
-# (~10% of the file's age) — which is what silently served stale copy and
-# stale screenshots after a deploy, invisible to any CloudFront invalidation.
+# Cache-Control is decided by whether a URL is stable, not by file type.
 #
-# Pass 1: /assets/* is content-hashed by Vite, so a changed file gets a new
-# URL. Safe (and desirable) to cache forever.
-aws s3 sync dist/public/ "s3://$BUCKET/" --delete \
-  --cache-control "public,max-age=31536000,immutable" \
-  --exclude "index.html" --exclude "locales/*" --exclude "steps/*"
+# Pass 1 - /assets/* only. Vite content-hashes these, so a change always
+# produces a NEW filename. Safe to cache forever. --delete here retires
+# superseded bundles.
+aws s3 sync dist/public/assets/ "s3://$BUCKET/assets/" --delete \
+  --cache-control "public,max-age=31536000,immutable"
 
-# Pass 2: index.html, locale JSON and step screenshots keep STABLE filenames,
-# so their content changes underneath the same URL. They must revalidate on
-# every load. No --delete here: the include/exclude filter would treat every
-# other object as an orphan.
-aws s3 sync dist/public/ "s3://$BUCKET/" \
-  --cache-control "no-cache" \
-  --exclude "*" --include "index.html" --include "locales/*" --include "steps/*"
+# Pass 2 - everything else. index.html, locale JSON, step screenshots,
+# salt-logo.png, fonts and the shader video all keep STABLE filenames, so their
+# bytes can change underneath the same URL. They must revalidate on every load.
+# Marking any of them immutable strands the old bytes at the edge until the TTL
+# expires, which is exactly how a re-exported logo kept serving the previous
+# version. --delete is safe because assets/* is excluded and handled above.
+aws s3 sync dist/public/ "s3://$BUCKET/" --delete --exclude "assets/*" \
+  --cache-control "no-cache"
 
 echo "[3/3] invalidating CloudFront cache"
-# /locales/* and /steps/* are NOT hash-versioned (static public assets), so
-# translation edits and re-captured screenshots need an explicit invalidation
-# alongside the HTML. CloudFront caches per edge location, so skipping this
-# leaves some POPs serving the previous file at the same URL.
+# "/*" is a single invalidation path and covers every stable URL, so nothing
+# can be missed by an incomplete list. Hash-versioned assets do not need it,
+# but including them costs nothing.
 INVALIDATION=$(aws cloudfront create-invalidation \
   --distribution-id "$DIST_ID" \
-  --paths "/" "/index.html" "/locales/*" "/steps/*" \
+  --paths "/*" \
   --query 'Invalidation.Id' --output text)
 echo "  invalidation id: $INVALIDATION"
 
