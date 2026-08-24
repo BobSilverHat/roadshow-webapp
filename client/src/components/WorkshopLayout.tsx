@@ -348,11 +348,13 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
       // A broken image still reports a bounding box (the placeholder glyph +
       // alt text), which is far narrower than the real mark — measuring that
       // collapsed the whole sidebar to ~85px and truncated every nav label.
-      // Falling through leaves sidebarWidth at its DEFAULT_SIDEBAR_WIDTH,
-      // which renders correctly with or without the logo.
+      // Falling through leaves sidebarWidth at DEFAULT_SIDEBAR_WIDTH, which
+      // renders correctly with or without the logo. Do NOT clamp the measured
+      // value against that default: the real measurement is ~179px, so a
+      // Math.max would silently widen the sidebar by 20px.
       if (!el.complete || el.naturalWidth === 0) return;
       const rect = el.getBoundingClientRect();
-      setSidebarWidth(Math.max(DEFAULT_SIDEBAR_WIDTH, Math.round(rect.right + 24)));
+      setSidebarWidth(Math.round(rect.right + 24));
     };
     measure();
     window.addEventListener('resize', measure);
