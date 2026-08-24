@@ -16,7 +16,16 @@ import LanguageToggle from '@/components/LanguageToggle';
 import AdminLink from '@/components/AdminLink';
 import { useWorkshopClock } from '@/hooks/useWorkshopClock';
 
-const SALT_LOGO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663485309764/9Qvd9Kw2BJuzG4W4rxnhxw/salt-logo_4799bb3b.png";
+// Self-hosted from client/public. This was previously loaded from a Manus
+// scaffold CDN (d2xsxph8kpxj0f.cloudfront.net), whose S3 origin started
+// returning AccessDenied — taking the sidebar width with it, since that width
+// is measured from this element. Serving it from our own bucket removes the
+// third-party dependency. Source: Salt Security Design System,
+// assets/logos/salt-logo-black.png (the navbar filter recolors it per theme).
+const SALT_LOGO_URL = "/salt-logo.png";
+
+// Width the sidebar renders at before (or without) a successful logo measure.
+const DEFAULT_SIDEBAR_WIDTH = 200;
 const HERO_BG_VIDEO_URL = "/shader-bg.webm";
 
 function formatRemaining(ms: number): string {
@@ -275,7 +284,7 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
   // Measured from the live DOM because the logo has `width: auto` and
   // loads asynchronously.
   const saltLogoRef = useRef<HTMLImageElement>(null);
-  const [sidebarWidth, setSidebarWidth] = useState<number>(200);
+  const [sidebarWidth, setSidebarWidth] = useState<number>(DEFAULT_SIDEBAR_WIDTH);
 
   // Scroll-spy — tracks which step section (overview / step-0X / summary) is
   // currently in view so the sidebar can highlight the active sub-item while
@@ -335,8 +344,15 @@ export default function WorkshopLayout({ children, activeId }: WorkshopLayoutPro
     const measure = () => {
       const el = saltLogoRef.current;
       if (!el) return;
+      // Only trust the measurement once the bitmap has actually decoded.
+      // A broken image still reports a bounding box (the placeholder glyph +
+      // alt text), which is far narrower than the real mark — measuring that
+      // collapsed the whole sidebar to ~85px and truncated every nav label.
+      // Falling through leaves sidebarWidth at its DEFAULT_SIDEBAR_WIDTH,
+      // which renders correctly with or without the logo.
+      if (!el.complete || el.naturalWidth === 0) return;
       const rect = el.getBoundingClientRect();
-      setSidebarWidth(Math.round(rect.right + 24));
+      setSidebarWidth(Math.max(DEFAULT_SIDEBAR_WIDTH, Math.round(rect.right + 24)));
     };
     measure();
     window.addEventListener('resize', measure);
