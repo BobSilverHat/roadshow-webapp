@@ -16,13 +16,22 @@ import LanguageToggle from '@/components/LanguageToggle';
 import AdminLink from '@/components/AdminLink';
 import { useWorkshopClock } from '@/hooks/useWorkshopClock';
 
-// Self-hosted from client/public. This was previously loaded from a Manus
-// scaffold CDN (d2xsxph8kpxj0f.cloudfront.net), whose S3 origin started
-// returning AccessDenied — taking the sidebar width with it, since that width
-// is measured from this element. Serving it from our own bucket removes the
-// third-party dependency. Source: Salt Security Design System,
-// assets/logos/salt-logo-black.png (the navbar filter recolors it per theme).
-const SALT_LOGO_URL = "/salt-logo.png";
+// Imported (not referenced from /public) so Vite content-hashes it into
+// /assets/. That makes the URL change whenever the bytes change, so a
+// re-export can never be masked by a cached copy — the failure mode that hid
+// the corrected padding behind an immutable cache entry.
+//
+// Previously loaded from a Manus scaffold CDN
+// (d2xsxph8kpxj0f.cloudfront.net), whose S3 origin began returning
+// AccessDenied — which took the sidebar with it, since the sidebar width is
+// measured from this element.
+//
+// Source: Salt Security Design System, assets/logos/salt-logo-black.png,
+// padded to reproduce the original asset's built-in margin (ink renders 32px
+// inside the 36px box). The navbar filter recolors it per theme.
+import saltLogoUrl from '@/assets/salt-logo.png';
+
+const SALT_LOGO_URL = saltLogoUrl;
 
 // Width the sidebar renders at before (or without) a successful logo measure.
 const DEFAULT_SIDEBAR_WIDTH = 200;
